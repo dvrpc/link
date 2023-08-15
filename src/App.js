@@ -19,7 +19,8 @@ export default function App() {
     });
   });
   return (
-    <div>
+    <div className="parent">
+      <div className="toolbar"><p1>DVRPC Connectivity Analysis</p1></div>
       <div ref={mapContainer} className="map-container" />
     </div>
   );
