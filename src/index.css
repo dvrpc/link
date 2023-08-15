@@ -24,6 +24,12 @@
   border-radius: 4px;
 }
 
+.logo {
+  padding: 10px;
+  max-width: 65%;
+  max-height: 65%;
+}
+
 .toolbar {
   background-color: darkslategrey;
   height: 5vh;
