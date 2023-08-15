@@ -2,11 +2,13 @@
   position: absolute;
   top: 0;
   left: 0;
+  height: 100vh;
+  width: 100%;
 }
 
 .map-container {
-  height: 100vh;
-  width: 100vw;
+  height: 95%;
+  width: 100%;
 }
 
 .sidebar {
@@ -24,7 +26,8 @@
 
 .toolbar {
   background-color: darkslategrey;
-  height: 30px;
+  height: 5vh;
+  min-height: 20px;
 }
 
 p1 {
