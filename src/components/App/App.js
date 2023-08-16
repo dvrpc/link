@@ -9,7 +9,7 @@ mapboxgl.accessToken = 'pk.eyJ1IjoiZHZycGNvbWFkIiwiYSI6ImNrczZlNDBkZzFnOG0ydm50b
 export default function App() {
 
   const [connectionType, setConnectionType] = useState('bike')
-  
+
   return (
     <div className="parent">
       <div className="toolbar">
@@ -17,14 +17,13 @@ export default function App() {
           <img src={logo} className="logo" alt="Delaware Valley Regional Planning Commission white logo" />
         </a>
       </div>
-  <div id="box">
-    Segment IDs (click features!)
+      <div id="box">
+        Segment IDs (click features!)
     <div id="segids"></div>
-    <button id="clear_button">Clear</button>
-    <ConnectionToggle connectionType={connectionType} setConnectionType={setConnectionType} />
-  </div>
-
-    <MapboxMap />
+        <button id="clear_button">Clear</button>
+        <ConnectionToggle connectionType={connectionType} setConnectionType={setConnectionType} />
+      </div>
+      <MapboxMap connectionType={connectionType} />
     </div>
   );
 }
