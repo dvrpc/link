@@ -11,7 +11,7 @@ function MapboxMap() {
   useEffect(() => {
     const mapInstance = new mapboxgl.Map({
       container: mapContainer.current,
-      style: 'mapbox://styles/dvrpcomad/cks6eiqga0tmc17p3ecw7ij53',
+      style: 'mapbox://styles/mapbox/dark-v11',
       center: [-75.16, 39.95],
       zoom: 9
     });
@@ -53,7 +53,7 @@ function MapboxMap() {
         },
       },
         // add layer before road intersection layer
-        'road-intersection'
+        'road-label-simple'
       );
 
       mapInstance.addLayer({
@@ -84,7 +84,7 @@ function MapboxMap() {
           "line-color": "blue"
         },
       },
-        'road-intersection'
+        'road-label-simple'
       );
 
       setupClick(mapInstance);
