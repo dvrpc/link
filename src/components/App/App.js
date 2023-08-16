@@ -13,6 +13,12 @@ export default function App() {
           <img src={logo} className="logo" alt="Delaware Valley Regional Planning Commission white logo" />
         </a>
       </div>
+  <div id="box">
+    Segment IDs (click features!)
+    <div id="segids"></div>
+    <button id="clear_button">Clear</button>
+  </div>
+
     <MapboxMap />
     </div>
   );
