@@ -6,7 +6,7 @@ function ConnectionToggle({ connectionType, setConnectionType }) {
   };
   return (
     <button onClick={handleToggle}>
-      Switch to {connectionType === 'bike' ? 'Pedestrian' : 'Bike'} Connection
+      Switch to {connectionType === 'bike' ? 'Pedestrian' : 'Bike'}
     </button>
   );
 }
