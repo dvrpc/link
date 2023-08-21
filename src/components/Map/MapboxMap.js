@@ -77,7 +77,7 @@ function MapboxMap({ connectionType }) {
       }
 
       setupClick(mapInstance);
-      // clickClear(mapInstance);
+      clickClear(mapInstance);
     };
 
     mapInstance.on("load", () => {
