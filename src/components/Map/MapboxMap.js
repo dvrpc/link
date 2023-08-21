@@ -92,7 +92,7 @@ function MapboxMap({ connectionType }) {
         });
       }
 
-      setupClick(mapInstance);
+      setupClick(mapInstance, connectionType);
       clickClear(mapInstance);
     };
 

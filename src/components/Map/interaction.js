@@ -1,6 +1,14 @@
 var featurelist = [];
 
-export function setupClick(map) {
+export function setupClick(map, connectionType) {
+  if (connectionType === "bike") {
+    setupLayerClick(map, "lts", "lts_tile", "existing_conditions_lts");
+  } else if (connectionType === "sw") {
+    setupLayerClick(map, "sw", "sw_tile", "ped_lines");
+  }
+}
+
+function setupLayerClick(map, layerId, source, sourceLayer) {
   map.on("click", "clicked", (e) => {
     e.features.forEach((feature) => {
       if (featurelist.includes(feature.id)) {
@@ -10,9 +18,9 @@ export function setupClick(map) {
         }
         map.setFeatureState(
           {
-            source: "lts_tile",
+            source: source,
             id: feature.id,
-            sourceLayer: "existing_conditions_lts",
+            sourceLayer: sourceLayer,
           },
           { click: false },
         );
@@ -20,9 +28,9 @@ export function setupClick(map) {
         featurelist.push(feature.id);
         map.setFeatureState(
           {
-            source: "lts_tile",
+            source: source,
             id: feature.id,
-            sourceLayer: "existing_conditions_lts",
+            sourceLayer: sourceLayer,
           },
           { click: true },
         );
