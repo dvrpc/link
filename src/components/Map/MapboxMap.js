@@ -74,6 +74,22 @@ function MapboxMap({ connectionType }) {
           },
           "road-label-simple",
         );
+        mapInstance.addLayer({
+          id: "clicked",
+          type: "line",
+          source: "sw_tile",
+          "source-layer": "ped_lines",
+          paint: {
+            "line-width": 15,
+            "line-opacity": [
+              "case",
+              ["boolean", ["feature-state", "click"], false],
+              0.7,
+              0,
+            ],
+            "line-color": "white",
+          },
+        });
       }
 
       setupClick(mapInstance);
