@@ -18,6 +18,8 @@ function MapboxMap({ connectionType }) {
     });
 
     const setupLayers = () => {
+      if (mapInstance.getLayer("lts") || mapInstance.getLayer("sw")) return;
+
       if (connectionType === "bike") {
         mapInstance.addLayer(
           {
@@ -39,7 +41,6 @@ function MapboxMap({ connectionType }) {
               },
             },
           },
-          // add layer before road intersection layer
           "road-label-simple",
         );
       } else if (connectionType === "pedestrian") {
@@ -59,30 +60,11 @@ function MapboxMap({ connectionType }) {
         );
       }
 
-      // mapInstance.addLayer({
-      //   id: "clicked",
-      //   type: "line",
-      //   source: "lts_tile",
-      //   "source-layer": "existing_conditions_lts",
-      //   paint: {
-      //     "line-width": 15,
-      //     "line-opacity": [
-      //       "case",
-      //       ["boolean", ["feature-state", "click"], false],
-      //       0.7,
-      //       0,
-      //     ],
-      //     "line-color": "white",
-      //   },
-      // });
-
       // setupClick(mapInstance);
       // clickClear(mapInstance);
     };
 
     mapInstance.on("load", () => {
-      // LOAD DATA: add vector tileset from DVRPC's server
-
       mapInstance.addSource("lts_tile", {
         type: "vector",
         url: "https://www.tiles.dvrpc.org/data/lts.json",
@@ -95,12 +77,12 @@ function MapboxMap({ connectionType }) {
         url: "https://www.tiles.dvrpc.org/data/pedestrian-network.json",
         minzoom: 8,
       });
+
+      setupLayers();
     });
 
-    mapInstance.on("styledata", setupLayers);
     setMap(mapInstance);
 
-    // Clean up on component unmount
     return () => mapInstance.remove();
   }, [connectionType]);
 
