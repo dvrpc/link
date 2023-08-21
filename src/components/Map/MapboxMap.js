@@ -13,8 +13,8 @@ function MapboxMap({ connectionType }) {
     const mapInstance = new mapboxgl.Map({
       container: mapContainer.current,
       style: "mapbox://styles/mapbox/dark-v11",
-      center: [-75.16, 39.95],
-      zoom: 9,
+      center: [-75.16, 40.07],
+      zoom: 8.5,
     });
 
     const setupLayers = () => {
