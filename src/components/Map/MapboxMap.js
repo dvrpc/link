@@ -43,6 +43,22 @@ function MapboxMap({ connectionType }) {
           },
           "road-label-simple",
         );
+        mapInstance.addLayer({
+          id: "clicked",
+          type: "line",
+          source: "lts_tile",
+          "source-layer": "existing_conditions_lts",
+          paint: {
+            "line-width": 15,
+            "line-opacity": [
+              "case",
+              ["boolean", ["feature-state", "click"], false],
+              0.7,
+              0,
+            ],
+            "line-color": "white",
+          },
+        });
       } else if (connectionType === "pedestrian") {
         mapInstance.addLayer(
           {
@@ -60,7 +76,7 @@ function MapboxMap({ connectionType }) {
         );
       }
 
-      // setupClick(mapInstance);
+      setupClick(mapInstance);
       // clickClear(mapInstance);
     };
 

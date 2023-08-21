@@ -14,7 +14,7 @@ export function setupClick(map) {
             id: feature.id,
             sourceLayer: "existing_conditions_lts",
           },
-          { click: false }
+          { click: false },
         );
       } else {
         featurelist.push(feature.id);
@@ -24,31 +24,31 @@ export function setupClick(map) {
             id: feature.id,
             sourceLayer: "existing_conditions_lts",
           },
-          { click: true }
+          { click: true },
         );
       }
       document.getElementById("segids").innerHTML = `${featurelist}`;
     });
   });
-};
-
-export function clickClear(map){
-  document.getElementById('clear_button').addEventListener("click", function() {
-    console.log(featurelist)
-    document.getElementById("segids").innerHTML = [];
-    for (const element of featurelist) {
-      map.setFeatureState(
-        {
-          source: "lts_tile",
-          id: element,
-          sourceLayer: "existing_conditions_lts",
-        },
-        { click: false }
-      );
-    }
-
-    featurelist = []
-  });
 }
 
+export function clickClear(map) {
+  document
+    .getElementById("clear_button")
+    .addEventListener("click", function () {
+      console.log(featurelist);
+      document.getElementById("segids").innerHTML = [];
+      for (const element of featurelist) {
+        map.setFeatureState(
+          {
+            source: "lts_tile",
+            id: element,
+            sourceLayer: "existing_conditions_lts",
+          },
+          { click: false },
+        );
+      }
 
+      featurelist = [];
+    });
+}
