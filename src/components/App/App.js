@@ -3,6 +3,7 @@ import mapboxgl from "!mapbox-gl"; // eslint-disable-line import/no-webpack-load
 import logo from "../../assets/dvrpc_white_logo.png";
 import MapboxMap from "../Map/MapboxMap";
 import ConnectionToggle from "../ConnectionToggle/ConnectionToggle";
+import AnalyzeButton from "../AnalyzeButton/AnalyzeButton";
 
 mapboxgl.accessToken =
   "pk.eyJ1IjoiZHZycGNvbWFkIiwiYSI6ImNrczZlNDBkZzFnOG0ydm50bXR0dTJ4cGYifQ.VaJDo9EtH2JyzKm3cC0ypA";
@@ -29,6 +30,7 @@ export default function App() {
           connectionType={connectionType}
           setConnectionType={setConnectionType}
         />
+        <AnalyzeButton />
       </div>
       <MapboxMap connectionType={connectionType} />
     </div>
