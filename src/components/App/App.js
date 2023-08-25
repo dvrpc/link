@@ -4,7 +4,7 @@ import MapboxMap from "../Map/MapboxMap";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import ConnectionToggle from "../ConnectionToggle/ConnectionToggle";
 import AnalyzeButton from "../AnalyzeButton/AnalyzeButton";
-import Logo from "../Logo/Logo";
+import Toolbar from "../Toolbar/Toolbar";
 
 mapboxgl.accessToken =
   "pk.eyJ1IjoiZHZycGNvbWFkIiwiYSI6ImNrczZlNDBkZzFnOG0ydm50bXR0dTJ4cGYifQ.VaJDo9EtH2JyzKm3cC0ypA";
@@ -14,9 +14,7 @@ export default function App() {
 
   return (
     <div className="parent">
-      <div className="toolbar">
-        <Logo />
-      </div>
+      <Toolbar />
       <div id="box">
         Segment IDs (click features!)
         <div id="segids"></div>
