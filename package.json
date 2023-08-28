@@ -10,6 +10,7 @@
     "@mantine/nprogress": "^6.0.19",
     "@mantine/prism": "^6.0.19",
     "@mantine/spotlight": "^6.0.19",
+    "@types/mapbox__mapbox-gl-draw": "^1.4.0",
     "mapbox-gl": "^1.11.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
