@@ -97,10 +97,10 @@ function MapboxMap({ connectionType }) {
         displayControlsDefault: false,
         // Select which mapbox-gl-draw control buttons to add to the map.
         controls: {
-          polygon: true,
+          line_string: true,
           trash: true,
         },
-        defaultMode: "draw_polygon",
+        defaultMode: "draw_line_string",
       });
       mapInstance.addControl(draw);
     };
