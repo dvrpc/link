@@ -1,7 +1,6 @@
 import React from "react";
 import { useDisclosure } from "@mantine/hooks";
 import { Drawer, Button, Group } from "@mantine/core";
-import ConnectionToggle from "../ConnectionToggle/ConnectionToggle";
 import AnalyzeButton from "../AnalyzeButton/AnalyzeButton";
 
 function StudyShelf() {
@@ -9,12 +8,12 @@ function StudyShelf() {
 
   return (
     <>
-      <Drawer opened={opened} onClose={close} title="Studies">
+      <Drawer opened={opened} onClose={close} title="Projects">
         <AnalyzeButton />
       </Drawer>
 
       <Group position="center">
-        <Button onClick={open}>Open Drawer</Button>
+        <Button onClick={open}>Projects</Button>
       </Group>
     </>
   );
