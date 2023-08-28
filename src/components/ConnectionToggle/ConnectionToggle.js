@@ -3,15 +3,11 @@ import { Button } from "@mantine/core";
 
 function ConnectionToggle({ connectionType, setConnectionType }) {
   const handleToggle = () => {
-    setConnectionType((prevType) =>
-      prevType === "bike" ? "pedestrian" : "bike",
-    );
+    const newType = connectionType === "bike" ? "pedestrian" : "bike";
+    setConnectionType(newType);
   };
-  return (
-    <Button onClick={handleToggle}>
-      Switch to {connectionType === "bike" ? "Pedestrian" : "Bike"}
-    </Button>
-  );
+
+  return <Button onClick={handleToggle}>Toggle Connection Type</Button>;
 }
 
 export default ConnectionToggle;

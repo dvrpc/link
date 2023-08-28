@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import mapboxgl from "!mapbox-gl"; // eslint-disable-line import/no-webpack-loader-syntax
-import { setupClick, clickClear } from "./interaction.js";
+import { setupClick } from "./interaction.js";
 
 mapboxgl.accessToken =
   "pk.eyJ1IjoiZHZycGNvbWFkIiwiYSI6ImNrczZlNDBkZzFnOG0ydm50bXR0dTJ4cGYifQ.VaJDo9EtH2JyzKm3cC0ypA";
@@ -93,7 +93,7 @@ function MapboxMap({ connectionType }) {
       }
 
       setupClick(mapInstance, connectionType);
-      clickClear(mapInstance);
+      // clickClear(mapInstance);
     };
 
     mapInstance.on("load", () => {

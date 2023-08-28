@@ -40,23 +40,20 @@ function setupLayerClick(map, layerId, source, sourceLayer) {
   });
 }
 
-export function clickClear(map) {
-  document
-    .getElementById("clear_button")
-    .addEventListener("click", function () {
-      console.log(featurelist);
-      document.getElementById("segids").innerHTML = [];
-      for (const element of featurelist) {
-        map.setFeatureState(
-          {
-            source: "lts_tile",
-            id: element,
-            sourceLayer: "existing_conditions_lts",
-          },
-          { click: false },
-        );
-      }
+export function clickClear(map, featurelist, setFeatureList, segIdsElement) {
+  console.log(featurelist);
+  segIdsElement.innerHTML = [];
+  for (const element of featurelist) {
+    map.setFeatureState(
+      {
+        source: "lts_tile",
+        id: element,
+        sourceLayer: "existing_conditions_lts",
+      },
+      { click: false },
+    );
+  }
 
-      featurelist = [];
-    });
+  // Reset featurelist
+  setFeatureList([]);
 }
