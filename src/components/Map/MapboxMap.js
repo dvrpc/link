@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
-import mapboxgl from "!mapbox-gl"; // eslint-disable-line import/no-webpack-loader-syntax
-import { setupClick } from "./interaction.js";
+import mapboxgl from "mapbox-gl";
+import MapboxDraw from "@mapbox/mapbox-gl-draw";
+// import { setupClick } from "./interaction.js";
 
 mapboxgl.accessToken =
   "pk.eyJ1IjoiZHZycGNvbWFkIiwiYSI6ImNrczZlNDBkZzFnOG0ydm50bXR0dTJ4cGYifQ.VaJDo9EtH2JyzKm3cC0ypA";
@@ -92,8 +93,16 @@ function MapboxMap({ connectionType }) {
         });
       }
 
-      setupClick(mapInstance, connectionType);
-      // clickClear(mapInstance);
+      const draw = new MapboxDraw({
+        displayControlsDefault: false,
+        // Select which mapbox-gl-draw control buttons to add to the map.
+        controls: {
+          polygon: true,
+          trash: true,
+        },
+        defaultMode: "draw_polygon",
+      });
+      mapInstance.addControl(draw);
     };
 
     mapInstance.on("load", () => {

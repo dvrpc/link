@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import Logo from "../Logo/Logo";
 import StudyShelf from "../StudyShelf/StudyShelf";
 import ConnectionToggle from "../ConnectionToggle/ConnectionToggle";
+import DrawProject from "../DrawProject/DrawProject";
 
 export function HeaderSimple({ connectionType, setConnectionType }) {
   return (
@@ -23,6 +24,7 @@ export function HeaderSimple({ connectionType, setConnectionType }) {
           connectionType={connectionType}
           setConnectionType={setConnectionType}
         />
+        <DrawProject />
       </Flex>
     </Header>
   );

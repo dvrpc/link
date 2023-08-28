@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import mapboxgl from "!mapbox-gl"; // eslint-disable-line import/no-webpack-loader-syntax
+import mapboxgl from "mapbox-gl";
+import "@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css";
 import MapboxMap from "../Map/MapboxMap";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import { MantineProvider } from "@mantine/core";
