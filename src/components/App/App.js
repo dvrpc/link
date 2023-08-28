@@ -4,6 +4,7 @@ import MapboxMap from "../Map/MapboxMap";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import ConnectionToggle from "../ConnectionToggle/ConnectionToggle";
 import AnalyzeButton from "../AnalyzeButton/AnalyzeButton";
+import ClearButton from "../ClearButton/ClearButton";
 import Toolbar from "../Toolbar/Toolbar";
 import { MantineProvider } from "@mantine/core";
 
@@ -20,7 +21,7 @@ export default function App() {
         <div id="box">
           Segment IDs (click features!)
           <div id="segids"></div>
-          <button id="clear_button">Clear</button>
+          <ClearButton />
           <ConnectionToggle
             connectionType={connectionType}
             setConnectionType={setConnectionType}
