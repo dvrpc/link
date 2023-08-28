@@ -1,6 +1,27 @@
 export const themeConfig = {
   colorScheme: "dark",
-  primaryColor: "yellow",
+  primaryColor: "blue",
   fontFamily: "roboto, sans-serif",
-  radius: "lg",
+  components: {
+    Button: {
+      defaultProps: {
+        size: "xs",
+        color: "green",
+        radius: "lg",
+      },
+    },
+
+    Switch: {
+      defaultProps: {
+        size: "xs",
+        onLabel: "ON",
+        offLabel: "OFF",
+      },
+    },
+    Drawer: {
+      defaultProps: {
+        position: "left",
+      },
+    },
+  },
 };
