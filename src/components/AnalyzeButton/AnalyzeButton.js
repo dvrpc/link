@@ -1,11 +1,12 @@
 import React from "react";
+import { Button } from "@mantine/core";
 
 function AnalyzeButton({ segids }) {
   const buttonClick = () => {
     // here's where i want to make a request to the api with seg ids.
     console.log("click click i'm a button");
   };
-  return <button onClick={buttonClick}>Analyze Segments</button>;
+  return <Button onClick={buttonClick}>Analyze Segments</Button>;
 }
 
 export default AnalyzeButton;
