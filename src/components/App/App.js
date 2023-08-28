@@ -2,8 +2,6 @@ import React, { useState } from "react";
 import mapboxgl from "!mapbox-gl"; // eslint-disable-line import/no-webpack-loader-syntax
 import MapboxMap from "../Map/MapboxMap";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
-import Toolbar from "../Toolbar/Toolbar";
-import StudyShelf from "../StudyShelf/StudyShelf";
 import { MantineProvider } from "@mantine/core";
 import { themeConfig } from "./mantineTheme";
 import { HeaderSimple } from "../Header/Header";
