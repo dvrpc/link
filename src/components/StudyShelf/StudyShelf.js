@@ -14,9 +14,7 @@ function StudyShelf() {
       </Drawer>
 
       <Group position="center">
-        <Button color="green" radius="lg" onClick={open}>
-          Open Drawer
-        </Button>
+        <Button onClick={open}>Open Drawer</Button>
       </Group>
     </>
   );

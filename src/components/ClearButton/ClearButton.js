@@ -13,9 +13,7 @@ function ClearButton({ map }) {
   return (
     <>
       <div id="segids" ref={segIdsElementRef}></div>
-      <Button color="green" radius="lg" onClick={handleClick}>
-        Clear
-      </Button>
+      <Button onClick={handleClick}>Clear</Button>
     </>
   );
 }

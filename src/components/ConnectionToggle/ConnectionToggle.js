@@ -7,11 +7,7 @@ function ConnectionToggle({ connectionType, setConnectionType }) {
     setConnectionType(newType);
   };
 
-  return (
-    <Button color="green" radius="lg" onClick={handleToggle}>
-      Toggle Connection Type
-    </Button>
-  );
+  return <Button onClick={handleToggle}>Toggle Connection Type</Button>;
 }
 
 export default ConnectionToggle;
