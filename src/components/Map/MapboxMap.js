@@ -6,11 +6,12 @@ import MapboxDraw from "@mapbox/mapbox-gl-draw";
 mapboxgl.accessToken =
   "pk.eyJ1IjoiZHZycGNvbWFkIiwiYSI6ImNrczZlNDBkZzFnOG0ydm50bXR0dTJ4cGYifQ.VaJDo9EtH2JyzKm3cC0ypA";
 
-function MapboxMap({ connectionType }) {
+function MapboxMap({ setDraw, connectionType }) {
   const mapContainer = useRef(null);
   const [map, setMap] = useState(null);
 
   useEffect(() => {
+    console.log("EFFEct used");
     const mapInstance = new mapboxgl.Map({
       container: mapContainer.current,
       style: "mapbox://styles/mapbox/dark-v11",
@@ -92,17 +93,6 @@ function MapboxMap({ connectionType }) {
           },
         });
       }
-
-      const draw = new MapboxDraw({
-        displayControlsDefault: false,
-        // Select which mapbox-gl-draw control buttons to add to the map.
-        controls: {
-          line_string: true,
-          trash: true,
-        },
-        defaultMode: "draw_line_string",
-      });
-      mapInstance.addControl(draw);
     };
 
     mapInstance.on("load", () => {
@@ -119,13 +109,31 @@ function MapboxMap({ connectionType }) {
         minzoom: 8,
       });
 
+      const drawInstance = new MapboxDraw({
+        displayControlsDefault: false,
+        displayControlsDefault: false,
+        // Select which mapbox-gl-draw control buttons to add to the map.
+        controls: {
+          line_string: true,
+          trash: true,
+        },
+        defaultMode: "draw_line_string",
+      });
+      // ... your options
+
+      // Use setDraw function to update draw instance in parent component
+      setDraw(drawInstance);
+
+      // Add draw controls to the map
+      mapInstance.addControl(drawInstance);
+
       setupLayers();
     });
 
     setMap(mapInstance);
 
     return () => mapInstance.remove();
-  }, [connectionType]);
+  }, [setDraw, connectionType]);
 
   return <div ref={mapContainer} className="map-container" />;
 }

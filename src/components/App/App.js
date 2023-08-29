@@ -6,11 +6,13 @@ import { BrowserRouter, Route, Switch } from "react-router-dom";
 import { MantineProvider } from "@mantine/core";
 import { themeConfig } from "./mantineTheme";
 import { HeaderSimple } from "../Header/Header";
+import AnalyzeButton from "../AnalyzeButton/AnalyzeButton";
 
 mapboxgl.accessToken =
   "pk.eyJ1IjoiZHZycGNvbWFkIiwiYSI6ImNrczZlNDBkZzFnOG0ydm50bXR0dTJ4cGYifQ.VaJDo9EtH2JyzKm3cC0ypA";
 
 export default function App() {
+  const [draw, setDraw] = useState(null);
   const [connectionType, setConnectionType] = useState("bike");
 
   return (
@@ -20,7 +22,8 @@ export default function App() {
           connectionType={connectionType}
           setConnectionType={setConnectionType}
         />
-        <MapboxMap connectionType={connectionType} />
+        <MapboxMap setDraw={setDraw} connectionType={connectionType} />
+        <AnalyzeButton draw={draw} />
       </div>
     </MantineProvider>
   );
