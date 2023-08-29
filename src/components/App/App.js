@@ -22,8 +22,8 @@ export default function App() {
           connectionType={connectionType}
           setConnectionType={setConnectionType}
         />
-        <MapboxMap setDraw={setDraw} connectionType={connectionType} />
         <AnalyzeButton draw={draw} />
+        <MapboxMap setDraw={setDraw} connectionType={connectionType} />
       </div>
     </MantineProvider>
   );
