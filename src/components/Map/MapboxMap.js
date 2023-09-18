@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import mapboxgl from "mapbox-gl";
 import MapboxDraw from "@mapbox/mapbox-gl-draw";
-// import { setupClick } from "./interaction.js";
 
 mapboxgl.accessToken =
   "pk.eyJ1IjoiZHZycGNvbWFkIiwiYSI6ImNrczZlNDBkZzFnOG0ydm50bXR0dTJ4cGYifQ.VaJDo9EtH2JyzKm3cC0ypA";
@@ -11,11 +10,10 @@ function MapboxMap({ setDraw, connectionType }) {
   const [map, setMap] = useState(null);
 
   useEffect(() => {
-    console.log("EFFEct used");
     const mapInstance = new mapboxgl.Map({
       container: mapContainer.current,
       style: "mapbox://styles/mapbox/dark-v11",
-      center: [-75.16, 40.07],
+      center: [-75.16, 40.05],
       zoom: 8.5,
     });
 
