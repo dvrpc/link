@@ -1,13 +1,19 @@
 export const themeConfig = {
   colorScheme: "dark",
   primaryColor: "blue",
-  fontFamily: "roboto, sans-serif",
+  fontFamily: "Roboto, sans-serif",
+  fontFamilyMonospace: "Roboto, sans-serif",
+  headings: {
+    fontFamily: "Roboto",
+  },
   components: {
     Button: {
       defaultProps: {
+        // variant: "gradient",
+        variant: "outline",
         size: "xs",
-        color: "green",
-        radius: "lg",
+        color: "gray",
+        radius: "md",
       },
     },
 

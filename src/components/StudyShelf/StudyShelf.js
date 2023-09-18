@@ -7,7 +7,14 @@ function StudyShelf() {
 
   return (
     <>
-      <Drawer opened={opened} onClose={close} title="Projects"></Drawer>
+      <Drawer
+        opened={opened}
+        onClose={close}
+        transitionProps={{
+          transition: "slide-right",
+        }}
+        title="Projects"
+      ></Drawer>
 
       <Group position="center">
         <Button onClick={open}>Projects</Button>

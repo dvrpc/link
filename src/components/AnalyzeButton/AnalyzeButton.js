@@ -9,7 +9,19 @@ function AnalyzeButton({ draw }) {
     }
   };
 
-  return <Button onClick={analyzeData}>Analyze</Button>;
+  return (
+    <Button
+      style={{
+        position: "absolute",
+        top: "90px",
+        left: "10px",
+        zIndex: 10,
+      }}
+      onClick={analyzeData}
+    >
+      Analyze
+    </Button>
+  );
 }
 
 export default AnalyzeButton;
