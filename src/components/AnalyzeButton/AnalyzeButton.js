@@ -5,8 +5,25 @@ import { Modal, Button } from "@mantine/core";
 function AnalyzeButton({ draw }) {
   const [project, setProject] = React.useState("");
 
-  const analyzeData = (allFeatures) => {
-    console.log(allFeatures);
+  const sendDataToServer = async (geoJsonData) => {
+    try {
+      const response = await fetch("http://localhost:8000/analyze", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(geoJsonData),
+      });
+
+      if (response.status === 200) {
+        const data = await response.json();
+        console.log("Server response:", data);
+      } else {
+        console.log("Error:", response.status, response.statusText);
+      }
+    } catch (error) {
+      console.error("Network error:", error);
+    }
   };
 
   const applyProjectName = () => {
@@ -15,7 +32,7 @@ function AnalyzeButton({ draw }) {
       allFeatures.features.forEach((feature, index) => {
         feature.properties.name = `${project}${index + 1}`;
       });
-      analyzeData(allFeatures);
+      sendDataToServer(allFeatures);
     }
     close();
   };
