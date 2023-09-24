@@ -10,16 +10,3 @@
   height: calc(100vh - 80px) !important;
   width: 100%;
 }
-
-p1 {
-  font-family: monospace;
-  color: white;
-}
-
-#segids {
-  background-color: rgb(236, 243, 243);
-  overflow-x: scroll;
-  overflow-y: scroll;
-  color: rgb(39, 38, 38);
-  font-family: "Roboto", sans-serif;
-}

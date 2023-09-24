@@ -1,10 +1,9 @@
 export const themeConfig = {
   colorScheme: "dark",
   primaryColor: "blue",
-  fontFamily: "Roboto, sans-serif",
-  fontFamilyMonospace: "Roboto, sans-serif",
+  fontFamily: "Courier New",
   headings: {
-    fontFamily: "Roboto",
+    fontFamily: "Courier New",
   },
   components: {
     Button: {

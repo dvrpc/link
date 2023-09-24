@@ -16,7 +16,7 @@ export default function App() {
   const [connectionType, setConnectionType] = useState("bike");
 
   return (
-    <MantineProvider theme={themeConfig}>
+    <MantineProvider theme={themeConfig} withGlobalStyles>
       <div className="parent">
         <HeaderSimple
           connectionType={connectionType}
