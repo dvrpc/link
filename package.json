@@ -2,6 +2,7 @@
   "name": "basic",
   "version": "0.1.0",
   "dependencies": {
+    "@auth0/auth0-react": "^2.2.1",
     "@emotion/react": "^11.11.1",
     "@mantine/core": "^6.0.19",
     "@mantine/dropzone": "^6.0.19",
@@ -23,7 +24,11 @@
     "build": "react-scripts build"
   },
   "browserslist": {
-    "production": [">0.2%", "not dead", "not op_mini all"],
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
     "development": [
       "last 1 chrome version",
       "last 1 firefox version",
