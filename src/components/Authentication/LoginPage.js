@@ -20,7 +20,6 @@ export default function LoginPage() {
           Connect is a tool that helps you understand the potential impact of
           building bicycle or pedestrian facilities.{" "}
         </Text>
-        <Text>Please login or register to continue</Text>
         <LoginButton />
       </div>
     </Center>

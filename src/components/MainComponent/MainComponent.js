@@ -18,7 +18,7 @@ export default function MainComponent() {
         connectionType={connectionType}
         setConnectionType={setConnectionType}
       />
-      <AnalyzeButton draw={draw} />
+      <AnalyzeButton draw={draw} connectionType={connectionType} />
       <MapboxMap setDraw={setDraw} connectionType={connectionType} />
     </div>
   );

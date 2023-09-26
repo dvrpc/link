@@ -11,7 +11,7 @@ const LoginButton = () => {
       gradient={{ from: "blue", to: "cyan", deg: 90 }}
       onClick={() => loginWithRedirect()}
     >
-      Log In
+      Enter
     </Button>
   );
 };

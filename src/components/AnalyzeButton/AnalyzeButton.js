@@ -1,9 +1,11 @@
 import React from "react";
 import { useDisclosure } from "@mantine/hooks";
 import { Modal, Button } from "@mantine/core";
+import { useAuth0 } from "@auth0/auth0-react";
 
-function AnalyzeButton({ draw }) {
+function AnalyzeButton({ draw, connectionType }) {
   const [project, setProject] = React.useState("");
+  const { user } = useAuth0();
 
   const sendDataToServer = async (geoJsonData) => {
     try {
@@ -12,7 +14,7 @@ function AnalyzeButton({ draw }) {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(geoJsonData),
+        body: JSON.stringify(geoJsonData, user.nickname, connectionType),
       });
 
       if (response.status === 200) {
