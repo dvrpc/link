@@ -4,6 +4,7 @@ import { MantineProvider } from "@mantine/core";
 import { themeConfig } from "./mantineTheme";
 import MainComponent from "../MainComponent/MainComponent";
 import Login from "../Authentication/Login";
+import AuthenticatedLayout from "../Authentication/AuthenticatedLayout";
 
 export default function App() {
   return (
@@ -11,7 +12,14 @@ export default function App() {
       <Router>
         <Routes>
           <Route path="/login" element={<Login />} />
-          <Route path="/" element={<MainComponent />} />
+          <Route
+            path="/"
+            element={
+              <AuthenticatedLayout>
+                <MainComponent />
+              </AuthenticatedLayout>
+            }
+          />
         </Routes>
       </Router>
     </MantineProvider>
