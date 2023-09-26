@@ -4,6 +4,7 @@ import Logo from "../Logo/Logo";
 import StudyShelf from "../StudyShelf/StudyShelf";
 import ConnectionToggle from "../ConnectionToggle/ConnectionToggle";
 import Logout from "../Authentication/Logout";
+import Greeting from "./Greeting";
 
 export function HeaderSimple({ connectionType, setConnectionType }) {
   return (
@@ -25,7 +26,16 @@ export function HeaderSimple({ connectionType, setConnectionType }) {
             connectionType={connectionType}
             setConnectionType={setConnectionType}
           />
-          <Logout style={{ marginLeft: "auto" }} />
+          <Flex
+            style={{ marginLeft: "auto" }}
+            align="center"
+            direction="row"
+            pl="20px"
+            gap="md"
+          >
+            <Greeting />
+            <Logout />
+          </Flex>
         </Flex>
       </Header>
     </Container>
