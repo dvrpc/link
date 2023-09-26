@@ -4,7 +4,6 @@ import "@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css";
 import MapboxMap from "../Map/MapboxMap";
 import { HeaderSimple } from "../Header/Header";
 import AnalyzeButton from "../AnalyzeButton/AnalyzeButton";
-import Logout from "../Authentication/Logout";
 
 mapboxgl.accessToken =
   "pk.eyJ1IjoiZHZycGNvbWFkIiwiYSI6ImNrczZlNDBkZzFnOG0ydm50bXR0dTJ4cGYifQ.VaJDo9EtH2JyzKm3cC0ypA";
@@ -20,7 +19,6 @@ export default function MainComponent() {
         setConnectionType={setConnectionType}
       />
       <AnalyzeButton draw={draw} />
-      <Logout />
       <MapboxMap setDraw={setDraw} connectionType={connectionType} />
     </div>
   );
