@@ -8,13 +8,19 @@ function AnalyzeButton({ draw, connectionType }) {
   const { user } = useAuth0();
 
   const sendDataToServer = async (geoJsonData) => {
+    const bodyData = {
+      connection_type: connectionType,
+      geo_json: geoJsonData,
+      username: user.nickname,
+    };
+
     try {
       const response = await fetch("http://localhost:8000/analyze", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(geoJsonData, user.nickname, connectionType),
+        body: JSON.stringify(bodyData),
       });
 
       if (response.status === 200) {
