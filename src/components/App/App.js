@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { MantineProvider } from "@mantine/core";
 import { themeConfig } from "./mantineTheme";
 import MainComponent from "../MainComponent/MainComponent";
-import Login from "../Authentication/Login";
+import LoginPage from "../Authentication/LoginPage";
 import AuthenticatedLayout from "../Authentication/AuthenticatedLayout";
 
 export default function App() {
@@ -11,7 +11,7 @@ export default function App() {
     <MantineProvider theme={themeConfig} withGlobalStyles>
       <Router>
         <Routes>
-          <Route path="/login" element={<Login />} />
+          <Route path="/login" element={<LoginPage />} />
           <Route
             path="/"
             element={

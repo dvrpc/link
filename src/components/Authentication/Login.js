@@ -5,7 +5,15 @@ import { Button } from "@mantine/core";
 const LoginButton = () => {
   const { loginWithRedirect } = useAuth0();
 
-  return <Button onClick={() => loginWithRedirect()}>Log In</Button>;
+  return (
+    <Button
+      variant="gradient"
+      gradient={{ from: "blue", to: "cyan", deg: 90 }}
+      onClick={() => loginWithRedirect()}
+    >
+      Log In
+    </Button>
+  );
 };
 
 export default LoginButton;
