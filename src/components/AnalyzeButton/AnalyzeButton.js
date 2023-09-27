@@ -49,7 +49,7 @@ function AnalyzeButton({ draw, connectionType }) {
 
   return (
     <>
-      <Modal opened={opened} onClose={close} title="Name Segments">
+      <Modal opened={opened} onClose={close} title="Name your project">
         <input
           type="text"
           value={project}
