@@ -9,10 +9,21 @@ function StudyShelf() {
 
   const cardCounter = async () => {
     try {
-      const response = await fetch("http://localhost:8000/get_user_studies");
+      const username = "mmorley";
+      const schema = "lts"; // or "sidewalk" depending on your needs
+
+      const response = await fetch(
+        `http://localhost:8000/get_user_studies?username=${username}&schema=${schema}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        },
+      );
       const data = await response.json();
-      setCards(["Dummy1", "Dummy2", "Dummy3"]);
-      // setCards(data);
+
+      setCards(data.studies);
     } catch (error) {
       console.error("Error fetching data:", error);
     }

@@ -13,7 +13,7 @@ function StudyCard({ data }) {
       </Card.Section>
 
       <Group justify="space-between" mt="md" mb="xs">
-        <Text fw={500}>{data}</Text>
+        <Text fw={500}>{data.seg_name}</Text>
         <Badge color="pink" variant="light">
           On Sale
         </Badge>
