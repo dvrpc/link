@@ -21,7 +21,10 @@ export function HeaderSimple({ connectionType, setConnectionType }) {
           pl="20px"
         >
           <Logo />
-          <StudyShelf />
+          <StudyShelf
+            connectionType={connectionType}
+            setConnectionType={setConnectionType}
+          />
           <ConnectionToggle
             connectionType={connectionType}
             setConnectionType={setConnectionType}

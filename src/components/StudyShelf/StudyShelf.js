@@ -2,15 +2,21 @@ import React, { useState } from "react";
 import { useDisclosure } from "@mantine/hooks";
 import { Drawer, Button, Group } from "@mantine/core";
 import StudyCard from "./StudyCard";
+import { useAuth0 } from "@auth0/auth0-react";
 
-function StudyShelf() {
+function StudyShelf({ connectionType }) {
   const [opened, { open, close }] = useDisclosure(false);
   const [cards, setCards] = useState([]);
+  const { user } = useAuth0();
 
   const cardCounter = async () => {
     try {
-      const username = "mmorley";
-      const schema = "lts"; // or "sidewalk" depending on your needs
+      const username = user.nickname;
+      if (connectionType === "bike") {
+        var schema = "lts";
+      } else if (connectionType === "pedestrian") {
+        var schema = "sidewalk";
+      }
 
       const response = await fetch(
         `http://localhost:8000/get_user_studies?username=${username}&schema=${schema}`,
