@@ -9,7 +9,7 @@ function StudyShelf({ connectionType }) {
   const [cards, setCards] = useState([]);
   const { user } = useAuth0();
 
-  const cardCounter = async () => {
+  const refreshCards = async () => {
     try {
       const username = user.nickname;
       if (connectionType === "bike") {
@@ -47,11 +47,17 @@ function StudyShelf({ connectionType }) {
         title="Projects"
       >
         {cards.map((card, index) => (
-          <StudyCard key={index} data={card} />
+          <StudyCard
+            key={index}
+            data={card}
+            username={user.nickname}
+            connection={connectionType}
+            onRenameSuccess={refreshCards}
+          />
         ))}
       </Drawer>
       <Group position="center">
-        <Button onClick={cardCounter}>Projects</Button>
+        <Button onClick={refreshCards}>Projects</Button>
       </Group>
     </>
   );
