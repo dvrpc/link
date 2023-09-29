@@ -1,19 +1,20 @@
-import React from "react";
+import React, { useState } from "react";
 import { useDisclosure } from "@mantine/hooks";
 import { Modal, Button } from "@mantine/core";
 import { useAuth0 } from "@auth0/auth0-react";
 
 function AnalyzeButton({ draw, connectionType }) {
   const [project, setProject] = React.useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const { user } = useAuth0();
 
   const sendDataToServer = async (geoJsonData) => {
+    setIsLoading(true);
     const bodyData = {
       connection_type: connectionType,
       geo_json: geoJsonData,
       username: user.nickname,
     };
-
     try {
       const response = await fetch("http://localhost:8000/analyze", {
         method: "POST",
@@ -23,6 +24,7 @@ function AnalyzeButton({ draw, connectionType }) {
         body: JSON.stringify(bodyData),
       });
 
+      console.log(geoJsonData);
       if (response.status === 200) {
         const data = await response.json();
         console.log("Server response:", data);
@@ -32,15 +34,16 @@ function AnalyzeButton({ draw, connectionType }) {
     } catch (error) {
       console.error("Network error:", error);
     }
+    setIsLoading(false);
   };
 
-  const applyProjectName = () => {
+  const applyProjectName = async () => {
     if (draw) {
       const allFeatures = draw.getAll();
       allFeatures.features.forEach((feature, index) => {
         feature.properties.name = `${project}${index + 1}`;
       });
-      sendDataToServer(allFeatures);
+      await sendDataToServer(allFeatures);
     }
     close();
   };
@@ -56,7 +59,9 @@ function AnalyzeButton({ draw, connectionType }) {
           onChange={(e) => setProject(e.target.value)}
           placeholder="Enter project name"
         />
-        <Button onClick={applyProjectName}>Submit</Button>
+        <Button loading={isLoading} onClick={applyProjectName}>
+          Submit
+        </Button>
       </Modal>
       <Button
         style={{
