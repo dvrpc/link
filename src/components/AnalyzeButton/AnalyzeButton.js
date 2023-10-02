@@ -41,7 +41,11 @@ function AnalyzeButton({ draw, connectionType }) {
     if (draw) {
       const allFeatures = draw.getAll();
       allFeatures.features.forEach((feature, index) => {
-        feature.properties.name = `${project}${index + 1}`;
+        if (index === 0) {
+          feature.properties.name = `${project}`;
+        } else {
+          feature.properties.name = `${project}${index + 1}`;
+        }
       });
       await sendDataToServer(allFeatures);
     }
