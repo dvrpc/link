@@ -28,12 +28,11 @@ function StudyShelf({ connectionType }) {
         },
       );
       const data = await response.json();
-      console.log(data);
 
       if (data["studies"][0] === "No studies have been created yet!") {
         setCards(["No studies have been created yet!"]);
       } else {
-        setCards(data.studies);
+        setCards(data.studies.reverse());
       }
     } catch (error) {
       console.error("Error fetching data:", error);
