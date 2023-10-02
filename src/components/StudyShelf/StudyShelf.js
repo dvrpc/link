@@ -28,8 +28,13 @@ function StudyShelf({ connectionType }) {
         },
       );
       const data = await response.json();
+      console.log(data);
 
-      setCards(data.studies);
+      if (data["studies"][0] === "No studies have been created yet!") {
+        setCards(["No studies have been created yet!"]);
+      } else {
+        setCards(data.studies);
+      }
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -46,15 +51,22 @@ function StudyShelf({ connectionType }) {
         }}
         title="Projects"
       >
-        {cards.map((card, index) => (
-          <StudyCard
-            key={index}
-            data={card}
-            username={user.nickname}
-            connection={connectionType}
-            onRenameSuccess={refreshCards}
-          />
-        ))}
+        {cards[0] === "No studies have been created yet!" ? (
+          <div>
+            No studies have been created yet! Draw one or upload a GeoJSON using
+            the tools on the right side of the map.{" "}
+          </div>
+        ) : (
+          cards.map((card, index) => (
+            <StudyCard
+              key={index}
+              data={card}
+              username={user.nickname}
+              connection={connectionType}
+              onRenameSuccess={refreshCards}
+            />
+          ))
+        )}
       </Drawer>
       <Group position="center">
         <Button onClick={refreshCards}>Projects</Button>

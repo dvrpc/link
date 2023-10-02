@@ -16,6 +16,7 @@ function AnalyzeButton({ draw, connectionType }) {
       username: user.nickname,
     };
     try {
+      console.log(geoJsonData);
       const response = await fetch("http://localhost:8000/analyze", {
         method: "POST",
         headers: {
@@ -24,7 +25,6 @@ function AnalyzeButton({ draw, connectionType }) {
         body: JSON.stringify(bodyData),
       });
 
-      console.log(geoJsonData);
       if (response.status === 200) {
         const data = await response.json();
         console.log("Server response:", data);
