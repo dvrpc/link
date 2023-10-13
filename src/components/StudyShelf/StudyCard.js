@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Card, Image, Text, Button, Group, TextInput } from "@mantine/core";
 
 function StudyCard({ data, username, connection, onRenameSuccess }) {
+  console.log(data.has_isochrone);
   const [isEditing, setIsEditing] = useState(false);
   const [name, setName] = useState(data.seg_name);
 
@@ -77,7 +78,24 @@ function StudyCard({ data, username, connection, onRenameSuccess }) {
       </Group>
 
       <Text size="sm" c="dimmed">
-        Project info
+        Philadelphia island? {data.has_isochrone.toString()}
+        {"\n"}
+        Miles of low-stress islands: {data.has_isochrone.toString()}
+        {"\n"}
+        Total population: {data.has_isochrone.toString()}
+        {"\n"}
+        Hispanic/Latino: {data.has_isochrone.toString()}
+        {"\n"}
+        Jobs: {data.has_isochrone.toString()}
+        {"\n"}
+        Bike crashes along segment: {data.has_isochrone.toString()}
+        {"\n"}
+        Ped crashes along segment: {data.has_isochrone.toString()}
+        {"\n"}
+        Essential services: {data.has_isochrone.toString()}
+        {"\n"}
+        Rail stations: {data.has_isochrone.toString()}
+        {"\n"}
       </Text>
     </Card>
   );
