@@ -78,24 +78,64 @@ function StudyCard({ data, username, connection, onRenameSuccess }) {
       </Group>
 
       <Text size="sm" c="dimmed">
-        Philadelphia island? {data.has_isochrone.toString()}
-        {"\n"}
-        Miles of low-stress islands: {data.has_isochrone.toString()}
-        {"\n"}
-        Total population: {data.has_isochrone.toString()}
-        {"\n"}
-        Hispanic/Latino: {data.has_isochrone.toString()}
-        {"\n"}
-        Jobs: {data.has_isochrone.toString()}
-        {"\n"}
-        Bike crashes along segment: {data.has_isochrone.toString()}
-        {"\n"}
-        Ped crashes along segment: {data.has_isochrone.toString()}
-        {"\n"}
-        Essential services: {data.has_isochrone.toString()}
-        {"\n"}
-        Rail stations: {data.has_isochrone.toString()}
-        {"\n"}
+        Philadelphia island?{" "}
+        <Text span c="teal">
+          {data.has_isochrone.toString()}{" "}
+        </Text>
+      </Text>
+      <Text size="sm" c="dimmed">
+        Miles of low-stress islands:
+        <Text span c="teal">
+          {data.miles}{" "}
+        </Text>
+      </Text>
+      <Text size="sm" c="dimmed">
+        Total population:
+        <Text span c="teal">
+          {data.total_pop}{" "}
+        </Text>
+      </Text>
+      <Text size="sm" c="dimmed">
+        Hispanic/Latino population:
+        <Text span c="teal">
+          {data.hisp_lat}{" "}
+        </Text>
+      </Text>
+      <Text size="sm" c="dimmed">
+        Nearby circuit trails:
+        <Text span c="teal">
+          {JSON.stringify(data.circuit_trails)}
+        </Text>
+      </Text>
+      <Text size="sm" c="dimmed">
+        Jobs:
+        <Text span c="teal">
+          {JSON.stringify(data.jobs)}
+        </Text>
+      </Text>
+      <Text size="sm" c="dimmed">
+        Bike crashes on segment:
+        <Text span c="teal">
+          {JSON.stringify(data.bike_crashes)}
+        </Text>
+      </Text>
+      <Text size="sm" c="dimmed">
+        Ped crashes on segment:
+        <Text span c="teal">
+          {JSON.stringify(data.ped_crashes)}
+        </Text>
+      </Text>
+      <Text size="sm" c="dimmed">
+        Essential services
+        <Text span c="teal">
+          {JSON.stringify(data.essential_services)}
+        </Text>
+      </Text>
+      <Text size="sm" c="dimmed">
+        Rail Stations
+        <Text span c="teal">
+          {JSON.stringify(data.rail_stations)}
+        </Text>
       </Text>
     </Card>
   );
