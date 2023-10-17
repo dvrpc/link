@@ -49,7 +49,7 @@ function StudyShelf({ connectionType }) {
         transitionProps={{
           transition: "slide-right",
         }}
-        title="Projects"
+        title="My Studies"
       >
         {cards[0] === "No studies have been created yet!" ? (
           <div>
@@ -69,7 +69,7 @@ function StudyShelf({ connectionType }) {
         )}
       </Drawer>
       <Group position="center">
-        <Button onClick={refreshCards}>Projects</Button>
+        <Button onClick={refreshCards}>My Studies</Button>
       </Group>
     </>
   );

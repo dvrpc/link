@@ -73,7 +73,7 @@ function StudyCard({ data, username, connection, onRenameSuccess }) {
             onChange={(event) => setName(event.currentTarget.value)}
           />
         ) : (
-          <Text fw={500}>{data.seg_name}</Text>
+          <Text fw={500}>Study: {data.seg_name}</Text>
         )}
       </Group>
 
