@@ -5,13 +5,13 @@ import { themeConfig } from "./mantineTheme";
 import MainComponent from "../MainComponent/MainComponent";
 import LoginPage from "../Authentication/LoginPage";
 import AuthenticatedLayout from "../Authentication/AuthenticatedLayout";
+import VerifyEmail from "../Authentication/VerifyEmail";
 
 export default function App() {
   return (
     <MantineProvider theme={themeConfig} withGlobalStyles>
       <Router>
         <Routes>
-          <Route path="/login" element={<LoginPage />} />
           <Route
             path="/"
             element={
@@ -20,6 +20,8 @@ export default function App() {
               </AuthenticatedLayout>
             }
           />
+          <Route path="/verify-email" element={<VerifyEmail />} />
+          <Route path="/login" element={<LoginPage />} />
         </Routes>
       </Router>
     </MantineProvider>
