@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { Card, Image, Text, Button, Group, TextInput } from "@mantine/core";
 
 function StudyCard({ data, username, connection, onRenameSuccess }) {
-  console.log(data.has_isochrone);
   const [isEditing, setIsEditing] = useState(false);
   const [name, setName] = useState(data.seg_name);
 
@@ -47,7 +46,7 @@ function StudyCard({ data, username, connection, onRenameSuccess }) {
     <Card shadow="sm" padding="lg" radius="md" withBorder>
       <Card.Section>
         <Image
-          src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fi.ytimg.com%2Fvi%2FKvA02evfKvA%2Fmaxresdefault.jpg&f=1&nofb=1"
+          src="https://images.unsplash.com/photo-1511281480949-345f5eb08353?auto=format&fit=crop&q=80&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&w=1974"
           height={160}
           alt="NERV"
         />

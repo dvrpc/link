@@ -28,7 +28,6 @@ function StudyShelf({ connectionType }) {
         },
       );
       const data = await response.json();
-      console.log(data);
 
       if (data["studies"][0] === "No studies have been created yet!") {
         setCards(["No studies have been created yet!"]);
