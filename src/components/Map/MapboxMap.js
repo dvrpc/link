@@ -114,6 +114,8 @@ function MapboxMap({ setDraw, connectionType }) {
         controls: {
           line_string: true,
           trash: true,
+          combine_features: true,
+          uncombine_features: true,
         },
         defaultMode: "draw_line_string",
         styles: [
