@@ -103,7 +103,7 @@ function StudyCard({ data, username, connection, onRenameSuccess }) {
       <Text size="sm" c="dimmed">
         Nearby circuit trails:
         <Text span c="teal">
-          {JSON.stringify(data.circuit_trails)}
+          {JSON.stringify(data.circuit)}
         </Text>
       </Text>
       <Text size="sm" c="dimmed">
@@ -125,13 +125,13 @@ function StudyCard({ data, username, connection, onRenameSuccess }) {
         </Text>
       </Text>
       <Text size="sm" c="dimmed">
-        Essential services
+        Essential services:
         <Text span c="teal">
           {JSON.stringify(data.essential_services)}
         </Text>
       </Text>
       <Text size="sm" c="dimmed">
-        Rail Stations
+        Rail Stations:
         <Text span c="teal">
           {JSON.stringify(data.rail_stations)}
         </Text>
