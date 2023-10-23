@@ -1,7 +1,7 @@
 import React from "react";
 import { Button } from "@mantine/core";
 import { useAuth0 } from "@auth0/auth0-react";
-import UserLayers from "../Map/UserLayers";
+import UserLayers from "./UserLayers";
 
 function GetGeoms({ closeFunction, connectionType }) {
   const { user } = useAuth0();

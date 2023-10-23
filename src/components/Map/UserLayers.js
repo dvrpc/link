@@ -1,27 +1,30 @@
 import React, { useEffect, useState, useRef } from "react";
+import { useMap } from "./MapContext";
 
-function UserLayers({ mapInstance, geojsonData }) {
-  const [map, setMap] = useState(null);
+function UserLayers({ geojsonData }) {
+  const map = useMap();
 
   const add_user_layers = () => {
-    mapInstance.addLayer(
-      {
-        id: "user_lines",
-        type: "line",
-        source: {
-          type: "geojson",
-          data: { geojsonData },
+    if (map) {
+      map.addLayer(
+        {
+          id: "user_lines",
+          type: "line",
+          source: {
+            type: "geojson",
+            data: { geojsonData },
+          },
+          paint: {
+            "line-width": 2,
+            "line-opacity": 1,
+            "line-color": "green",
+          },
         },
-        paint: {
-          "line-width": 2,
-          "line-opacity": 1,
-          "line-color": "green",
-        },
-      },
-      "road-label-simple",
-    );
+        "road-label-simple",
+      );
 
-    return;
+      return;
+    }
   };
 }
 export default UserLayers;

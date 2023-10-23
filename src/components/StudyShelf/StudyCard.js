@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Card, Image, Text, Button, Group, TextInput } from "@mantine/core";
-import GetGeoms from "../GetGeoms/GetGeoms";
+import GetGeoms from "../Map/GetGeoms";
 
 function StudyCard({
   data,

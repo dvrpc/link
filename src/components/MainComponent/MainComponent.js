@@ -4,6 +4,7 @@ import "@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css";
 import MapboxMap from "../Map/MapboxMap";
 import { HeaderSimple } from "../Header/Header";
 import AnalyzeButton from "../AnalyzeButton/AnalyzeButton";
+import { MapContext } from "../Map/MapContext";
 
 mapboxgl.accessToken =
   "pk.eyJ1IjoiZHZycGNvbWFkIiwiYSI6ImNrczZlNDBkZzFnOG0ydm50bXR0dTJ4cGYifQ.VaJDo9EtH2JyzKm3cC0ypA";
@@ -14,17 +15,19 @@ export default function MainComponent() {
   const [map, setMap] = useState(null);
 
   return (
-    <div className="parent">
-      <HeaderSimple
-        connectionType={connectionType}
-        setConnectionType={setConnectionType}
-      />
-      <AnalyzeButton draw={draw} connectionType={connectionType} />
-      <MapboxMap
-        setDraw={setDraw}
-        setMap={setMap}
-        connectionType={connectionType}
-      />
-    </div>
+    <MapContext.Provider value={map}>
+      <div className="parent">
+        <HeaderSimple
+          connectionType={connectionType}
+          setConnectionType={setConnectionType}
+        />
+        <AnalyzeButton draw={draw} connectionType={connectionType} />
+        <MapboxMap
+          setDraw={setDraw}
+          setMap={setMap}
+          connectionType={connectionType}
+        />
+      </div>
+    </MapContext.Provider>
   );
 }
