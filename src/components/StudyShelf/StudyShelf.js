@@ -63,6 +63,7 @@ function StudyShelf({ connectionType }) {
               username={user.nickname}
               connection={connectionType}
               onRenameSuccess={refreshCards}
+              closeFunction={close}
             />
           ))
         )}

@@ -1,7 +1,14 @@
 import React, { useState } from "react";
 import { Card, Image, Text, Button, Group, TextInput } from "@mantine/core";
+import GetGeoms from "../GetGeoms/GetGeoms";
 
-function StudyCard({ data, username, connection, onRenameSuccess }) {
+function StudyCard({
+  data,
+  username,
+  connection,
+  onRenameSuccess,
+  closeFunction,
+}) {
   const [isEditing, setIsEditing] = useState(false);
   const [name, setName] = useState(data.seg_name);
 
@@ -74,6 +81,10 @@ function StudyCard({ data, username, connection, onRenameSuccess }) {
         ) : (
           <Text fw={500}>Study: {data.seg_name}</Text>
         )}
+        <GetGeoms
+          closeFunction={closeFunction}
+          connectionType={connection}
+        ></GetGeoms>
       </Group>
 
       <Text size="sm" c="dimmed">
