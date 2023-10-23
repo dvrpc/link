@@ -11,6 +11,7 @@ mapboxgl.accessToken =
 export default function MainComponent() {
   const [draw, setDraw] = useState(null);
   const [connectionType, setConnectionType] = useState("bike");
+  const [map, setMap] = useState(null);
 
   return (
     <div className="parent">
@@ -19,7 +20,11 @@ export default function MainComponent() {
         setConnectionType={setConnectionType}
       />
       <AnalyzeButton draw={draw} connectionType={connectionType} />
-      <MapboxMap setDraw={setDraw} connectionType={connectionType} />
+      <MapboxMap
+        setDraw={setDraw}
+        setMap={setMap}
+        connectionType={connectionType}
+      />
     </div>
   );
 }

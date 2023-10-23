@@ -5,9 +5,8 @@ import drawInstance from "./MapboxDrawConfig";
 mapboxgl.accessToken =
   "pk.eyJ1IjoiZHZycGNvbWFkIiwiYSI6ImNrczZlNDBkZzFnOG0ydm50bXR0dTJ4cGYifQ.VaJDo9EtH2JyzKm3cC0ypA";
 
-function MapboxMap({ setDraw, connectionType }) {
+function MapboxMap({ setDraw, setMap, connectionType }) {
   const mapContainer = useRef(null);
-  const [map, setMap] = useState(null);
 
   useEffect(() => {
     const mapInstance = new mapboxgl.Map({
