@@ -1,6 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
 import mapboxgl from "mapbox-gl";
-import MapboxDraw from "@mapbox/mapbox-gl-draw";
 import drawInstance from "./MapboxDrawConfig";
 
 mapboxgl.accessToken =

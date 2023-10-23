@@ -1,5 +1,5 @@
 import { Header, Flex, Container } from "@mantine/core";
-import React, { useState } from "react";
+import React from "react";
 import Logo from "../Logo/Logo";
 import StudyShelf from "../StudyShelf/StudyShelf";
 import ConnectionToggle from "../ConnectionToggle/ConnectionToggle";

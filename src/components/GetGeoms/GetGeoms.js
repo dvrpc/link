@@ -1,6 +1,5 @@
-import React, { useState } from "react";
-import { useDisclosure } from "@mantine/hooks";
-import { Drawer, Button, Group } from "@mantine/core";
+import React from "react";
+import { Button } from "@mantine/core";
 import { useAuth0 } from "@auth0/auth0-react";
 
 function GetGeoms({ closeFunction, connectionType }) {
