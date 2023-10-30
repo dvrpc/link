@@ -1,14 +1,15 @@
 import React from "react";
 import { Button } from "@mantine/core";
 import { useAuth0 } from "@auth0/auth0-react";
-import UserLayers from "./UserLayers";
+import AddLayer from "./UserLayers";
 
-function GetGeoms({ closeFunction, connectionType }) {
+function GetGeoms({ closeFunction, connectionType, geojsonData }) {
   const { user } = useAuth0();
 
   const getGeometries = async () => {
     closeFunction(); // close drawer after button clicked
-    UserLayers();
+    console.log(geojsonData);
+    // UserLayers();
     // try {
     //   const username = user.nickname;
     //   if (connectionType === "bike") {
