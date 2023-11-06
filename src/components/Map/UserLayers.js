@@ -44,7 +44,7 @@ const AddLayer = ({ geojsonData }) => {
           type: "fill",
           source: sourceId,
           paint: {
-            "fill-color": "green",
+            "fill-color": "white",
             "fill-opacity": 0.5,
           },
         });
