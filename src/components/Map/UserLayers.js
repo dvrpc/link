@@ -46,7 +46,7 @@ const AddLayer = ({ geojsonData, connectionType }) => {
             type: "fill",
             source: sourceId,
             paint: {
-              "fill-color": "white",
+              "fill-color": "teal",
               "fill-opacity": 0.5,
             },
           },
