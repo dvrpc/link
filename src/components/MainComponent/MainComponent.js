@@ -41,7 +41,9 @@ export default function MainComponent() {
           setMap={setMap}
           connectionType={connectionType}
         />
-        {geojsonData && <AddLayer geojsonData={geojsonData} />}{" "}
+        {geojsonData && (
+          <AddLayer geojsonData={geojsonData} connectionType={connectionType} />
+        )}{" "}
       </div>
     </MapContext.Provider>
   );

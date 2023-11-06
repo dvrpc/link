@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useMap } from "./MapContext";
 import bbox from "@turf/bbox";
 
-const AddLayer = ({ geojsonData }) => {
+const AddLayer = ({ geojsonData, connectionType }) => {
   const map = useMap();
   const sourceId = "user_geoms";
   const layerId = "user_geoms";
@@ -37,17 +37,21 @@ const AddLayer = ({ geojsonData }) => {
           data: filteredGeoJson,
         });
       }
+      const beforeLayerId = connectionType === "bike" ? "lts" : "sw";
 
       if (!map.getLayer(layerId)) {
-        map.addLayer({
-          id: layerId,
-          type: "fill",
-          source: sourceId,
-          paint: {
-            "fill-color": "white",
-            "fill-opacity": 0.5,
+        map.addLayer(
+          {
+            id: layerId,
+            type: "fill",
+            source: sourceId,
+            paint: {
+              "fill-color": "white",
+              "fill-opacity": 0.5,
+            },
           },
-        });
+          beforeLayerId,
+        );
       }
 
       const bounds = bbox(filteredGeoJson);
