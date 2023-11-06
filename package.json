@@ -12,6 +12,8 @@
     "@mantine/prism": "^6.0.19",
     "@mantine/spotlight": "^6.0.19",
     "@mapbox/mapbox-gl-draw": "^1.4.2",
+    "@turf/bbox": "^6.5.0",
+    "@turf/helpers": "^6.5.0",
     "@types/mapbox__mapbox-gl-draw": "^1.4.0",
     "mapbox-gl": "^1.11.1",
     "react": "^18.0.0",

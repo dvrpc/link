@@ -1,18 +1,24 @@
 import React, { useEffect } from "react";
 import { useMap } from "./MapContext";
+import bbox from "@turf/bbox";
 
 const AddLayer = ({ geojsonData }) => {
   const map = useMap();
-  const sourceId = "user_buffers";
-  const layerId = "user_buffers";
+  const sourceId = "user_geoms";
+  const layerId = "user_geoms";
 
   useEffect(() => {
     const addGeoJsonLayer = () => {
-      if (!map.getLayer(layerId)) {
+      if (map.getSource(sourceId)) {
+        map.getSource(sourceId).setData(geojsonData);
+      } else {
         map.addSource(sourceId, {
           type: "geojson",
           data: geojsonData,
         });
+      }
+
+      if (!map.getLayer(layerId)) {
         map.addLayer({
           id: layerId,
           type: "fill",
@@ -23,6 +29,10 @@ const AddLayer = ({ geojsonData }) => {
           },
         });
       }
+
+      const bounds = bbox(geojsonData);
+
+      map.fitBounds(bounds, { padding: 20 });
     };
 
     if (!map || !geojsonData) return;
@@ -43,7 +53,7 @@ const AddLayer = ({ geojsonData }) => {
         }
       }
     };
-  }, [map, geojsonData, layerId, sourceId]);
+  }, [map, geojsonData]);
 
   return null;
 };
