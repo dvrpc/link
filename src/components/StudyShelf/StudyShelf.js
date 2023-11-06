@@ -4,7 +4,7 @@ import { Drawer, Button, Group } from "@mantine/core";
 import StudyCard from "./StudyCard";
 import { useAuth0 } from "@auth0/auth0-react";
 
-function StudyShelf({ connectionType }) {
+function StudyShelf({ connectionType, onStudyClick }) {
   const [opened, { open, close }] = useDisclosure(false);
   const [cards, setCards] = useState([]);
   const { user } = useAuth0();
@@ -64,6 +64,7 @@ function StudyShelf({ connectionType }) {
               connection={connectionType}
               onRenameSuccess={refreshCards}
               closeFunction={close}
+              onStudyClick={onStudyClick}
             />
           ))
         )}

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Card, Image, Text, Button, Group, TextInput } from "@mantine/core";
-import GetGeoms from "../Map/GetGeoms";
+import { getGeometries } from "../Map/GetGeoms";
 
 function StudyCard({
   data,
@@ -8,6 +8,7 @@ function StudyCard({
   connection,
   onRenameSuccess,
   closeFunction,
+  onStudyClick,
 }) {
   const [isEditing, setIsEditing] = useState(false);
   const [name, setName] = useState(data.seg_name);
@@ -15,15 +16,9 @@ function StudyCard({
   const handleRename = async () => {
     setIsEditing(false);
     try {
-      if (connection === "bike") {
-        var schema = "lts";
-      } else if (connection === "pedestrian") {
-        var schema = "sidewalk";
-      }
-
+      const schema = connection === "bike" ? "lts" : "sidewalk";
       const response = await fetch(
         `http://localhost:8000/rename?username=${username}&schema=${schema}`,
-
         {
           method: "POST",
           headers: {
@@ -39,9 +34,7 @@ function StudyCard({
       if (response.status === 200) {
         const data = await response.json();
         console.log("Server response:", data);
-        if (typeof onRenameSuccess === "function") {
-          onRenameSuccess();
-        }
+        onRenameSuccess();
       } else {
         console.log("Error:", response.status, response.statusText);
       }
@@ -49,6 +42,7 @@ function StudyCard({
       console.error("Network error:", error);
     }
   };
+
   return (
     <Card shadow="sm" padding="lg" radius="md" withBorder>
       <Card.Section>
@@ -81,72 +75,71 @@ function StudyCard({
         ) : (
           <Text fw={500}>Study: {data.seg_name}</Text>
         )}
-        <GetGeoms
-          closeFunction={closeFunction}
-          connectionType={connection}
-        ></GetGeoms>
       </Group>
 
-      <Text size="sm" c="dimmed">
+      <Text size="sm" color="dimmed">
         Philadelphia island?{" "}
-        <Text span c="teal">
+        <Text component="span" color="teal">
           {data.has_isochrone.toString()}{" "}
         </Text>
       </Text>
-      <Text size="sm" c="dimmed">
+      <Text size="sm" color="dimmed">
         Miles of low-stress islands:
-        <Text span c="teal">
+        <Text component="span" color="teal">
           {data.miles}{" "}
         </Text>
       </Text>
-      <Text size="sm" c="dimmed">
+      <Text size="sm" color="dimmed">
         Total population:
-        <Text span c="teal">
+        <Text component="span" color="teal">
           {data.total_pop}{" "}
         </Text>
       </Text>
-      <Text size="sm" c="dimmed">
+      <Text size="sm" color="dimmed">
         Hispanic/Latino population:
-        <Text span c="teal">
+        <Text component="span" color="teal">
           {data.hisp_lat}{" "}
         </Text>
       </Text>
-      <Text size="sm" c="dimmed">
+      <Text size="sm" color="dimmed">
         Nearby circuit trails:
-        <Text span c="teal">
+        <Text component="span" color="teal">
           {JSON.stringify(data.circuit)}
         </Text>
       </Text>
-      <Text size="sm" c="dimmed">
+      <Text size="sm" color="dimmed">
         Jobs:
-        <Text span c="teal">
+        <Text component="span" color="teal">
           {JSON.stringify(data.jobs)}
         </Text>
       </Text>
-      <Text size="sm" c="dimmed">
+      <Text size="sm" color="dimmed">
         Bike crashes on segment:
-        <Text span c="teal">
+        <Text component="span" color="teal">
           {JSON.stringify(data.bike_crashes)}
         </Text>
       </Text>
-      <Text size="sm" c="dimmed">
+      <Text size="sm" color="dimmed">
         Ped crashes on segment:
-        <Text span c="teal">
+        <Text component="span" color="teal">
           {JSON.stringify(data.ped_crashes)}
         </Text>
       </Text>
-      <Text size="sm" c="dimmed">
+      <Text size="sm" color="dimmed">
         Essential services:
-        <Text span c="teal">
+        <Text component="span" color="teal">
           {JSON.stringify(data.essential_services)}
         </Text>
       </Text>
-      <Text size="sm" c="dimmed">
+      <Text size="sm" color="dimmed">
         Rail Stations:
-        <Text span c="teal">
+        <Text component="span" color="teal">
           {JSON.stringify(data.rail_stations)}
         </Text>
       </Text>
+      <Group position="right" mt="md">
+        <Button onClick={() => onStudyClick(data.seg_name)}>View Study</Button>
+      </Group>
     </Card>
   );
 }

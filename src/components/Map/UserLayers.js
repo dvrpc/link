@@ -1,34 +1,45 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect } from "react";
 import { useMap } from "./MapContext";
 
 const AddLayer = ({ geojsonData }) => {
   const map = useMap();
 
-  const layerConfig = {
-    id: "user_lines",
-    type: "line",
-    source: {
-      type: "geojson",
-      data: { geojsonData },
-    },
-    paint: {
-      "line-width": 2,
-      "line-opacity": 1,
-      "line-color": "green",
-    },
-  };
-
   useEffect(() => {
-    if (map) {
-      map.addLayer(layerConfig, "road-label-simple");
+    if (!map || !geojsonData) return;
+
+    const sourceId = "user_buffers";
+    const layerId = "user_buffers";
+
+    if (map.getLayer(layerId)) {
+      map.removeLayer(layerId);
     }
+    if (map.getSource(sourceId)) {
+      map.removeSource(sourceId);
+    }
+    map.addSource(sourceId, {
+      type: "geojson",
+      data: geojsonData,
+    });
+
+    map.addLayer({
+      id: layerId,
+      type: "fill",
+      source: sourceId,
+      paint: {
+        "fill-color": "green",
+        "fill-opacity": 0.5,
+      },
+    });
 
     return () => {
-      if (map && map.getLayer(layerConfig.id)) {
-        map.removeLayer(layerConfig.id);
+      if (map.getLayer(layerId)) {
+        map.removeLayer(layerId);
+      }
+      if (map.getSource(sourceId)) {
+        map.removeSource(sourceId);
       }
     };
-  }, [map, layerConfig]);
+  }, [map, geojsonData]);
 
   return null;
 };

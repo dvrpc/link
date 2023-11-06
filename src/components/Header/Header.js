@@ -6,7 +6,11 @@ import ConnectionToggle from "../ConnectionToggle/ConnectionToggle";
 import Logout from "../Authentication/Logout";
 import Greeting from "./Greeting";
 
-export function HeaderSimple({ connectionType, setConnectionType }) {
+export function HeaderSimple({
+  connectionType,
+  setConnectionType,
+  onStudyClick,
+}) {
   return (
     <Container fluid h={80} bg="rgb(47, 79, 79)">
       <Header height={80}>
@@ -24,6 +28,7 @@ export function HeaderSimple({ connectionType, setConnectionType }) {
           <StudyShelf
             connectionType={connectionType}
             setConnectionType={setConnectionType}
+            onStudyClick={onStudyClick}
           />
           <ConnectionToggle
             connectionType={connectionType}
