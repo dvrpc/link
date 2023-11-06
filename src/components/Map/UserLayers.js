@@ -8,13 +8,33 @@ const AddLayer = ({ geojsonData }) => {
   const layerId = "user_geoms";
 
   useEffect(() => {
+    if (!map || !geojsonData) return;
+
+    // Check if 'isochrones' exists
+    const isochronesExists = geojsonData.features.some(
+      (feature) => feature.id === "isochrones" && feature.geometry !== null,
+    );
+
+    // Filter out 'blobs' if 'isochrones' exists, ie remove philly island
+    const filteredGeoJson = {
+      ...geojsonData,
+      features: geojsonData.features.filter((feature) => {
+        if (isochronesExists) {
+          return feature.id !== "blobs";
+        }
+        return feature.id !== "isochrones";
+      }),
+    };
+
+    console.log("Filtered GeoJSON:", filteredGeoJson);
+
     const addGeoJsonLayer = () => {
       if (map.getSource(sourceId)) {
-        map.getSource(sourceId).setData(geojsonData);
+        map.getSource(sourceId).setData(filteredGeoJson);
       } else {
         map.addSource(sourceId, {
           type: "geojson",
-          data: geojsonData,
+          data: filteredGeoJson,
         });
       }
 
@@ -30,12 +50,9 @@ const AddLayer = ({ geojsonData }) => {
         });
       }
 
-      const bounds = bbox(geojsonData);
-
+      const bounds = bbox(filteredGeoJson);
       map.fitBounds(bounds, { padding: 20 });
     };
-
-    if (!map || !geojsonData) return;
 
     if (map.isStyleLoaded()) {
       addGeoJsonLayer();
