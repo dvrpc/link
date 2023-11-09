@@ -5,6 +5,7 @@ import StudyShelf from "../StudyShelf/StudyShelf";
 import ConnectionToggle from "../ConnectionToggle/ConnectionToggle";
 import Logout from "../Authentication/Logout";
 import Greeting from "./Greeting";
+import Explainer from "../Explainer/Explainer";
 
 export function HeaderSimple({
   connectionType,
@@ -34,6 +35,7 @@ export function HeaderSimple({
             connectionType={connectionType}
             setConnectionType={setConnectionType}
           />
+          <Explainer />
           <Flex
             style={{ marginLeft: "auto" }}
             align="center"
