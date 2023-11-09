@@ -110,7 +110,7 @@ function StudyCard({
       <Text size="sm" color="dimmed">
         Jobs:
         <Text component="span" color="teal">
-          {JSON.stringify(data.jobs)}
+          {data.total_jobs}{" "}
         </Text>
       </Text>
       <Text size="sm" color="dimmed">
