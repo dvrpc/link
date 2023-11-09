@@ -52,7 +52,13 @@ function MapboxMap({ setDraw, setMap, connectionType }) {
             paint: {
               "line-width": 2,
               "line-opacity": 1,
-              "line-color": "#00A36C",
+              "line-color": [
+                "match",
+                ["get", "feat_type"],
+                "UNMARKED",
+                "#FF0000", // red
+                "#00A36C", // tealish
+              ],
             },
           },
           "road-label-simple",
