@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useDisclosure } from "@mantine/hooks";
 import { Modal, Button, Text, Image } from "@mantine/core";
+import LtsTable from "../LtsTable/LtsTable"
 import d1 from "../../assets/d1.png";
 import d2 from "../../assets/d2.png";
 import d3 from "../../assets/d3.png";
@@ -20,6 +21,7 @@ function Explainer() {
     <>
       <Modal size="70%" opened={opened} onClose={close}>
         <Text size="lg">What is Level of Traffic Stress (LTS?)</Text>
+        <br />
         <Text size="md">
           This table summarizes LTS in terms of the cyclist type that would be
           comfortable on certain levels and the characteristics of those levels.
@@ -34,6 +36,9 @@ function Explainer() {
           Concerned group is the largest, and therefore, a lot of bicycle
           infrastructure planning is done with them in mind. {""}
         </Text>
+        <LtsTable />
+        <br />
+        <br />
         <Text size="lg">Here is an example.</Text>
         <Text size="md">
           The yellow, or relatively high-stress, segment (LTS 3) is an arterial
@@ -41,6 +46,8 @@ function Explainer() {
           (LTS 1 or 2) are neighborhood streets, and are primarily residential.
         </Text>
         <Image src={d1} />
+        <br />
+        <br />
         <Text size="md">
           Right now, each collection of green streets is an “island” for people
           who are only comfortable biking on low stress (LTS 1 or 2) roads or
@@ -48,6 +55,8 @@ function Explainer() {
           would feel unsafe or stressful.
         </Text>
         <Image src={d2} />
+        <br />
+        <br />
         <Text size="md">
           But if it was possible to convert the yellow LTS 3 segment into an LTS
           1 or 2 segment, by building a safer bicycle facility (whether that be
@@ -56,6 +65,8 @@ function Explainer() {
           converted low-stress segment.
         </Text>
         <Image src={d3} />
+        <br />
+        <br />
         <Text size="md">
           By pulling census tract information, it is possible to create an
           estimate for how many people live in each low stress island. By
@@ -66,12 +77,16 @@ function Explainer() {
           "island", but could now bike to other segments.
         </Text>
         <Image src={d6} />
+        <br />
+        <br />
         <Text size="md">
           We can also estimate the number of jobs, transit stations, essential
           services, or nearby trail that could be connected if this segment was
           improved.
         </Text>
         <Image src={d7} />
+        <br />
+        <br />
       </Modal>
       <Button onClick={open}>What is LTS?</Button>
     </>
