@@ -27,9 +27,17 @@ function MapboxMap({ setDraw, setMap, connectionType }) {
             source: "lts_tile",
             "source-layer": "existing_conditions_lts",
             paint: {
-              "line-width": 2,
-              "line-opacity": 1,
-              "line-color": {
+              "line-width": 1,
+              "line-opacity":
+              {
+                property: "lts_score",
+                stops: [
+                  [1, 1],
+                  [2, 1],
+                  [3, .5],
+                  [4, .5],
+                ],
+              }, "line-color": {
                 property: "lts_score",
                 stops: [
                   [1, "green"],
