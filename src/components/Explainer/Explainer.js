@@ -39,7 +39,7 @@ function Explainer() {
         <LtsTable />
         <br />
         <br />
-        <Text size="lg">Here is an example.</Text>
+        <Text size="lg">Here is an example of how the connect tool uses LTS.</Text>
         <Text size="md">
           The yellow, or relatively high-stress, segment (LTS 3) is an arterial
           road, with two lanes in each direction. The green, low-stress roads
@@ -62,7 +62,7 @@ function Explainer() {
           1 or 2 segment, by building a safer bicycle facility (whether that be
           a protected bike lane, a roadside trail, or some other measure), all
           of the neighborhood streets would now be connected via the newly
-          converted low-stress segment.
+          converted low-stress segment. (This is what you're able to do by drawing segments using this tool.)
         </Text>
         <Image src={d3} />
         <br />
@@ -76,7 +76,7 @@ function Explainer() {
           is to say, we can estimate how many people were previously on an
           "island", but could now bike to other segments.
         </Text>
-        <Image src={d6} />
+        <Image src={d7} />
         <br />
         <br />
         <Text size="md">
@@ -84,9 +84,14 @@ function Explainer() {
           services, or nearby trail that could be connected if this segment was
           improved.
         </Text>
-        <Image src={d7} />
+        <Image src={d8} />
         <br />
         <br />
+        <Text size="lg">How does this work for sidewalks then? </Text>
+        <Text size="md">
+          The tool does the same for sidewalks when you are in pedestrian mode, by treating areas with sidewalks and marked crosswalks as 'low stress', and areas with no sidewalks and unmarked crosswalks as 'high stress.' Islands are created using the low stress areas, and then the same statistics can be calculated.
+  
+        </Text>
       </Modal>
       <Button onClick={open}>What is LTS?</Button>
     </>

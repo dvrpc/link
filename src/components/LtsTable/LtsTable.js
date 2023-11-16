@@ -8,6 +8,7 @@ const LtsTable = () => {
     },
     header: {
       background: '#f2f2f2',
+      color: 'black'
     },
     cell: {
       border: '1px solid #dddddd',
