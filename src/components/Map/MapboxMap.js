@@ -58,7 +58,7 @@ function MapboxMap({ setDraw, setMap, connectionType }) {
             source: "sw_tile",
             "source-layer": "ped_lines",
             paint: {
-              "line-width": 2,
+              "line-width": 1,
               "line-opacity": 1,
               "line-color": [
                 "match",
