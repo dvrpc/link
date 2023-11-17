@@ -1,9 +1,9 @@
 export const themeConfig = {
   colorScheme: "dark",
   primaryColor: "blue",
-  fontFamily: "Roboto",
+  fontFamily: "Sans Serif",
   headings: {
-    fontFamily: "Roboto",
+    fontFamily: "Sans Serif",
   },
   components: {
     Button: {

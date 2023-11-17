@@ -2,7 +2,7 @@ import React from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import { Navigate } from "react-router-dom";
 
-const AuthenticatedLayout = ({ children }) => {
+const AuthenticatedLayout = ({ children, requireAdmin = false }) => {
   const { isAuthenticated, isLoading, user } = useAuth0();
 
   if (isLoading) {
@@ -10,11 +10,16 @@ const AuthenticatedLayout = ({ children }) => {
   }
 
   if (!isAuthenticated) {
-    return <Navigate to="/login" />;
+    return <Navigate to="/login" replace />;
   }
 
-  if (user && !user.email_verified) {
-    return <Navigate to="/verify-email" />;
+  const isAdmin =
+    user &&
+    user["https://connect.cloud.dvrpc.org/roles"] &&
+    user["https://connect.cloud.dvrpc.org/roles"].includes("admin");
+
+  if (requireAdmin && !isAdmin) {
+    return <Navigate to="/login" replace />;
   }
 
   return <>{children}</>;
