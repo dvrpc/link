@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useDisclosure } from "@mantine/hooks";
 import { Drawer, Button, Group } from "@mantine/core";
 import StudyCard from "./StudyCard";
+import CsvButton from "../Csv/Csv";
 import { useAuth0 } from "@auth0/auth0-react";
 
 function StudyShelf({ connectionType, onStudyClick }) {
@@ -50,6 +51,7 @@ function StudyShelf({ connectionType, onStudyClick }) {
         }}
         title="My Studies"
       >
+        <CsvButton schema={connectionType} username={user.nickname} />
         {cards[0] === "No studies have been created yet!" ? (
           <div>
             No studies have been created yet! Draw one or upload a GeoJSON using
