@@ -18,6 +18,7 @@ export default function MainComponent() {
   const [map, setMap] = useState(null);
   const [geojsonData, setGeojsonData] = useState(null);
   const { user } = useAuth0();
+  const [hasDrawings, setHasDrawings] = useState(false);
 
   useEffect(() => {
     setGeojsonData(null);
@@ -36,11 +37,13 @@ export default function MainComponent() {
           onStudyClick={handleStudyClick}
         />
         <AnalyzeButton
+          disabled={!hasDrawings}
           draw={draw}
           connectionType={connectionType}
           onAnalyze={handleStudyClick}
         />
         <MapboxMap
+          setHasDrawings={setHasDrawings}
           setDraw={setDraw}
           setMap={setMap}
           connectionType={connectionType}

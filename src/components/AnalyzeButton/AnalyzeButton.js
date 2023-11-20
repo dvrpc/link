@@ -3,7 +3,7 @@ import { useDisclosure } from "@mantine/hooks";
 import { Modal, Button, Text } from "@mantine/core";
 import { useAuth0 } from "@auth0/auth0-react";
 
-function AnalyzeButton({ draw, connectionType, onAnalyze }) {
+function AnalyzeButton({ draw, connectionType, onAnalyze, disabled }) {
   const [project, setProject] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
@@ -125,6 +125,7 @@ function AnalyzeButton({ draw, connectionType, onAnalyze }) {
           zIndex: 10,
         }}
         onClick={open}
+        disabled={disabled}
       >
         Analyze
       </Button>

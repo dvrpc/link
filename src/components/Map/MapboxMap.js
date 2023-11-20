@@ -1,11 +1,11 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import mapboxgl from "mapbox-gl";
 import drawInstance from "./MapboxDrawConfig";
 
 mapboxgl.accessToken =
   "pk.eyJ1IjoiZHZycGNvbWFkIiwiYSI6ImNrczZlNDBkZzFnOG0ydm50bXR0dTJ4cGYifQ.VaJDo9EtH2JyzKm3cC0ypA";
 
-function MapboxMap({ setDraw, setMap, connectionType }) {
+function MapboxMap({ setHasDrawings, setMap, connectionType }) {
   const mapContainer = useRef(null);
 
   useEffect(() => {
@@ -16,8 +16,19 @@ function MapboxMap({ setDraw, setMap, connectionType }) {
       zoom: 8.5,
     });
 
-    const setupLayers = () => {
-      if (mapInstance.getLayer("lts") || mapInstance.getLayer("sw")) return;
+    mapInstance.on("load", () => {
+      mapInstance.addSource("lts_tile", {
+        type: "vector",
+        url: "https://www.tiles.dvrpc.org/data/lts.json",
+        minzoom: 8,
+        promoteId: "id",
+      });
+
+      mapInstance.addSource("sw_tile", {
+        type: "vector",
+        url: "https://www.tiles.dvrpc.org/data/pedestrian-network.json",
+        minzoom: 8,
+      });
 
       if (connectionType === "bike") {
         mapInstance.addLayer(
@@ -28,16 +39,16 @@ function MapboxMap({ setDraw, setMap, connectionType }) {
             "source-layer": "existing_conditions_lts",
             paint: {
               "line-width": 1,
-              "line-opacity":
-              {
+              "line-opacity": {
                 property: "lts_score",
                 stops: [
                   [1, 1],
                   [2, 1],
-                  [3, .5],
-                  [4, .5],
+                  [3, 0.5],
+                  [4, 0.5],
                 ],
-              }, "line-color": {
+              },
+              "line-color": {
                 property: "lts_score",
                 stops: [
                   [1, "green"],
@@ -64,45 +75,41 @@ function MapboxMap({ setDraw, setMap, connectionType }) {
                 "match",
                 ["get", "feat_type"],
                 "UNMARKED",
-                "#FF0000", // red
-                "#00A36C", // tealish
+                "#FF0000",
+                "#00A36C",
               ],
             },
           },
           "road-label-simple",
         );
       }
-    };
 
-    mapInstance.on("load", () => {
-      mapInstance.addSource("lts_tile", {
-        type: "vector",
-        url: "https://www.tiles.dvrpc.org/data/lts.json",
-        minzoom: 8,
-        promoteId: "id",
-      });
-
-      mapInstance.addSource("sw_tile", {
-        type: "vector",
-        url: "https://www.tiles.dvrpc.org/data/pedestrian-network.json",
-        minzoom: 8,
-      });
-
-      // Use setDraw function to update draw instance in parent component
-      setDraw(drawInstance);
-
-      // Add draw controls to the map
       mapInstance.addControl(drawInstance);
 
-      setupLayers();
+      mapInstance.on("draw.create", updateDrawingState);
+      mapInstance.on("draw.update", updateDrawingState);
+      mapInstance.on("draw.delete", updateDrawingState);
     });
 
     setMap(mapInstance);
 
-    return () => mapInstance.remove();
-  }, [setDraw, connectionType]);
+    function updateDrawingState() {
+      const drawings = drawInstance.getAll();
+      setHasDrawings(drawings.features.length > 0);
+    }
 
-  return <div ref={mapContainer} className="map-container" />;
+    return () => {
+      mapInstance.remove();
+    };
+  }, [setHasDrawings, setMap, connectionType]);
+
+  return (
+    <div
+      ref={mapContainer}
+      className="map-container"
+      style={{ width: "100%", height: "100%" }}
+    />
+  );
 }
 
 export default MapboxMap;
