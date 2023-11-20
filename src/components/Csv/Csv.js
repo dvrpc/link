@@ -30,7 +30,7 @@ function CsvButton({ schema, username }) {
     }
   };
 
-  return <Button onClick={getCsv}>Download CSV</Button>;
+  return <Button onClick={getCsv}>Download CSV of all of your studies</Button>;
 }
 
 export default CsvButton;
