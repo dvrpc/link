@@ -3,7 +3,7 @@ import { useDisclosure } from "@mantine/hooks";
 import { Modal, Button, Text } from "@mantine/core";
 import { useAuth0 } from "@auth0/auth0-react";
 
-function AnalyzeButton({ draw, connectionType }) {
+function AnalyzeButton({ draw, connectionType, onAnalyze }) {
   const [project, setProject] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
@@ -82,6 +82,7 @@ function AnalyzeButton({ draw, connectionType }) {
           index === 0 ? project : `${project}${index + 1}`;
       });
       await sendDataToServer(allFeatures);
+      onAnalyze(project);
     }
     close();
   };

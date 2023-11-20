@@ -35,7 +35,11 @@ export default function MainComponent() {
           setConnectionType={setConnectionType}
           onStudyClick={handleStudyClick}
         />
-        <AnalyzeButton draw={draw} connectionType={connectionType} />
+        <AnalyzeButton
+          draw={draw}
+          connectionType={connectionType}
+          onAnalyze={handleStudyClick}
+        />
         <MapboxMap
           setDraw={setDraw}
           setMap={setMap}
