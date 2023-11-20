@@ -2,7 +2,6 @@ import MapboxDraw from "@mapbox/mapbox-gl-draw";
 
 const drawInstance = new MapboxDraw({
   displayControlsDefault: false,
-  displayControlsDefault: false,
   // Select which mapbox-gl-draw control buttons to add to the map.
   controls: {
     line_string: true,

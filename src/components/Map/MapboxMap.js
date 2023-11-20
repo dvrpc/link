@@ -5,7 +5,7 @@ import drawInstance from "./MapboxDrawConfig";
 mapboxgl.accessToken =
   "pk.eyJ1IjoiZHZycGNvbWFkIiwiYSI6ImNrczZlNDBkZzFnOG0ydm50bXR0dTJ4cGYifQ.VaJDo9EtH2JyzKm3cC0ypA";
 
-function MapboxMap({ setHasDrawings, setMap, connectionType }) {
+function MapboxMap({ setHasDrawings, setDraw, setMap, connectionType }) {
   const mapContainer = useRef(null);
 
   useEffect(() => {
@@ -92,6 +92,7 @@ function MapboxMap({ setHasDrawings, setMap, connectionType }) {
     });
 
     setMap(mapInstance);
+    setDraw(drawInstance);
 
     function updateDrawingState() {
       const drawings = drawInstance.getAll();
@@ -101,7 +102,7 @@ function MapboxMap({ setHasDrawings, setMap, connectionType }) {
     return () => {
       mapInstance.remove();
     };
-  }, [setHasDrawings, setMap, connectionType]);
+  }, [setHasDrawings, setDraw, setMap, connectionType]);
 
   return (
     <div
