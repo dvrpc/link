@@ -17,7 +17,7 @@ function AnalyzeButton({ draw, connectionType, onAnalyze, disabled }) {
   };
 
   const handleOverwrite = async () => {
-    if ((draw = true)) {
+    if (draw) {
       const allFeatures = draw.getAll();
       const featuresWithNames = allFeatures.features.map((feature, index) => {
         const properties = feature.properties || {};
@@ -30,6 +30,7 @@ function AnalyzeButton({ draw, connectionType, onAnalyze, disabled }) {
         { ...allFeatures, features: featuresWithNames },
         true,
       );
+      onAnalyze(project);
     }
   };
 
@@ -75,11 +76,8 @@ function AnalyzeButton({ draw, connectionType, onAnalyze, disabled }) {
   };
 
   const applyProjectName = async () => {
-    console.log("APPLYING");
-    console.log("Draw instance at the time of applying:", draw);
     if (draw) {
       const allFeatures = draw.getAll();
-      console.log(allFeatures);
       allFeatures.features.forEach((feature, index) => {
         feature.properties.name =
           index === 0 ? project : `${project}${index + 1}`;
