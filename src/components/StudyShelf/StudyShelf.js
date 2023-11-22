@@ -29,6 +29,7 @@ function StudyShelf({ connectionType, onStudyClick }) {
         },
       );
       const data = await response.json();
+      console.log(data);
 
       if (data["studies"][0] === "No studies have been created yet!") {
         setCards(["No studies have been created yet!"]);
@@ -51,11 +52,15 @@ function StudyShelf({ connectionType, onStudyClick }) {
         }}
         title="My Studies"
       >
-        <CsvButton schema={connectionType} username={user.nickname} />
-        {cards[0] === "No studies have been created yet!" ? (
+        {cards.length > 0 &&
+          cards[0] !== "No studies have been created yet!" && (
+            <CsvButton schema={connectionType} username={user.nickname} />
+          )}
+        {cards.length === 0 ||
+        cards[0] === "No studies have been created yet!" ? (
           <div>
             No studies have been created yet! Draw one or upload a GeoJSON using
-            the tools on the right side of the map.{" "}
+            the tools on the right side of the map.
           </div>
         ) : (
           cards.map((card, index) => (
