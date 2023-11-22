@@ -100,6 +100,7 @@ function MapboxMap({ setHasDrawings, setDraw, setMap, connectionType }) {
     }
 
     return () => {
+      drawInstance.deleteAll();
       mapInstance.remove();
     };
   }, [setHasDrawings, setDraw, setMap, connectionType]);
