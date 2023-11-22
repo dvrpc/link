@@ -6,7 +6,7 @@ const AddSegment = ({ userSegmentData, draw, updateDrawingState }) => {
 
   useEffect(() => {
     if (!map || !draw || !userSegmentData) return;
-
+    draw.deleteAll();
     userSegmentData.features.forEach((feature) => {
       draw.add(feature);
     });
