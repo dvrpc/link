@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useMap } from "./MapContext";
 
-const AddSegment = ({ userSegmentData, draw }) => {
+const AddSegment = ({ userSegmentData, draw, updateDrawingState }) => {
   const map = useMap();
 
   useEffect(() => {
@@ -10,6 +10,7 @@ const AddSegment = ({ userSegmentData, draw }) => {
     userSegmentData.features.forEach((feature) => {
       draw.add(feature);
     });
+    updateDrawingState();
   }, [map, draw, userSegmentData]);
 
   return null;

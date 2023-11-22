@@ -5,7 +5,13 @@ import drawInstance from "./MapboxDrawConfig";
 mapboxgl.accessToken =
   "pk.eyJ1IjoiZHZycGNvbWFkIiwiYSI6ImNrczZlNDBkZzFnOG0ydm50bXR0dTJ4cGYifQ.VaJDo9EtH2JyzKm3cC0ypA";
 
-function MapboxMap({ setHasDrawings, setDraw, setMap, connectionType }) {
+function MapboxMap({
+  setHasDrawings,
+  setDraw,
+  setMap,
+  connectionType,
+  updateDrawingState,
+}) {
   const mapContainer = useRef(null);
 
   useEffect(() => {
@@ -86,25 +92,24 @@ function MapboxMap({ setHasDrawings, setDraw, setMap, connectionType }) {
 
       mapInstance.addControl(drawInstance);
 
-      mapInstance.on("draw.create", updateDrawingState);
-      mapInstance.on("draw.update", updateDrawingState);
-      mapInstance.on("draw.delete", updateDrawingState);
+      if (drawInstance) {
+        mapInstance.on("draw.create", updateDrawingState);
+        mapInstance.on("draw.update", updateDrawingState);
+        mapInstance.on("draw.delete", updateDrawingState);
+      }
     });
 
     setMap(mapInstance);
     setDraw(drawInstance);
 
-    function updateDrawingState() {
-      const drawings = drawInstance.getAll();
-      setHasDrawings(drawings.features.length > 0);
-    }
-
     return () => {
-      drawInstance.deleteAll();
-      mapInstance.remove();
+      if (drawInstance) {
+        mapInstance.off("draw.create", updateDrawingState);
+        mapInstance.off("draw.update", updateDrawingState);
+        mapInstance.off("draw.delete", updateDrawingState);
+      }
     };
   }, [setHasDrawings, setDraw, setMap, connectionType]);
-
   return (
     <div
       ref={mapContainer}

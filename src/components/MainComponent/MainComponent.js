@@ -32,6 +32,13 @@ export default function MainComponent() {
     getSegments(setUserSegmentData, connectionType, study, user.nickname);
   };
 
+  const updateDrawingState = () => {
+    if (draw) {
+      const drawings = draw.getAll();
+      setHasDrawings(drawings.features.length > 0);
+    }
+  };
+
   return (
     <MapContext.Provider value={map}>
       <div className="parent">
@@ -51,6 +58,7 @@ export default function MainComponent() {
           setDraw={setDraw}
           setMap={setMap}
           connectionType={connectionType}
+          updateDrawingState={updateDrawingState}
         />
         {geojsonData && (
           <AddLayer geojsonData={geojsonData} connectionType={connectionType} />
@@ -60,6 +68,7 @@ export default function MainComponent() {
             userSegmentData={userSegmentData}
             connectionType={connectionType}
             draw={draw}
+            updateDrawingState={updateDrawingState}
           />
         )}{" "}
       </div>
