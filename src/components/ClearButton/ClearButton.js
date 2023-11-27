@@ -1,26 +1,37 @@
-import React, { useState } from "react";
+import React, { useContext } from "react";
 import { Button } from "@mantine/core";
+import { MapContext } from "../Map/MapContext";
 
 function ClearButton({ draw, disabled }) {
-  const clearFeatures = async () => {
-    if (draw) {
-      draw.deleteAll();
-    }
+  const map = useContext(MapContext);
 
-    return (
-      <Button
-        style={{
-          position: "absolute",
-          top: "130px",
-          left: "10px",
-          zIndex: 11,
-        }}
-        onClick={clearFeatures}
-        disabled={disabled}
-      >
-        Clear
-      </Button>
-    );
+  const clearFeatures = () => {
+    if (draw && map) {
+      draw.deleteAll();
+      const layersToRemove = ["user_geoms"];
+      layersToRemove.forEach((layerId) => {
+        if (map.getLayer(layerId)) {
+          map.removeLayer(layerId);
+          map.removeSource(layerId);
+        }
+      });
+    }
   };
+
+  return (
+    <Button
+      style={{
+        position: "absolute",
+        top: "130px",
+        left: "10px",
+        zIndex: 11,
+      }}
+      onClick={clearFeatures}
+      disabled={disabled}
+    >
+      Clear
+    </Button>
+  );
 }
+
 export default ClearButton;

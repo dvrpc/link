@@ -15,13 +15,13 @@ mapboxgl.accessToken =
   "pk.eyJ1IjoiZHZycGNvbWFkIiwiYSI6ImNrczZlNDBkZzFnOG0ydm50bXR0dTJ4cGYifQ.VaJDo9EtH2JyzKm3cC0ypA";
 
 export default function MainComponent() {
-  const [draw, setDraw] = useState(null);
+  const [draw, setDraw] = useState(null); // I can't control this one as much, this is from mapbox
   const [connectionType, setConnectionType] = useState("bike");
   const [map, setMap] = useState(null);
   const [geojsonData, setGeojsonData] = useState(null);
   const [userSegmentData, setUserSegmentData] = useState(null);
   const { user } = useAuth0();
-  const [hasDrawings, setHasDrawings] = useState(false);
+  const [hasDrawings, setHasDrawings] = useState(false); // indicates presence of drawings on map
 
   useEffect(() => {
     setGeojsonData(null);
@@ -54,7 +54,7 @@ export default function MainComponent() {
           connectionType={connectionType}
           onAnalyze={handleStudyClick}
         />
-        <ClearButton draw={draw} disabled={hasDrawings} />
+        <ClearButton draw={draw} disabled={!hasDrawings} />
         <MapboxMap
           setHasDrawings={setHasDrawings}
           setDraw={setDraw}
