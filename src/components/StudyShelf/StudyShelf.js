@@ -13,10 +13,11 @@ function StudyShelf({ connectionType, onStudyClick }) {
   const refreshCards = async () => {
     try {
       const username = user.nickname;
+      let schema;
       if (connectionType === "bike") {
-        var schema = "lts";
+        schema = "lts";
       } else if (connectionType === "pedestrian") {
-        var schema = "sidewalk";
+        schema = "sidewalk";
       }
 
       const response = await fetch(
@@ -31,10 +32,21 @@ function StudyShelf({ connectionType, onStudyClick }) {
       const data = await response.json();
       console.log(data);
 
-      if (data["studies"][0] === "No studies have been created yet!") {
-        setCards(["No studies have been created yet!"]);
+      if (
+        data.studies &&
+        data.studies.length > 0 &&
+        typeof data.studies[0] === "object"
+      ) {
+        if (data.studies[0].hasOwnProperty("seg_name")) {
+          const sortedStudies = data.studies.sort((a, b) =>
+            a.seg_name.localeCompare(b.seg_name),
+          );
+          setCards(sortedStudies);
+        } else {
+          console.error("Error: studies do not have a seg_name property.");
+        }
       } else {
-        setCards(data.studies.reverse());
+        setCards(["No studies have been created yet!"]);
       }
     } catch (error) {
       console.error("Error fetching data:", error);
