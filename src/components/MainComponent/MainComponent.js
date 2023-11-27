@@ -4,6 +4,7 @@ import "@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css";
 import MapboxMap from "../Map/MapboxMap";
 import { HeaderSimple } from "../Header/Header";
 import AnalyzeButton from "../AnalyzeButton/AnalyzeButton";
+import ClearButton from "../ClearButton/ClearButton";
 import AddLayer from "../Map/UserLayers";
 import AddSegment from "../Map/UserSegments";
 import { MapContext } from "../Map/MapContext";
@@ -53,6 +54,7 @@ export default function MainComponent() {
           connectionType={connectionType}
           onAnalyze={handleStudyClick}
         />
+        <ClearButton draw={draw} disabled={hasDrawings} />
         <MapboxMap
           setHasDrawings={setHasDrawings}
           setDraw={setDraw}
