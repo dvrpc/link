@@ -26,11 +26,16 @@ function AnalyzeButton({ draw, connectionType, onAnalyze, disabled }) {
         return { ...feature, properties };
       });
       setErrorModalOpened(false);
-      await sendDataToServer(
-        { ...allFeatures, features: featuresWithNames },
-        true,
-      );
-      onAnalyze(project);
+
+      try {
+        await sendDataToServer(
+          { ...allFeatures, features: featuresWithNames },
+          true,
+        );
+        onAnalyze(project);
+      } catch (error) {
+        console.error("Failed to overwrite data:", error);
+      }
     }
   };
 
@@ -82,10 +87,46 @@ function AnalyzeButton({ draw, connectionType, onAnalyze, disabled }) {
         feature.properties.name =
           index === 0 ? project : `${project}${index + 1}`;
       });
-      await sendDataToServer(allFeatures);
-      onAnalyze(project);
+
+      setIsLoading(true);
+      const bodyData = {
+        connection_type: connectionType,
+        geo_json: allFeatures,
+        username: user.nickname,
+      };
+
+      try {
+        const response = await fetch("http://localhost:8000/analyze", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(bodyData),
+        });
+
+        const responseData = await response.json();
+
+        if (!response.ok) {
+          if (responseData.detail === "Project name already used.") {
+            setError(responseData.detail);
+            setErrorModalOpened(true);
+          } else {
+            throw new Error(
+              responseData.detail ||
+                "An error occurred while applying the project name.",
+            );
+          }
+        } else {
+          onAnalyze(project);
+        }
+      } catch (error) {
+        setError(error.message || "Network error occurred");
+        setErrorModalOpened(true);
+      } finally {
+        setIsLoading(false);
+        close();
+      }
     }
-    close();
   };
 
   return (
