@@ -50,7 +50,6 @@ function AnalyzeButton({ draw, connectionType, onAnalyze, disabled }) {
     const queryString = overwrite ? "?overwrite=true" : "";
 
     try {
-      console.log(geoJsonData);
       const response = await fetch(
         `http://localhost:8000/analyze${queryString}`,
         {
@@ -62,22 +61,21 @@ function AnalyzeButton({ draw, connectionType, onAnalyze, disabled }) {
         },
       );
 
-      if (response.status === 200) {
-        const data = await response.json();
-        console.log("Server response:", data);
-        setProject("");
-        close();
-      } else {
+      if (!response.ok) {
         const errorData = await response.json();
-        setError(errorData.detail || "An error occurred");
-        setErrorModalOpened(true);
+        throw new Error(errorData.detail || "An error occurred");
       }
+
+      const data = await response.json();
+      console.log("Server response:", data);
+      setProject("");
+      close();
     } catch (error) {
-      console.error("Network error:", error);
-      setError("Network error occurred");
+      setError(error.message || "Network error occurred");
       setErrorModalOpened(true);
+    } finally {
+      setIsLoading(false);
     }
-    setIsLoading(false);
   };
 
   const applyProjectName = async () => {
