@@ -1,9 +1,9 @@
 export const themeConfig = {
   colorScheme: "dark",
   primaryColor: "blue",
-  fontFamily: "Sans Serif",
+  fontFamily: "Sans Serif, Arial, Helvetica, sans-serif",
   headings: {
-    fontFamily: "Sans Serif",
+    fontFamily: "Sans Serif, Arial, Helvetica, sans-serif",
   },
   components: {
     Button: {
@@ -15,7 +15,6 @@ export const themeConfig = {
         radius: "md",
       },
     },
-
     Switch: {
       defaultProps: {
         size: "xs",
