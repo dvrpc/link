@@ -1,3 +1,7 @@
+function sanitizeName(name) {
+  return name.replace(/[^a-zA-Z0-9 ]/g, '');
+}
+
 export async function getGeometries(
   setGeojsonData,
   connectionType,
@@ -5,6 +9,7 @@ export async function getGeometries(
   user,
 ) {
   try {
+    const sanitizedStudy = sanitizeName(study);
     let schema;
     if (connectionType === "bike") {
       schema = "lts";
@@ -13,7 +18,7 @@ export async function getGeometries(
     }
 
     const response = await fetch(
-      `http://localhost:8000/get_user_study_geoms?username=${user}&study=${study}&schema=${schema}`,
+      `http://localhost:8000/get_user_study_geoms?username=${user}&study=${sanitizedStudy}&schema=${schema}`,
       {
         method: "GET",
         headers: {
@@ -40,6 +45,7 @@ export async function getSegments(
   user,
 ) {
   try {
+    const sanitizedStudy = sanitizeName(study);
     let schema;
     if (connectionType === "bike") {
       schema = "lts";
@@ -48,7 +54,7 @@ export async function getSegments(
     }
 
     const response = await fetch(
-      `http://localhost:8000/get_user_segment?username=${user}&study=${study}&schema=${schema}`,
+      `http://localhost:8000/get_user_segment?username=${user}&study=${sanitizedStudy}&schema=${schema}`,
       {
         method: "GET",
         headers: {
