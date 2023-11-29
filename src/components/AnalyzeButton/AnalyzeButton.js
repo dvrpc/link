@@ -2,7 +2,7 @@ import React, { useState, useContext } from "react";
 import { useDisclosure } from "@mantine/hooks";
 import { Modal, Button, Text } from "@mantine/core";
 import { useAuth0 } from "@auth0/auth0-react";
-import { MapContext } from "../Map/MapContext";
+import drawInstance from "../Map/MapboxDrawConfig";
 
 function AnalyzeButton({ connectionType, onAnalyze, disabled }) {
   const [project, setProject] = useState("");
@@ -11,7 +11,6 @@ function AnalyzeButton({ connectionType, onAnalyze, disabled }) {
   const { user } = useAuth0();
   const [opened, { open, close }] = useDisclosure(false);
   const [errorModalOpened, setErrorModalOpened] = useState(false);
-  const { draw } = useContext(MapContext);
 
   const handleChooseDifferentName = () => {
     setErrorModalOpened(false);
@@ -19,8 +18,8 @@ function AnalyzeButton({ connectionType, onAnalyze, disabled }) {
   };
 
   const handleOverwrite = async () => {
-    if (draw) {
-      const allFeatures = draw.getAll();
+    if (drawInstance) {
+      const allFeatures = drawInstance.getAll();
       const featuresWithNames = allFeatures.features.map((feature, index) => {
         const properties = feature.properties || {};
         properties.name =
@@ -81,8 +80,8 @@ function AnalyzeButton({ connectionType, onAnalyze, disabled }) {
   };
 
   const applyProjectName = async () => {
-    if (draw) {
-      const allFeatures = draw.getAll();
+    if (drawInstance) {
+      const allFeatures = drawInstance.getAll();
       allFeatures.features.forEach((feature, index) => {
         feature.properties.name =
           index === 0 ? project : `${project}${index + 1}`;

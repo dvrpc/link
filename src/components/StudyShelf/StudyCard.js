@@ -1,13 +1,11 @@
 import React, { useState } from "react";
 import { Card, Image, Text, Button, Group, TextInput } from "@mantine/core";
-import { getGeometries } from "../Map/GetGeoms";
 
 function StudyCard({
   data,
   username,
   connection,
   onRenameSuccess,
-  closeFunction,
   onStudyClick,
 }) {
   const [isEditing, setIsEditing] = useState(false);

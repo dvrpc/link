@@ -6,7 +6,7 @@ import { MapContext } from "./MapContext";
 mapboxgl.accessToken =
   "pk.eyJ1IjoiZHZycGNvbWFkIiwiYSI6ImNrczZlNDBkZzFnOG0ydm50bXR0dTJ4cGYifQ.VaJDo9EtH2JyzKm3cC0ypA";
 
-function MapboxMap({ setHasDrawings, setDraw, setMap, connectionType }) {
+function MapboxMap({ setHasDrawings, setMap, connectionType }) {
   const mapContainer = useRef(null);
   const { updateDrawingState } = useContext(MapContext);
 
@@ -96,8 +96,6 @@ function MapboxMap({ setHasDrawings, setDraw, setMap, connectionType }) {
     });
 
     setMap(mapInstance);
-    console.log(drawInstance);
-    setDraw(drawInstance);
 
     return () => {
       if (drawInstance) {
@@ -106,7 +104,7 @@ function MapboxMap({ setHasDrawings, setDraw, setMap, connectionType }) {
         mapInstance.off("draw.delete", updateDrawingState);
       }
     };
-  }, [setHasDrawings, setDraw, setMap, connectionType]);
+  }, [setHasDrawings, setMap, connectionType]);
   return (
     <div
       ref={mapContainer}

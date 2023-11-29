@@ -1,18 +1,19 @@
 import React, { useEffect, useContext } from "react";
 import { useMap, MapContext } from "./MapContext";
+import drawInstance from "./MapboxDrawConfig";
 
-const AddSegment = ({ userSegmentData }) => {
+const AddSegment = ({ userSegmentData, isCleared }) => {
   const map = useMap();
-  const { draw, updateDrawingState } = useContext(MapContext);
-
+  const { updateDrawingState } = useContext(MapContext);
   useEffect(() => {
-    if (!map || !draw || !userSegmentData) return;
-    draw.deleteAll();
+    if (!map || !drawInstance || !userSegmentData || isCleared) return;
+    console.log("Adding user segment data:", userSegmentData);
+    drawInstance.deleteAll();
     userSegmentData.features.forEach((feature) => {
-      draw.add(feature);
+      drawInstance.add(feature);
     });
     updateDrawingState();
-  }, [map, draw, userSegmentData]);
+  }, [map, drawInstance, userSegmentData, isCleared]);
 
   return null;
 };

@@ -16,36 +16,36 @@ mapboxgl.accessToken =
   "pk.eyJ1IjoiZHZycGNvbWFkIiwiYSI6ImNrczZlNDBkZzFnOG0ydm50bXR0dTJ4cGYifQ.VaJDo9EtH2JyzKm3cC0ypA";
 
 export default function MainComponent() {
-  const [draw, setDraw] = useState(null); // I can't control this one as much, this is from mapbox
   const [connectionType, setConnectionType] = useState("bike");
   const [map, setMap] = useState(null);
   const [geojsonData, setGeojsonData] = useState(null);
   const [userSegmentData, setUserSegmentData] = useState(null);
   const { user } = useAuth0();
   const [hasDrawings, setHasDrawings] = useState(false); // indicates presence of drawings on map
+  const [isCleared, setIsCleared] = useState(false);
 
   useEffect(() => {
     setGeojsonData(null);
     setUserSegmentData(null);
   }, [connectionType]);
 
-  useEffect(() => {
-    console.log("draw state updated", draw);
-  }, [draw]);
-
   const resetDrawingState = () => {
     setHasDrawings(false);
+    setIsCleared(true);
   };
 
   const handleStudyClick = (study) => {
+    setIsCleared(true);
     getGeometries(setGeojsonData, connectionType, study, user.nickname);
     getSegments(setUserSegmentData, connectionType, study, user.nickname);
+    setIsCleared(false);
   };
 
   const updateDrawingState = () => {
     if (drawInstance) {
       console.log("draw");
       const drawings = drawInstance.getAll();
+      console.log("updateDrawingState called, features:", drawings.features);
       setHasDrawings(drawings.features.length > 0);
     } else {
       console.log("no draw");
@@ -53,7 +53,7 @@ export default function MainComponent() {
   };
 
   return (
-    <MapContext.Provider value={{ map, draw, updateDrawingState }}>
+    <MapContext.Provider value={{ map, updateDrawingState }}>
       <div className="parent">
         <HeaderSimple
           connectionType={connectionType}
@@ -72,7 +72,6 @@ export default function MainComponent() {
         />
         <MapboxMap
           setHasDrawings={setHasDrawings}
-          setDraw={setDraw}
           setMap={setMap}
           connectionType={connectionType}
         />
@@ -83,6 +82,7 @@ export default function MainComponent() {
           <AddSegment
             userSegmentData={userSegmentData}
             connectionType={connectionType}
+            isCleared={isCleared}
           />
         )}{" "}
       </div>
