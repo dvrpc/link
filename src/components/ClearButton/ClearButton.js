@@ -2,8 +2,8 @@ import React, { useContext } from "react";
 import { Button } from "@mantine/core";
 import { MapContext } from "../Map/MapContext";
 
-function ClearButton({ draw, disabled }) {
-  const map = useContext(MapContext);
+function ClearButton({ disabled }) {
+  const { map, draw } = useContext(MapContext);
 
   const clearFeatures = () => {
     if (draw && map) {
