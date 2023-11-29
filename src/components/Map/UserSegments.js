@@ -1,8 +1,9 @@
-import React, { useEffect } from "react";
-import { useMap } from "./MapContext";
+import React, { useEffect, useContext } from "react";
+import { useMap, MapContext } from "./MapContext";
 
-const AddSegment = ({ userSegmentData, draw, updateDrawingState }) => {
+const AddSegment = ({ userSegmentData }) => {
   const map = useMap();
+  const { draw, updateDrawingState } = useContext(MapContext);
 
   useEffect(() => {
     if (!map || !draw || !userSegmentData) return;

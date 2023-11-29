@@ -1,18 +1,14 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useContext } from "react";
 import mapboxgl from "mapbox-gl";
 import drawInstance from "./MapboxDrawConfig";
+import { MapContext } from "./MapContext";
 
 mapboxgl.accessToken =
   "pk.eyJ1IjoiZHZycGNvbWFkIiwiYSI6ImNrczZlNDBkZzFnOG0ydm50bXR0dTJ4cGYifQ.VaJDo9EtH2JyzKm3cC0ypA";
 
-function MapboxMap({
-  setHasDrawings,
-  setDraw,
-  setMap,
-  connectionType,
-  updateDrawingState,
-}) {
+function MapboxMap({ setHasDrawings, setDraw, setMap, connectionType }) {
   const mapContainer = useRef(null);
+  const { updateDrawingState } = useContext(MapContext);
 
   useEffect(() => {
     const mapInstance = new mapboxgl.Map({
@@ -100,6 +96,7 @@ function MapboxMap({
     });
 
     setMap(mapInstance);
+    console.log(drawInstance);
     setDraw(drawInstance);
 
     return () => {

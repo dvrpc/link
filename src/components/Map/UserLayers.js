@@ -1,9 +1,9 @@
-import React, { useEffect } from "react";
-import { useMap } from "./MapContext";
+import React, { useEffect, useContext } from "react";
+import { MapContext } from "./MapContext";
 import bbox from "@turf/bbox";
 
 const AddLayer = ({ geojsonData, connectionType }) => {
-  const map = useMap();
+  const { map } = useContext(MapContext);
   const sourceId = "user_geoms";
   const layerId = "user_geoms";
 

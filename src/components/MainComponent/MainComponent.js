@@ -10,6 +10,7 @@ import AddSegment from "../Map/UserSegments";
 import { MapContext } from "../Map/MapContext";
 import { useAuth0 } from "@auth0/auth0-react";
 import { getGeometries, getSegments } from "../Map/GetGeoms";
+import drawInstance from "../Map/MapboxDrawConfig";
 
 mapboxgl.accessToken =
   "pk.eyJ1IjoiZHZycGNvbWFkIiwiYSI6ImNrczZlNDBkZzFnOG0ydm50bXR0dTJ4cGYifQ.VaJDo9EtH2JyzKm3cC0ypA";
@@ -28,20 +29,27 @@ export default function MainComponent() {
     setUserSegmentData(null);
   }, [connectionType]);
 
+  useEffect(() => {
+    console.log("draw state updated", draw);
+  }, [draw]);
+
   const handleStudyClick = (study) => {
     getGeometries(setGeojsonData, connectionType, study, user.nickname);
     getSegments(setUserSegmentData, connectionType, study, user.nickname);
   };
 
   const updateDrawingState = () => {
-    if (draw) {
-      const drawings = draw.getAll();
+    if (drawInstance) {
+      console.log("draw");
+      const drawings = drawInstance.getAll();
       setHasDrawings(drawings.features.length > 0);
+    } else {
+      console.log("no draw");
     }
   };
 
   return (
-    <MapContext.Provider value={map}>
+    <MapContext.Provider value={{ map, draw, updateDrawingState }}>
       <div className="parent">
         <HeaderSimple
           connectionType={connectionType}
@@ -50,7 +58,6 @@ export default function MainComponent() {
         />
         <AnalyzeButton
           disabled={!hasDrawings}
-          draw={draw}
           connectionType={connectionType}
           onAnalyze={handleStudyClick}
         />
@@ -60,7 +67,6 @@ export default function MainComponent() {
           setDraw={setDraw}
           setMap={setMap}
           connectionType={connectionType}
-          updateDrawingState={updateDrawingState}
         />
         {geojsonData && (
           <AddLayer geojsonData={geojsonData} connectionType={connectionType} />
@@ -69,8 +75,6 @@ export default function MainComponent() {
           <AddSegment
             userSegmentData={userSegmentData}
             connectionType={connectionType}
-            draw={draw}
-            updateDrawingState={updateDrawingState}
           />
         )}{" "}
       </div>

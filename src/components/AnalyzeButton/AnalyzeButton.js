@@ -1,15 +1,17 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { useDisclosure } from "@mantine/hooks";
 import { Modal, Button, Text } from "@mantine/core";
 import { useAuth0 } from "@auth0/auth0-react";
+import { MapContext } from "../Map/MapContext";
 
-function AnalyzeButton({ draw, connectionType, onAnalyze, disabled }) {
+function AnalyzeButton({ connectionType, onAnalyze, disabled }) {
   const [project, setProject] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   const { user } = useAuth0();
   const [opened, { open, close }] = useDisclosure(false);
   const [errorModalOpened, setErrorModalOpened] = useState(false);
+  const { draw } = useContext(MapContext);
 
   const handleChooseDifferentName = () => {
     setErrorModalOpened(false);
