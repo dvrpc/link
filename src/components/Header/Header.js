@@ -11,6 +11,7 @@ export function HeaderSimple({
   connectionType,
   setConnectionType,
   onStudyClick,
+  resetDrawingState,
 }) {
   return (
     <Container fluid h={80} bg="rgb(47, 79, 79)">
@@ -34,6 +35,7 @@ export function HeaderSimple({
           <ConnectionToggle
             connectionType={connectionType}
             setConnectionType={setConnectionType}
+            resetDrawingState={resetDrawingState}
           />
           <Explainer />
           <Flex

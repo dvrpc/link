@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { Button } from "@mantine/core";
 import { MapContext } from "../Map/MapContext";
 
-function ClearButton({ disabled }) {
+function ClearButton({ disabled, resetDrawingState }) {
   const { map, draw } = useContext(MapContext);
 
   const clearFeatures = () => {
@@ -15,6 +15,7 @@ function ClearButton({ disabled }) {
           map.removeSource(layerId);
         }
       });
+      resetDrawingState();
     }
   };
 

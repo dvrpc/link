@@ -33,6 +33,10 @@ export default function MainComponent() {
     console.log("draw state updated", draw);
   }, [draw]);
 
+  const resetDrawingState = () => {
+    setHasDrawings(false);
+  };
+
   const handleStudyClick = (study) => {
     getGeometries(setGeojsonData, connectionType, study, user.nickname);
     getSegments(setUserSegmentData, connectionType, study, user.nickname);
@@ -55,13 +59,17 @@ export default function MainComponent() {
           connectionType={connectionType}
           setConnectionType={setConnectionType}
           onStudyClick={handleStudyClick}
+          resetDrawingState={resetDrawingState}
         />
         <AnalyzeButton
           disabled={!hasDrawings}
           connectionType={connectionType}
           onAnalyze={handleStudyClick}
         />
-        <ClearButton draw={draw} disabled={!hasDrawings} />
+        <ClearButton
+          disabled={!hasDrawings}
+          resetDrawingState={resetDrawingState}
+        />
         <MapboxMap
           setHasDrawings={setHasDrawings}
           setDraw={setDraw}

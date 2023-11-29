@@ -1,10 +1,15 @@
 import React from "react";
 import { Button } from "@mantine/core";
 
-function ConnectionToggle({ connectionType, setConnectionType }) {
+function ConnectionToggle({
+  connectionType,
+  setConnectionType,
+  resetDrawingState,
+}) {
   const handleToggle = () => {
     const newType = connectionType === "bike" ? "pedestrian" : "bike";
     setConnectionType(newType);
+    resetDrawingState();
   };
 
   return (
