@@ -34,10 +34,22 @@ export default function MainComponent() {
     setIsCleared(true);
   };
 
-  const handleStudyClick = (study) => {
+  const handleStudyClick = async (study) => {
     setIsCleared(true);
-    getGeometries(setGeojsonData, connectionType, study, user.nickname);
-    getSegments(setUserSegmentData, connectionType, study, user.nickname);
+
+    try {
+      await getGeometries(setGeojsonData, connectionType, study, user.nickname);
+
+      await getSegments(
+        setUserSegmentData,
+        connectionType,
+        study,
+        user.nickname,
+      );
+    } catch (error) {
+      console.error("Error fetching study data:", error);
+    }
+
     setIsCleared(false);
   };
 
