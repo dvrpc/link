@@ -3,6 +3,7 @@ import mapboxgl from "mapbox-gl";
 import drawInstance from "./MapboxDrawConfig";
 import { MapContext } from "./MapContext";
 import { GeoJSONUploadControl } from "./GeojsonButton";
+import { SelectAllButton } from "./SelectAllButton";
 mapboxgl.accessToken =
   "pk.eyJ1IjoiZHZycGNvbWFkIiwiYSI6ImNrczZlNDBkZzFnOG0ydm50bXR0dTJ4cGYifQ.VaJDo9EtH2JyzKm3cC0ypA";
 
@@ -21,6 +22,8 @@ function MapboxMap({ setHasDrawings, setMap, connectionType }) {
     mapInstance.on("load", () => {
       const geoJSONControl = new GeoJSONUploadControl(updateDrawingState);
       mapInstance.addControl(geoJSONControl, "top-right");
+      const selectAll = new SelectAllButton(drawInstance);
+      mapInstance.addControl(selectAll, "top-right");
       mapInstance.addSource("lts_tile", {
         type: "vector",
         url: "https://www.tiles.dvrpc.org/data/lts.json",
