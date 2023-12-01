@@ -1,5 +1,6 @@
 import mapboxgl from "mapbox-gl";
 import drawInstance from "./MapboxDrawConfig";
+import upload from "../../assets/upload.svg";
 
 export class GeoJSONUploadControl {
   constructor(updateDrawingStateCallback) {
@@ -9,9 +10,15 @@ export class GeoJSONUploadControl {
   onAdd(map) {
     this.map = map;
     this.container = document.createElement("div");
-    this.container.className = "mapboxgl-ctrl";
+    this.container.className = "mapboxgl-ctrl mapboxgl-ctrl-group";
     const button = document.createElement("button");
-    button.textContent = "Upload GeoJSON";
+    button.className = "mapbox-gl-draw_ctrl-draw-btn";
+    button.title = "Upload GeoJSON";
+
+    button.textContent = "↑";
+    button.style.color = "black";
+    button.style.fontSize = "22px";
+
     button.onclick = () => this.uploadGeoJSON();
     this.container.appendChild(button);
     return this.container;

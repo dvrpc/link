@@ -20,7 +20,7 @@ function MapboxMap({ setHasDrawings, setMap, connectionType }) {
 
     mapInstance.on("load", () => {
       const geoJSONControl = new GeoJSONUploadControl(updateDrawingState);
-      mapInstance.addControl(geoJSONControl);
+      mapInstance.addControl(geoJSONControl, "top-right");
       mapInstance.addSource("lts_tile", {
         type: "vector",
         url: "https://www.tiles.dvrpc.org/data/lts.json",
