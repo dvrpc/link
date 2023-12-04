@@ -112,15 +112,9 @@ function StudyCard({
         </Text>
       </Text>
       <Text size="sm" color="dimmed">
-        Bike crashes on segment:
+        Bicyclist and Pedestrian crashes in study buffer :
         <Text component="span" color="teal">
-          {JSON.stringify(data.bike_crashes)}
-        </Text>
-      </Text>
-      <Text size="sm" color="dimmed">
-        Ped crashes on segment:
-        <Text component="span" color="teal">
-          {JSON.stringify(data.ped_crashes)}
+          {JSON.stringify(data.bike_ped_crashes)}
         </Text>
       </Text>
       <Text size="sm" color="dimmed">
