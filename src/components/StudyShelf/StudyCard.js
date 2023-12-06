@@ -94,9 +94,57 @@ function StudyCard({
         </Text>
       </Text>
       <Text size="sm" color="dimmed">
-        Hispanic/Latino population:
+        Disabled population:
         <Text component="span" color="teal">
-          {data.hisp_lat}{" "}
+          {data.disabled}{" "}
+        </Text>
+      </Text>
+      <Text size="sm" color="dimmed">
+        Ethnic minorities::
+        <Text component="span" color="teal">
+          {data.ethnic_minority}{" "}
+        </Text>
+      </Text>
+      <Text size="sm" color="dimmed">
+        Female population:
+        <Text component="span" color="teal">
+          {data.female}{" "}
+        </Text>
+      </Text>
+      <Text size="sm" color="dimmed">
+        Foreign born population:
+        <Text component="span" color="teal">
+          {data.foreign_born}{" "}
+        </Text>
+      </Text>
+      <Text size="sm" color="dimmed">
+        Limited English population:
+        <Text component="span" color="teal">
+          {data.lep}{" "}
+        </Text>
+      </Text>
+      <Text size="sm" color="dimmed">
+        Low income population:
+        <Text component="span" color="teal">
+          {data.low_income}{" "}
+        </Text>
+      </Text>
+      <Text size="sm" color="dimmed">
+        Older adults:
+        <Text component="span" color="teal">
+          {data.older_adult}{" "}
+        </Text>
+      </Text>
+      <Text size="sm" color="dimmed">
+        Racial minorities:
+        <Text component="span" color="teal">
+          {data.racial_minority}{" "}
+        </Text>
+      </Text>
+      <Text size="sm" color="dimmed">
+        Youth:
+        <Text component="span" color="teal">
+          {data.youth}{" "}
         </Text>
       </Text>
       <Text size="sm" color="dimmed">
