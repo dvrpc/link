@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Card, Image, Text, Button, Group, TextInput } from "@mantine/core";
+import { Card, Text, Button, Group, Stack, TextInput } from "@mantine/core";
 
 function StudyCard({
   data,
@@ -43,14 +43,6 @@ function StudyCard({
 
   return (
     <Card shadow="sm" padding="lg" radius="md" withBorder>
-      <Card.Section>
-        <Image
-          src="https://images.unsplash.com/photo-1511281480949-345f5eb08353?auto=format&fit=crop&q=80&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&w=1974"
-          height={160}
-          alt="NERV"
-        />
-      </Card.Section>
-
       <Group justify="space-between" mb="md" style={{ alignItems: "flex-end" }}>
         <Button
           variant="light"
@@ -177,9 +169,11 @@ function StudyCard({
           {JSON.stringify(data.rail_stations)}
         </Text>
       </Text>
-      <Group position="right" mt="md">
+      <Stack position="right" mt="md">
+        <Button color="red">Delete Study</Button>
+        <Button>Download GeoJSON</Button>
         <Button onClick={() => onStudyClick(data.seg_name)}>View Study</Button>
-      </Group>
+      </Stack>
     </Card>
   );
 }
