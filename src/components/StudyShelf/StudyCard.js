@@ -1,5 +1,13 @@
 import React, { useState } from "react";
-import { Card, Text, Button, Group, Stack, TextInput } from "@mantine/core";
+import {
+  Card,
+  Text,
+  Button,
+  Group,
+  Stack,
+  TextInput,
+  Modal,
+} from "@mantine/core";
 
 function StudyCard({
   data,
@@ -7,9 +15,11 @@ function StudyCard({
   connection,
   onRenameSuccess,
   onStudyClick,
+  refreshCards,
 }) {
   const [isEditing, setIsEditing] = useState(false);
   const [name, setName] = useState(data.seg_name);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleRename = async () => {
     setIsEditing(false);
@@ -39,6 +49,40 @@ function StudyCard({
     } catch (error) {
       console.error("Network error:", error);
     }
+  };
+
+  const openDeleteModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleDelete = async () => {
+    setIsModalOpen(false);
+    try {
+      const schema = connection === "bike" ? "lts" : "sidewalk";
+      const response = await fetch(
+        `http://localhost:8000/delete?username=${username}&seg_name=${data.seg_name}&schema=${schema}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        },
+      );
+
+      if (response.status === 200) {
+        const data = await response.json();
+        console.log("Server response:", data);
+        refreshCards();
+      } else {
+        console.log("Error:", response.status, response.statusText);
+      }
+    } catch (error) {
+      console.error("Network error:", error);
+    }
+  };
+
+  const handleDeleteCancel = () => {
+    setIsModalOpen(false);
   };
 
   return (
@@ -169,8 +213,24 @@ function StudyCard({
           {JSON.stringify(data.rail_stations)}
         </Text>
       </Text>
+      <Modal
+        opened={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        title="Confirm Deletion"
+      >
+        <Text>Are you sure you want to delete this study?</Text>
+        <Group position="right" mt="md">
+          <Button onClick={handleDelete} color="red">
+            Yes, Delete
+          </Button>
+          <Button onClick={handleDeleteCancel}>Cancel</Button>
+        </Group>
+      </Modal>
+
       <Stack position="right" mt="md">
-        <Button color="red">Delete Study</Button>
+        <Button onClick={openDeleteModal} color="red">
+          Delete Study
+        </Button>
         <Button>Download GeoJSON</Button>
         <Button onClick={() => onStudyClick(data.seg_name)}>View Study</Button>
       </Stack>

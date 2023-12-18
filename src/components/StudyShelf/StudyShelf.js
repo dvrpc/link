@@ -84,6 +84,7 @@ function StudyShelf({ connectionType, onStudyClick }) {
               onRenameSuccess={refreshCards}
               closeFunction={close}
               onStudyClick={onStudyClick}
+              refreshCards={refreshCards}
             />
           ))
         )}
