@@ -76,7 +76,18 @@ export default function Admin() {
               <td>{studies.older_adult}</td>
               <td>{studies.racial_minority}</td>
               <td>{studies.youth}</td>
-              <td>{studies.circuit}</td>
+              <td>
+                {Array.isArray(studies.circuit) && studies.circuit.length > 0
+                  ? studies.circuit
+                      .map(
+                        (circuitItem) =>
+                          `${circuitItem.circuit}: ${circuitItem.miles.toFixed(
+                            2,
+                          )} miles`,
+                      )
+                      .join(", ")
+                  : "No Circuit Data"}
+              </td>
               <td>{studies.total_jobs}</td>
               <td>
                 {studies.bike_ped_crashes
