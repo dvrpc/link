@@ -15,7 +15,7 @@ import drawInstance from "../Map/MapboxDrawConfig";
 mapboxgl.accessToken =
   "pk.eyJ1IjoiZHZycGNvbWFkIiwiYSI6ImNrczZlNDBkZzFnOG0ydm50bXR0dTJ4cGYifQ.VaJDo9EtH2JyzKm3cC0ypA";
 
-export default function MainComponent() {
+export default function MainComponent({ onToggleTheme }) {
   const [connectionType, setConnectionType] = useState("bike");
   const [map, setMap] = useState(null);
   const [geojsonData, setGeojsonData] = useState(null);
@@ -72,6 +72,7 @@ export default function MainComponent() {
           setConnectionType={setConnectionType}
           onStudyClick={handleStudyClick}
           resetDrawingState={resetDrawingState}
+          onToggleTheme={onToggleTheme}
         />
         <AnalyzeButton
           disabled={!hasDrawings}

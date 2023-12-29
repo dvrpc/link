@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { MantineProvider } from "@mantine/core";
 import { themeConfig } from "./mantineTheme";
@@ -9,15 +9,26 @@ import VerifyEmail from "../Authentication/VerifyEmail";
 import Admin from "../Authentication/Admin";
 
 export default function App() {
+  const [themeType, setThemeType] = useState("dark");
+
+  const toggleTheme = () => {
+    setThemeType(themeType === "dark" ? "light" : "dark");
+  };
+
+  const currentThemeConfig = {
+    ...themeConfig,
+    colorScheme: themeType,
+  };
+
   return (
-    <MantineProvider theme={themeConfig} withGlobalStyles>
+    <MantineProvider theme={currentThemeConfig} withGlobalStyles>
       <Router>
         <Routes>
           <Route
             path="/"
             element={
               <AuthenticatedLayout requireAdmin={false}>
-                <MainComponent />
+                <MainComponent onToggleTheme={toggleTheme} />
               </AuthenticatedLayout>
             }
           />
