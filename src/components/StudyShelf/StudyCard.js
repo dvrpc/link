@@ -81,6 +81,40 @@ function StudyCard({
     }
   };
 
+  const downloadGeojson = async (segName) => {
+    const schema = connection === "bike" ? "lts" : "sidewalk";
+    try {
+      const response = await fetch(
+        `http://localhost:8000/download_user_study_geoms/?username=${username}&study=${segName}&schema=${schema}`,
+        { method: "GET" },
+      );
+
+      if (response.ok) {
+        const blob = await response.blob();
+        const contentDisposition = response.headers.get("Content-Disposition");
+        let filename = `${segName}_${schema}_link_tool_geoms.zip`;
+
+        if (contentDisposition) {
+          const filenameMatch = contentDisposition.match(/filename="([^"]+)"/);
+          if (filenameMatch) filename = filenameMatch[1];
+        }
+
+        const url = window.URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = filename;
+        document.body.appendChild(link);
+        link.click();
+        link.parentNode.removeChild(link);
+        window.URL.revokeObjectURL(url);
+      } else {
+        console.error("Failed to fetch the file:", response.statusText);
+      }
+    } catch (error) {
+      console.error("There was an error downloading the file:", error);
+    }
+  };
+
   const handleDeleteCancel = () => {
     setIsModalOpen(false);
   };
@@ -231,7 +265,9 @@ function StudyCard({
         <Button onClick={openDeleteModal} color="red">
           Delete Study
         </Button>
-        <Button>Download GeoJSON</Button>
+        <Button onClick={() => downloadGeojson(data.seg_name)}>
+          Download GeoJSON
+        </Button>
         <Button onClick={() => onStudyClick(data.seg_name)}>View Study</Button>
       </Stack>
     </Card>
