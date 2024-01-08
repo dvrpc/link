@@ -7,6 +7,7 @@ import {
   Stack,
   TextInput,
   Modal,
+  Switch,
 } from "@mantine/core";
 
 function StudyCard({
@@ -20,6 +21,7 @@ function StudyCard({
   const [isEditing, setIsEditing] = useState(false);
   const [name, setName] = useState(data.seg_name);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isShared, setIsShared] = useState(data.shared);
 
   const handleRename = async () => {
     setIsEditing(false);
@@ -73,6 +75,33 @@ function StudyCard({
         const data = await response.json();
         console.log("Server response:", data);
         refreshCards();
+      } else {
+        console.log("Error:", response.status, response.statusText);
+      }
+    } catch (error) {
+      console.error("Network error:", error);
+    }
+  };
+
+  const handleShareSwitch = async () => {
+    try {
+      const schema = connection === "bike" ? "lts" : "sidewalk";
+      const newSharedState = !isShared;
+
+      const response = await fetch(
+        `http://localhost:8000/share?username=${username}&seg_name=${data.seg_name}&schema=${schema}&shared=${newSharedState}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        },
+      );
+
+      if (response.status === 200) {
+        const updatedData = await response.json();
+        console.log("Server response:", updatedData);
+        setIsShared(updatedData.shared);
       } else {
         console.log("Error:", response.status, response.statusText);
       }
@@ -269,6 +298,11 @@ function StudyCard({
           Download GeoJSON
         </Button>
         <Button onClick={() => onStudyClick(data.seg_name)}>View Study</Button>
+        <Switch
+          checked={isShared}
+          onChange={handleShareSwitch}
+          label="Make study public"
+        />
       </Stack>
     </Card>
   );
