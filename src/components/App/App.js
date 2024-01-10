@@ -1,5 +1,10 @@
 import React, { useState } from "react";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  useParams,
+} from "react-router-dom";
 import { MantineProvider } from "@mantine/core";
 import { themeConfig } from "./mantineTheme";
 import MainComponent from "../MainComponent/MainComponent";
@@ -7,6 +12,7 @@ import LoginPage from "../Authentication/LoginPage";
 import AuthenticatedLayout from "../Authentication/AuthenticatedLayout";
 import VerifyEmail from "../Authentication/VerifyEmail";
 import Admin from "../Authentication/Admin";
+import SharedStudy from "../SharedStudy/SharedStudy";
 
 export default function App() {
   const [themeType, setThemeType] = useState("dark");
@@ -18,6 +24,13 @@ export default function App() {
   const currentThemeConfig = {
     ...themeConfig,
     colorScheme: themeType,
+  };
+
+  const StudyPageRoute = () => {
+    const { username, schema, studyId } = useParams();
+    return (
+      <SharedStudy username={username} schema={schema} studyId={studyId} />
+    );
   };
 
   return (
@@ -41,6 +54,10 @@ export default function App() {
                 <Admin />
               </AuthenticatedLayout>
             }
+          />
+          <Route
+            path="/user/:username/:schema/study/:studyId"
+            element={<StudyPageRoute />}
           />
         </Routes>
       </Router>
