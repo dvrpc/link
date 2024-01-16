@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import mapboxgl from "mapbox-gl";
-import { Stack, Box } from "@mantine/core";
+import { Stack, Box, Table } from "@mantine/core";
 mapboxgl.accessToken =
   "pk.eyJ1IjoiZHZycGNvbWFkIiwiYSI6ImNrczZlNDBkZzFnOG0ydm50bXR0dTJ4cGYifQ.VaJDo9EtH2JyzKm3cC0ypA";
 
@@ -123,28 +123,143 @@ const SharedStudy = ({
   if (error) return <div>Error: {error}</div>;
   return (
     <Stack style={{ height: "100vh", bg: "rgb(47, 79, 79)" }}>
-      <Box bg="rgb(47, 79, 79)">
+      <Box
+        ref={mapContainer}
+        sx={{ flexGrow: 2 }}
+        style={{ width: "100%", height: "60%" }}
+      />
+      <Box
+        sx={{ flexGrow: 1 }}
+        style={{
+          background: "rgb(47, 79, 79)",
+          width: "100%",
+          padding: "10px",
+        }}
+      >
         {study && (
-          <div>
+          <div
+            style={{
+              background: "rgb(47, 79, 79)",
+              overflowY: "auto",
+              maxHeight: "400px",
+            }}
+          >
             <h2>Study Name: {study.studies[0].seg_name}</h2>
-            <p>
-              <strong>Username:</strong> {study.studies[0].username}
-            </p>
-            <p>
-              <strong>Has Isochrone:</strong>{" "}
-              {study.studies[0].has_isochrone ? "Yes" : "No"}
-            </p>
-            <p>
-              <strong>Miles:</strong> {study.studies[0].miles}
-            </p>
+            <Table>
+              <tbody>
+                {/* Basic and Demographic Information */}
+                <tr>
+                  <td>
+                    <strong>Username:</strong>
+                  </td>
+                  <td>{study.studies[0].username}</td>
+                  <td>
+                    <strong>Has Isochrone:</strong>
+                  </td>
+                  <td>{study.studies[0].has_isochrone ? "Yes" : "No"}</td>
+                </tr>
+                <tr>
+                  <td>
+                    <strong>Miles:</strong>
+                  </td>
+                  <td>{study.studies[0].miles}</td>
+                  <td>
+                    <strong>Total Population:</strong>
+                  </td>
+                  <td>{study.studies[0].total_pop}</td>
+                </tr>
+                <tr>
+                  <td>
+                    <strong>Disabled Population:</strong>
+                  </td>
+                  <td>{study.studies[0].disabled}</td>
+                  <td>
+                    <strong>Ethnic Minority:</strong>
+                  </td>
+                  <td>{study.studies[0].ethnic_minority}</td>
+                </tr>
+                <tr>
+                  <td>
+                    <strong>Female:</strong>
+                  </td>
+                  <td>{study.studies[0].female}</td>
+                  <td>
+                    <strong>Foreign Born:</strong>
+                  </td>
+                  <td>{study.studies[0].foreign_born}</td>
+                </tr>
+                <tr>
+                  <td>
+                    <strong>LEP:</strong>
+                  </td>
+                  <td>{study.studies[0].lep}</td>
+                  <td>
+                    <strong>Low Income:</strong>
+                  </td>
+                  <td>{study.studies[0].low_income}</td>
+                </tr>
+                <tr>
+                  <td>
+                    <strong>Older Adult:</strong>
+                  </td>
+                  <td>{study.studies[0].older_adult}</td>
+                  <td>
+                    <strong>Racial Minority:</strong>
+                  </td>
+                  <td>{study.studies[0].racial_minority}</td>
+                </tr>
+                <tr>
+                  <td>
+                    <strong>Youth:</strong>
+                  </td>
+                  <td>{study.studies[0].youth}</td>
+                  <td>
+                    <strong>Total Jobs:</strong>
+                  </td>
+                  <td>{study.studies[0].total_jobs}</td>
+                </tr>
+
+                {/* Crashes Information */}
+                {study.studies[0].bike_ped_crashes.map((crash, index) => (
+                  <tr key={`crash-${index}`}>
+                    <td>
+                      <strong>Bike/Pedestrian Crash {index + 1}:</strong>
+                    </td>
+                    <td colSpan={3}>
+                      Bike: {crash["Total Bike Crashes"]}, Pedestrian:{" "}
+                      {crash["Total Pedestrian Crashes"]}
+                    </td>
+                  </tr>
+                ))}
+
+                {/* Essential Services */}
+                {study.studies[0].essential_services.map((service, index) => (
+                  <tr key={`service-${index}`}>
+                    <td>
+                      <strong>Essential Service {index + 1}:</strong>
+                    </td>
+                    <td colSpan={3}>
+                      {service.type}: {service.count}
+                    </td>
+                  </tr>
+                ))}
+
+                {/* Rail Stations */}
+                {study.studies[0].rail_stations.map((station, index) => (
+                  <tr key={`station-${index}`}>
+                    <td>
+                      <strong>Rail Station {index + 1}:</strong>
+                    </td>
+                    <td colSpan={3}>
+                      {station.type}: {station.count}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </Table>
           </div>
         )}
       </Box>
-      <Box
-        ref={mapContainer}
-        sx={{ flexGrow: 1 }}
-        style={{ width: "100%", height: "100%" }}
-      />
     </Stack>
   );
 };
