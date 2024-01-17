@@ -54,6 +54,9 @@ Start the server with:
 ```shell
 npm start
 ```
+or build it with 
+```npm run build``` which creates a directory with a production build of your app. 
+
 
 #### 4. Start the backend server, following the instructions in the [backend repository.](https://github.com/dvrpc/connect-api)
 
