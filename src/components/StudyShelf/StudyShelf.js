@@ -21,7 +21,7 @@ function StudyShelf({ connectionType, onStudyClick }) {
       }
 
       const response = await fetch(
-        `http://localhost:8000/get_user_studies?username=${username}&schema=${schema}`,
+        `${process.env.REACT_APP_API_URL}/get_user_studies?username=${username}&schema=${schema}`,
         {
           method: "GET",
           headers: {

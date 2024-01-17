@@ -28,7 +28,7 @@ function StudyCard({
     try {
       const schema = connection === "bike" ? "lts" : "sidewalk";
       const response = await fetch(
-        `http://localhost:8000/rename?username=${username}&schema=${schema}`,
+        `${process.env.REACT_APP_API_URL}/rename?username=${username}&schema=${schema}`,
         {
           method: "POST",
           headers: {
@@ -62,7 +62,7 @@ function StudyCard({
     try {
       const schema = connection === "bike" ? "lts" : "sidewalk";
       const response = await fetch(
-        `http://localhost:8000/delete?username=${username}&seg_name=${data.seg_name}&schema=${schema}`,
+        `${process.env.REACT_APP_API_URL}/delete?username=${username}&seg_name=${data.seg_name}&schema=${schema}`,
         {
           method: "GET",
           headers: {
@@ -89,7 +89,7 @@ function StudyCard({
       const newSharedState = !isShared;
 
       const response = await fetch(
-        `http://localhost:8000/share?username=${username}&seg_name=${data.seg_name}&schema=${schema}&shared=${newSharedState}`,
+        `${process.env.REACT_APP_API_URL}/share?username=${username}&seg_name=${data.seg_name}&schema=${schema}&shared=${newSharedState}`,
         {
           method: "GET",
           headers: {
@@ -114,7 +114,7 @@ function StudyCard({
     const schema = connection === "bike" ? "lts" : "sidewalk";
     try {
       const response = await fetch(
-        `http://localhost:8000/download_user_study_geoms/?username=${username}&study=${segName}&schema=${schema}`,
+        `${process.env.REACT_APP_API_URL}/download_user_study_geoms/?username=${username}&study=${segName}&schema=${schema}`,
         { method: "GET" },
       );
 

@@ -38,7 +38,18 @@ git clone https://github.com/dvrpc/connect
 npm install
 ```
 
-#### 3. Start the server with:
+#### 3. Setup .env and start the server. 
+Create .env.development and .env.production files in the root directory.
+Both should set the REACT_APP_API_URL variable, to the url of your api. 
+
+For example, env.development might look like:
+
+```
+REACT_APP_API_URL=http://localhost:8000
+```
+
+Start the server with:
+
 ```shell
 npm start
 ```

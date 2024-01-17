@@ -1,5 +1,5 @@
 function sanitizeName(name) {
-  return name.replace(/[^a-zA-Z0-9 ]/g, '');
+  return name.replace(/[^a-zA-Z0-9 ]/g, "");
 }
 
 export async function getGeometries(
@@ -18,7 +18,7 @@ export async function getGeometries(
     }
 
     const response = await fetch(
-      `http://localhost:8000/get_user_study_geoms?username=${user}&study=${sanitizedStudy}&schema=${schema}`,
+      `${process.env.REACT_APP_API_URL}/get_user_study_geoms?username=${user}&study=${sanitizedStudy}&schema=${schema}`,
       {
         method: "GET",
         headers: {
@@ -54,7 +54,7 @@ export async function getSegments(
     }
 
     const response = await fetch(
-      `http://localhost:8000/get_user_segment?username=${user}&study=${sanitizedStudy}&schema=${schema}`,
+      `${process.env.REACT_APP_API_URL}/get_user_segment?username=${user}&study=${sanitizedStudy}&schema=${schema}`,
       {
         method: "GET",
         headers: {

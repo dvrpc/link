@@ -52,7 +52,7 @@ function AnalyzeButton({ connectionType, onAnalyze, disabled }) {
 
     try {
       const response = await fetch(
-        `http://localhost:8000/analyze${queryString}`,
+        `${process.env.REACT_APP_API_URL}/analyze${queryString}`,
         {
           method: "POST",
           headers: {
@@ -95,13 +95,16 @@ function AnalyzeButton({ connectionType, onAnalyze, disabled }) {
       };
 
       try {
-        const response = await fetch("http://localhost:8000/analyze", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
+        const response = await fetch(
+          `${process.env.REACT_APP_API_URL}/analyze`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(bodyData),
           },
-          body: JSON.stringify(bodyData),
-        });
+        );
 
         const responseData = await response.json();
 

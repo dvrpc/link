@@ -20,7 +20,7 @@ const SharedStudy = ({
       const authUsername = user?.nickname || propUsername;
       let resolvedSchema = propSchema;
       const response = await fetch(
-        `http://localhost:8000/get_user_studies/?username=${authUsername}&schema=${resolvedSchema}&study_name=${studyId}`,
+        `${process.env.REACT_APP_API_URL}/get_user_studies/?username=${authUsername}&schema=${resolvedSchema}&study_name=${studyId}`,
       );
       if (!response.ok) throw new Error("Study not found");
       const data = await response.json();
