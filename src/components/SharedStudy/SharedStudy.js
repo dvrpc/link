@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import mapboxgl from "mapbox-gl";
 import { Stack, Box, Table } from "@mantine/core";
+import bbox from "@turf/bbox";
 mapboxgl.accessToken =
   "pk.eyJ1IjoiZHZycGNvbWFkIiwiYSI6ImNrczZlNDBkZzFnOG0ydm50bXR0dTJ4cGYifQ.VaJDo9EtH2JyzKm3cC0ypA";
 
@@ -15,6 +16,12 @@ const SharedStudy = ({
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const mapContainer = useRef(null);
+  const map = useRef(null);
+  const [geojsonData, setGeojsonData] = useState(null);
+  const [mapStyleLoaded, setMapStyleLoaded] = useState(false);
+  const sourceId = "user_geoms";
+  const layerId = "user_geoms";
+
   const fetchStudy = async () => {
     try {
       const authUsername = user?.nickname || propUsername;
@@ -34,29 +41,89 @@ const SharedStudy = ({
     }
   };
 
+  const fetchGeoms = async () => {
+    const authUsername = user?.nickname || propUsername;
+    let resolvedSchema = propSchema;
+    try {
+      const response = await fetch(
+        `${process.env.REACT_APP_API_URL}/get_user_study_geoms?username=${authUsername}&study=${studyId}&schema=${resolvedSchema}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        },
+      );
+
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+
+      const data = await response.json();
+      setGeojsonData(data);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
+  const addGeoJsonLayer = () => {
+    if (!map.current || !geojsonData) return;
+    if (map.current.getSource(sourceId)) {
+      map.current.getSource(sourceId).setData(geojsonData);
+    } else {
+      map.current.addSource(sourceId, {
+        type: "geojson",
+        data: geojsonData,
+      });
+    }
+    if (!map.current.getLayer(layerId)) {
+      map.current.addLayer(
+        {
+          id: layerId,
+          type: "fill",
+          source: sourceId,
+          paint: {
+            "fill-color": "teal",
+            "fill-opacity": 0.5,
+          },
+        },
+        propSchema === "lts" ? "lts" : "sw",
+      );
+    }
+
+    const bounds = bbox(geojsonData);
+    map.current.fitBounds(bounds, { padding: 100 });
+  };
+
   useEffect(() => {
-    if (mapContainer.current) {
-      const map = new mapboxgl.Map({
+    if (mapStyleLoaded && geojsonData) {
+      addGeoJsonLayer();
+    }
+  }, [mapStyleLoaded, geojsonData]);
+
+  useEffect(() => {
+    if (mapContainer.current && !map.current) {
+      map.current = new mapboxgl.Map({
         container: mapContainer.current,
         style: "mapbox://styles/mapbox/dark-v11",
         center: [-75.16, 40.05],
         zoom: 8.5,
       });
-      map.on("load", () => {
-        map.addSource("lts_tile", {
+      map.current.on("load", () => {
+        map.current.addSource("lts_tile", {
           type: "vector",
           url: "https://www.tiles.dvrpc.org/data/lts.json",
           minzoom: 8,
           promoteId: "id",
         });
-        map.addSource("sw_tile", {
+        map.current.addSource("sw_tile", {
           type: "vector",
           url: "https://www.tiles.dvrpc.org/data/pedestrian-network.json",
           minzoom: 8,
         });
         console.log(propSchema);
         if (propSchema === "lts") {
-          map.addLayer(
+          map.current.addLayer(
             {
               id: "lts",
               type: "line",
@@ -87,7 +154,7 @@ const SharedStudy = ({
             "road-label-simple",
           );
         } else if (propSchema === "sidewalk") {
-          map.addLayer(
+          map.current.addLayer(
             {
               id: "sw",
               type: "line",
@@ -108,14 +175,20 @@ const SharedStudy = ({
             "road-label-simple",
           );
         }
+        setMapStyleLoaded(true);
       });
     }
-    setLoading(false);
+    return () => {
+      if (map.current) {
+        map.current.remove();
+      }
+    };
   }, []);
 
   useEffect(() => {
     if (studyId) {
       fetchStudy();
+      fetchGeoms();
     }
   }, [studyId]);
 

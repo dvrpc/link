@@ -303,6 +303,13 @@ function StudyCard({
           onChange={handleShareSwitch}
           label="Make study public"
         />
+        <a
+          href={`${process.env.REACT_APP_URL}/user/${data.username}/${
+            connection === "bike" ? "lts" : "sidewalk"
+          }/study/${data.seg_name}`}
+        >
+          link
+        </a>
       </Stack>
     </Card>
   );

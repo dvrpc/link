@@ -40,12 +40,13 @@ npm install
 
 #### 3. Setup .env and start the server. 
 Create .env.development and .env.production files in the root directory.
-Both should set the REACT_APP_API_URL variable, to the url of your api. 
+Both should set the REACT_APP_API_URL and REACT_APP_URL variables.
 
 For example, env.development might look like:
 
 ```
 REACT_APP_API_URL=http://localhost:8000
+REACT_APP_URL=http://localhost:3000
 ```
 
 Start the server with:
