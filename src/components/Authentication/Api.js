@@ -18,3 +18,5 @@ export const makeAuthenticatedRequest = async (url, options = {}) => {
     console.error("Error making authenticated request:", error);
   }
 };
+
+export default makeAuthenticatedRequest;
