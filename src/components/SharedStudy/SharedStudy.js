@@ -3,9 +3,9 @@ import { useAuth0 } from "@auth0/auth0-react";
 import mapboxgl from "mapbox-gl";
 import { Stack, Box, Table } from "@mantine/core";
 import bbox from "@turf/bbox";
+import makeAuthenticatedRequest from "../Authentication/Api";
 mapboxgl.accessToken =
   "pk.eyJ1IjoiZHZycGNvbWFkIiwiYSI6ImNrczZlNDBkZzFnOG0ydm50bXR0dTJ4cGYifQ.VaJDo9EtH2JyzKm3cC0ypA";
-import makeAuthenticatedRequest from "../Authentication/Api";
 
 const SharedStudy = ({
   username: propUsername,
