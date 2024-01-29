@@ -5,6 +5,7 @@ import { Stack, Box, Table } from "@mantine/core";
 import bbox from "@turf/bbox";
 mapboxgl.accessToken =
   "pk.eyJ1IjoiZHZycGNvbWFkIiwiYSI6ImNrczZlNDBkZzFnOG0ydm50bXR0dTJ4cGYifQ.VaJDo9EtH2JyzKm3cC0ypA";
+import makeAuthenticatedRequest from "../Authentication/Api";
 
 const SharedStudy = ({
   username: propUsername,
@@ -26,7 +27,7 @@ const SharedStudy = ({
     try {
       const authUsername = user?.nickname || propUsername;
       let resolvedSchema = propSchema;
-      const response = await fetch(
+      const response = await makeAuthenticatedRequest(
         `${process.env.REACT_APP_API_URL}/get_user_studies/?username=${authUsername}&schema=${resolvedSchema}&study_name=${studyId}`,
       );
       if (!response.ok) throw new Error("Study not found");
@@ -45,7 +46,7 @@ const SharedStudy = ({
     const authUsername = user?.nickname || propUsername;
     let resolvedSchema = propSchema;
     try {
-      const response = await fetch(
+      const response = await makeAuthenticatedRequest(
         `${process.env.REACT_APP_API_URL}/get_user_study_geoms?username=${authUsername}&study=${studyId}&schema=${resolvedSchema}`,
         {
           method: "GET",

@@ -9,6 +9,7 @@ import {
   Modal,
   Switch,
 } from "@mantine/core";
+import makeAuthenticatedRequest from "../Authentication/Api";
 
 function StudyCard({
   data,
@@ -27,7 +28,7 @@ function StudyCard({
     setIsEditing(false);
     try {
       const schema = connection === "bike" ? "lts" : "sidewalk";
-      const response = await fetch(
+      const response = await makeAuthenticatedRequest(
         `${process.env.REACT_APP_API_URL}/rename?username=${username}&schema=${schema}`,
         {
           method: "POST",
@@ -61,7 +62,7 @@ function StudyCard({
     setIsModalOpen(false);
     try {
       const schema = connection === "bike" ? "lts" : "sidewalk";
-      const response = await fetch(
+      const response = await makeAuthenticatedRequest(
         `${process.env.REACT_APP_API_URL}/delete?username=${username}&seg_name=${data.seg_name}&schema=${schema}`,
         {
           method: "GET",
@@ -88,7 +89,7 @@ function StudyCard({
       const schema = connection === "bike" ? "lts" : "sidewalk";
       const newSharedState = !isShared;
 
-      const response = await fetch(
+      const response = await makeAuthenticatedRequest(
         `${process.env.REACT_APP_API_URL}/share?username=${username}&seg_name=${data.seg_name}&schema=${schema}&shared=${newSharedState}`,
         {
           method: "GET",
@@ -113,7 +114,7 @@ function StudyCard({
   const downloadGeojson = async (segName) => {
     const schema = connection === "bike" ? "lts" : "sidewalk";
     try {
-      const response = await fetch(
+      const response = await makeAuthenticatedRequest(
         `${process.env.REACT_APP_API_URL}/download_user_study_geoms/?username=${username}&study=${segName}&schema=${schema}`,
         { method: "GET" },
       );

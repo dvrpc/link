@@ -4,6 +4,7 @@ import { Drawer, Button, Group } from "@mantine/core";
 import StudyCard from "./StudyCard";
 import CsvButton from "../Csv/Csv";
 import { useAuth0 } from "@auth0/auth0-react";
+import makeAuthenticatedRequest from "../Authentication/Api";
 
 function StudyShelf({ connectionType, onStudyClick }) {
   const [opened, { open, close }] = useDisclosure(false);
@@ -20,7 +21,7 @@ function StudyShelf({ connectionType, onStudyClick }) {
         schema = "sidewalk";
       }
 
-      const response = await fetch(
+      const response = await makeAuthenticatedRequest(
         `${process.env.REACT_APP_API_URL}/get_user_studies?username=${username}&schema=${schema}`,
         {
           method: "GET",

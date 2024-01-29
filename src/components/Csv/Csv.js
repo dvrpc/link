@@ -1,11 +1,12 @@
 import React from "react";
 import { Button } from "@mantine/core";
+import makeAuthenticatedRequest from "../Authentication/Api";
 
 function CsvButton({ schema, username }) {
   const getCsv = async () => {
     const endpointSchema = schema === "bike" ? "lts" : "sidewalk";
     try {
-      const response = await fetch(
+      const response = await makeAuthenticatedRequest(
         `${process.env.REACT_APP_API_URL}/get-csv/?schema=${endpointSchema}&username=${username}`,
         {
           method: "GET",

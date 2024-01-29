@@ -1,3 +1,5 @@
+import makeAuthenticatedRequest from "../Authentication/Api";
+
 function sanitizeName(name) {
   return name.replace(/[^a-zA-Z0-9 ]/g, "");
 }
@@ -17,7 +19,7 @@ export async function getGeometries(
       schema = "sidewalk";
     }
 
-    const response = await fetch(
+    const response = await makeAuthenticatedRequest(
       `${process.env.REACT_APP_API_URL}/get_user_study_geoms?username=${user}&study=${sanitizedStudy}&schema=${schema}`,
       {
         method: "GET",
@@ -53,7 +55,7 @@ export async function getSegments(
       schema = "sidewalk";
     }
 
-    const response = await fetch(
+    const response = await makeAuthenticatedRequest(
       `${process.env.REACT_APP_API_URL}/get_user_segment?username=${user}&study=${sanitizedStudy}&schema=${schema}`,
       {
         method: "GET",

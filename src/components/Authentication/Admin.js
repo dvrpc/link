@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Center, Text, Table, Button } from "@mantine/core";
+import makeAuthenticatedRequest from "../Authentication/Api";
 
 export default function Admin() {
   const [studies, setStudies] = useState([]);
@@ -10,7 +11,7 @@ export default function Admin() {
   useEffect(() => {
     const fetchStudies = async () => {
       try {
-        const response = await fetch(
+        const response = await makeAuthenticatedRequest(
           `${process.env.REACT_APP_API_URL}/get_user_studies/?schema=${currentSchema}`,
         );
         if (!response.ok) {

@@ -3,6 +3,7 @@ import { useDisclosure } from "@mantine/hooks";
 import { Modal, Button, Text } from "@mantine/core";
 import { useAuth0 } from "@auth0/auth0-react";
 import drawInstance from "../Map/MapboxDrawConfig";
+import makeAuthenticatedRequest from "../Authentication/Api";
 
 function AnalyzeButton({ connectionType, onAnalyze, disabled }) {
   const [project, setProject] = useState("");
@@ -51,7 +52,7 @@ function AnalyzeButton({ connectionType, onAnalyze, disabled }) {
     const queryString = overwrite ? "?overwrite=true" : "";
 
     try {
-      const response = await fetch(
+      const response = await makeAuthenticatedRequest(
         `${process.env.REACT_APP_API_URL}/analyze${queryString}`,
         {
           method: "POST",
@@ -95,7 +96,7 @@ function AnalyzeButton({ connectionType, onAnalyze, disabled }) {
       };
 
       try {
-        const response = await fetch(
+        const response = await makeAuthenticatedRequest(
           `${process.env.REACT_APP_API_URL}/analyze`,
           {
             method: "POST",
