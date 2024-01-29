@@ -1,9 +1,9 @@
-# Connect
-Connect is is a React app that helps you evaluate potential bicycle or pedestrian improvements in the greater Philadelphia region.
+# Link
+Link is is a React app that helps you evaluate potential bicycle or pedestrian improvements in the greater Philadelphia region.
 
 This repository contains the front-end components.
 
-The [backend](https://github.com/dvrpc/connect-api) is built with:
+The [backend](https://github.com/dvrpc/link-api) is built with:
 * FastAPI  
 * Postgres (+ postgis & pgrouting)
 * DVRPC's [LTS/sidewalk connectivity tool.](https://github.com/dvrpc/LTS_island_connectivity) 
@@ -30,7 +30,7 @@ For Linux users: add this line to the end of your .bashrc and restart your shell
 
 #### 1. Clone the repo
 ```shell
-git clone https://github.com/dvrpc/connect
+git clone https://github.com/dvrpc/link
 ```
 
 #### 2. Run the following command to install node dependencies.
@@ -58,10 +58,10 @@ or build it with
 ```npm run build``` which creates a directory with a production build of your app. 
 
 
-#### 4. Start the backend server, following the instructions in the [backend repository.](https://github.com/dvrpc/connect-api)
+#### 4. Start the backend server, following the instructions in the [backend repository.](https://github.com/dvrpc/link-api)
 
 ## Usage
-Interact with the Connect app by drawing segments and then clicking 'analyze'. Future functionality will include geoJSON upload and editing a copy of previous projects.
+Interact with the Link app by drawing segments and then clicking 'analyze'. Future functionality will include geoJSON upload and editing a copy of previous projects.
 More to be added here as the app is developed.
 
 ## Contributing
