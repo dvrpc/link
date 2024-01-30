@@ -13,7 +13,7 @@ export const makeAuthenticatedRequest = async (url, options = {}) => {
     if (!response.ok) {
       throw new Error(`HTTP error! Status: ${response.status}`);
     }
-    return await response.json();
+    return response;
   } catch (error) {
     console.error("Error making authenticated request:", error);
   }
