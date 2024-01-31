@@ -305,7 +305,7 @@ function StudyCard({
           label="Make study public"
         />
         <a
-          href={`${process.env.REACT_APP_URL}/user/${data.username}/${
+          href={`/user/${data.username}/${
             connection === "bike" ? "lts" : "sidewalk"
           }/study/${data.seg_name}`}
         >
