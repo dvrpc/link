@@ -1,6 +1,6 @@
 import mapboxgl from "mapbox-gl";
 import drawInstance from "./MapboxDrawConfig";
-import upload from "../../assets/upload.svg";
+//import upload from "../../assets/upload.svg";
 
 export class GeoJSONUploadControl {
   constructor(updateDrawingStateCallback) {
