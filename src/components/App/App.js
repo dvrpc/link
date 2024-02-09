@@ -35,7 +35,7 @@ export default function App() {
 
   return (
     <MantineProvider theme={currentThemeConfig} withGlobalStyles>
-      <Router>
+      <Router basename={process.env.PUBLIC_URL}>
         <Routes>
           <Route
             path="/"
