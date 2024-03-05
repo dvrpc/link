@@ -9,7 +9,7 @@ const Logout = ({ style }) => {
     <Button
       style={style}
       onClick={() =>
-        logout({ logoutParams: { returnTo: window.location.origin } })
+        logout({ logoutParams: { returnTo: window.location.origin + process.env.PUBLIC_URL } })
       }
     >
       Log Out
