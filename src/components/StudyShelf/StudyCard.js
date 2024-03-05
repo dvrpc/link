@@ -305,9 +305,8 @@ function StudyCard({
           label="Make study public"
         />
         <a
-          href={`/user/${data.username}/${
-            connection === "bike" ? "lts" : "sidewalk"
-          }/study/${data.seg_name}`}
+          href={`/webmaps/link/user/${data.username}/${connection === "bike" ? "lts" : "sidewalk"
+            }/study/${data.seg_name}`}
         >
           link
         </a>
