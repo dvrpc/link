@@ -15,9 +15,9 @@ export default function LoginPage() {
       bg="rgb(47, 79, 79)"
     >
       <div>
-        <Text size="xl">Welcome to DVRPC Connect.</Text>
+        <Text size="xl">Welcome to DVRPC Link.</Text>
         <Text>
-          Connect is a tool that helps you understand the potential impact of
+          Link is a tool that helps you understand the potential impact of
           building bicycle or pedestrian facilities.{" "}
         </Text>
         <LoginButton />
