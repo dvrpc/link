@@ -115,7 +115,7 @@ function StudyCard({
     const schema = connection === "bike" ? "lts" : "sidewalk";
     try {
       const response = await makeAuthenticatedRequest(
-        `${process.env.REACT_APP_API_URL}/download_user_study_geoms/?username=${username}&study=${segName}&schema=${schema}`,
+        `${process.env.REACT_APP_API_URL}/download_user_study_geoms?username=${username}&study=${segName}&schema=${schema}`,
         { method: "GET" },
       );
 

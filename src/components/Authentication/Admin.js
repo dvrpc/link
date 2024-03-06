@@ -12,7 +12,7 @@ export default function Admin() {
     const fetchStudies = async () => {
       try {
         const response = await makeAuthenticatedRequest(
-          `${process.env.REACT_APP_API_URL}/get_user_studies/?schema=${currentSchema}`,
+          `${process.env.REACT_APP_API_URL}/get_user_studies?schema=${currentSchema}`,
         );
         if (!response.ok) {
           throw new Error("Network response was not ok");

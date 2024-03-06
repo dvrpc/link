@@ -7,7 +7,7 @@ function CsvButton({ schema, username }) {
     const endpointSchema = schema === "bike" ? "lts" : "sidewalk";
     try {
       const response = await makeAuthenticatedRequest(
-        `${process.env.REACT_APP_API_URL}/get-csv/?schema=${endpointSchema}&username=${username}`,
+        `${process.env.REACT_APP_API_URL}/get-csv?schema=${endpointSchema}&username=${username}`,
         {
           method: "GET",
         },
