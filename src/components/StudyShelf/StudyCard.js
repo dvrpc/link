@@ -176,12 +176,6 @@ function StudyCard({
       </Group>
 
       <Text size="sm" color="dimmed">
-        Philadelphia island?{" "}
-        <Text component="span" color="teal">
-          {data.has_isochrone.toString()}{" "}
-        </Text>
-      </Text>
-      <Text size="sm" color="dimmed">
         Miles of low-stress islands:
         <Text component="span" color="teal">
           {data.miles}{" "}
@@ -275,6 +269,12 @@ function StudyCard({
         Rail Stations:
         <Text component="span" color="teal">
           {JSON.stringify(data.rail_stations)}
+        </Text>
+      </Text>
+      <Text size="sm" color="dimmed">
+        Greater than 300 miles of connected low-stress segments?{" "}
+        <Text component="span" color="teal">
+          {data.has_isochrone.toString()}{" "}
         </Text>
       </Text>
       <Modal
