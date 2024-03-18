@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useDisclosure } from "@mantine/hooks";
-import { Drawer, Button, Group } from "@mantine/core";
+import { Drawer, Button, Group, Affix, Space } from "@mantine/core";
 import StudyCard from "./StudyCard";
 import CsvButton from "../Csv/Csv";
 import { useAuth0 } from "@auth0/auth0-react";
@@ -64,13 +64,19 @@ function StudyShelf({ connectionType, onStudyClick }) {
           transition: "slide-right",
         }}
         title="My Studies"
+        padding="20px 10px 60px 10px"
+
       >
         {cards.length > 0 &&
           cards[0] !== "No studies have been created yet!" && (
-            <CsvButton schema={connectionType} username={user.nickname} />
+            <>
+              <Affix position={{ top: 50, left: 20 }}>
+                <CsvButton schema={connectionType} username={user.nickname} />
+              </Affix>
+            </>
           )}
         {cards.length === 0 ||
-        cards[0] === "No studies have been created yet!" ? (
+          cards[0] === "No studies have been created yet!" ? (
           <div>
             No studies have been created yet! Draw one or upload a GeoJSON using
             the tools on the right side of the map.
