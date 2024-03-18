@@ -13,7 +13,7 @@ export class GeoJSONUploadControl {
     this.container.className = "mapboxgl-ctrl mapboxgl-ctrl-group";
     const button = document.createElement("button");
     button.className = "mapbox-gl-draw_ctrl-draw-btn";
-    button.title = "Upload GeoJSON";
+    button.title = "Upload existing line(s) (must be GeoJSON format)";
 
     button.textContent = "↑";
     button.style.color = "black";
