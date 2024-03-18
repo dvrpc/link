@@ -306,7 +306,7 @@ function StudyCard({
           onChange={handleShareSwitch}
           label={
             isShared ? (
-              <Anchor href={`/webmaps/link/user/${data.username}/${connection === "bike" ? "lts" : "sidewalk"}/study/${data.seg_name}`}>
+              <Anchor href={`/webmaps/link/user/${data.username}/${connection === "bike" ? "lts" : "sidewalk"}/study/${data.seg_name}`} target="_blank" rel="noopener noreferrer" >
                 Sharable Link
               </Anchor>
             ) : (
