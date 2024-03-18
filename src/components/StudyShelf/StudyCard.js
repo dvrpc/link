@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import {
+  Anchor,
   Card,
   Text,
   Button,
@@ -102,7 +103,7 @@ function StudyCard({
       if (response.status === 200) {
         const updatedData = await response.json();
         console.log("Server response:", updatedData);
-        setIsShared(updatedData.shared);
+        setIsShared(newSharedState);
       } else {
         console.log("Error:", response.status, response.statusText);
       }
@@ -148,6 +149,7 @@ function StudyCard({
   const handleDeleteCancel = () => {
     setIsModalOpen(false);
   };
+
 
   return (
     <Card shadow="sm" padding="lg" radius="md" withBorder>
@@ -302,14 +304,16 @@ function StudyCard({
         <Switch
           checked={isShared}
           onChange={handleShareSwitch}
-          label="Make study public"
+          label={
+            isShared ? (
+              <Anchor href={`/webmaps/link/user/${data.username}/${connection === "bike" ? "lts" : "sidewalk"}/study/${data.seg_name}`}>
+                Sharable Link
+              </Anchor>
+            ) : (
+              'Make study public'
+            )
+          }
         />
-        <a
-          href={`/webmaps/link/user/${data.username}/${connection === "bike" ? "lts" : "sidewalk"
-            }/study/${data.seg_name}`}
-        >
-          link
-        </a>
       </Stack>
     </Card>
   );
