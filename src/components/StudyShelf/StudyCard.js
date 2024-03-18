@@ -178,103 +178,103 @@ function StudyCard({
       </Group>
 
       <Text size="sm" color="dimmed">
-        Miles of low-stress islands:
+        Miles of low-stress islands:{" "}
         <Text component="span" color="teal">
           {data.miles}{" "}
         </Text>
       </Text>
       <Text size="sm" color="dimmed">
-        Total population:
+        Total population:{" "}
         <Text component="span" color="teal">
           {data.total_pop}{" "}
         </Text>
       </Text>
       <Text size="sm" color="dimmed">
-        Disabled population:
+        - Disabled population:{" "}
         <Text component="span" color="teal">
           {data.disabled}{" "}
         </Text>
       </Text>
       <Text size="sm" color="dimmed">
-        Ethnic minorities::
+        - Ethnic minorities:{" "}
         <Text component="span" color="teal">
           {data.ethnic_minority}{" "}
         </Text>
       </Text>
       <Text size="sm" color="dimmed">
-        Female population:
+        - Female population:{" "}
         <Text component="span" color="teal">
           {data.female}{" "}
         </Text>
       </Text>
       <Text size="sm" color="dimmed">
-        Foreign born population:
+        - Foreign born population:{" "}
         <Text component="span" color="teal">
           {data.foreign_born}{" "}
         </Text>
       </Text>
       <Text size="sm" color="dimmed">
-        Limited English population:
+        - Limited English population:{" "}
         <Text component="span" color="teal">
           {data.lep}{" "}
         </Text>
       </Text>
       <Text size="sm" color="dimmed">
-        Low income population:
+        - Low income population:{" "}
         <Text component="span" color="teal">
           {data.low_income}{" "}
         </Text>
       </Text>
       <Text size="sm" color="dimmed">
-        Older adults:
+        - Older adults:{" "}
         <Text component="span" color="teal">
           {data.older_adult}{" "}
         </Text>
       </Text>
       <Text size="sm" color="dimmed">
-        Racial minorities:
+        - Racial minorities:{" "}
         <Text component="span" color="teal">
           {data.racial_minority}{" "}
         </Text>
       </Text>
       <Text size="sm" color="dimmed">
-        Youth:
+        - Youth:{" "}
         <Text component="span" color="teal">
           {data.youth}{" "}
         </Text>
       </Text>
       <Text size="sm" color="dimmed">
-        Nearby circuit trails:
+        Nearby circuit trails:{" "}
         <Text component="span" color="teal">
           {JSON.stringify(data.circuit)}
         </Text>
       </Text>
       <Text size="sm" color="dimmed">
-        Jobs:
+        Jobs:{" "}
         <Text component="span" color="teal">
           {data.total_jobs}{" "}
         </Text>
       </Text>
       <Text size="sm" color="dimmed">
-        Bicyclist and Pedestrian crashes in study buffer :
+        Bicyclist and Pedestrian crashes in study buffer:
         <Text component="span" color="teal">
           {JSON.stringify(data.bike_ped_crashes)}
         </Text>
       </Text>
       <Text size="sm" color="dimmed">
-        Essential services:
+        Essential services:{" "}
         <Text component="span" color="teal">
           {JSON.stringify(data.essential_services)}
         </Text>
       </Text>
       <Text size="sm" color="dimmed">
-        Rail Stations:
+        Rail Stations:{" "}
         <Text component="span" color="teal">
           {JSON.stringify(data.rail_stations)}
         </Text>
       </Text>
       <Text size="sm" color="dimmed">
-        Greater than 300 miles of connected low-stress segments?{" "}
+        Greater than 300 miles of connected low-stress segments? {" "}
         <Text component="span" color="teal">
           {data.has_isochrone.toString()}{" "}
         </Text>
