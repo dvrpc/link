@@ -7,19 +7,20 @@ import { SelectAllButton } from "./SelectAllButton";
 mapboxgl.accessToken =
   "pk.eyJ1IjoiZHZycGNvbWFkIiwiYSI6ImNrczZlNDBkZzFnOG0ydm50bXR0dTJ4cGYifQ.VaJDo9EtH2JyzKm3cC0ypA";
 
-function MapboxMap({ setHasDrawings, setMap, connectionType }) {
+function MapboxMap({ setHasDrawings, setMap, connectionType, themeType, isLoading, setIsLoading }) {
   const mapContainer = useRef(null);
   const { updateDrawingState } = useContext(MapContext);
 
   useEffect(() => {
     const mapInstance = new mapboxgl.Map({
       container: mapContainer.current,
-      style: "mapbox://styles/mapbox/dark-v11",
+      style: themeType === 'dark' ? 'mapbox://styles/mapbox/dark-v11' : 'mapbox://styles/mapbox/light-v11',
       center: [-75.16, 40.05],
       zoom: 8.5,
     });
 
     mapInstance.on("load", () => {
+      setIsLoading(true);
       const geoJSONControl = new GeoJSONUploadControl(updateDrawingState);
       mapInstance.addControl(geoJSONControl, "top-right");
       const selectAll = new SelectAllButton(drawInstance);
@@ -102,14 +103,21 @@ function MapboxMap({ setHasDrawings, setMap, connectionType }) {
 
     setMap(mapInstance);
 
+    const onIdle = () => {
+      setIsLoading(false);
+    };
+    mapInstance.on('idle', onIdle);
+
+
     return () => {
+      mapInstance.off('idle', onIdle);
       if (drawInstance) {
         mapInstance.off("draw.create", updateDrawingState);
         mapInstance.off("draw.update", updateDrawingState);
         mapInstance.off("draw.delete", updateDrawingState);
       }
     };
-  }, [setHasDrawings, setMap, connectionType]);
+  }, [setHasDrawings, setMap, connectionType, themeType]);
   return (
     <div
       ref={mapContainer}

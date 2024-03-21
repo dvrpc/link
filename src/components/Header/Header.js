@@ -1,8 +1,9 @@
-import { Button, Header, Flex, Container } from "@mantine/core";
+import { Button, Switch, Header, Flex, Container } from "@mantine/core";
 import React from "react";
 import Logo from "../Logo/Logo";
 import StudyShelf from "../StudyShelf/StudyShelf";
 import ConnectionToggle from "../ConnectionToggle/ConnectionToggle";
+import ThemeToggle from "../ThemeToggle/ThemeToggle";
 import Logout from "../Authentication/Logout";
 import Greeting from "./Greeting";
 import Explainer from "../Explainer/Explainer";
@@ -13,6 +14,8 @@ export function HeaderSimple({
   onStudyClick,
   resetDrawingState,
   onToggleTheme,
+  isLoading,
+  setIsLoading,
 }) {
   return (
     <Container fluid h={80} bg="rgb(47, 79, 79)">
@@ -33,13 +36,15 @@ export function HeaderSimple({
             setConnectionType={setConnectionType}
             onStudyClick={onStudyClick}
           />
+          <Explainer />
+          <ThemeToggle onToggleTheme={onToggleTheme} isLoading={isLoading} setIsLoading={setIsLoading} />
           <ConnectionToggle
             connectionType={connectionType}
             setConnectionType={setConnectionType}
             resetDrawingState={resetDrawingState}
+            isLoading={isLoading}
+            setIsLoading={setIsLoading}
           />
-          <Explainer />
-          <Button onClick={onToggleTheme}>Toggle Theme</Button>
           <Flex
             style={{ marginLeft: "auto" }}
             align="center"

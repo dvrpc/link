@@ -13,6 +13,7 @@
     "@mantine/prism": "^6.0.21",
     "@mantine/spotlight": "^6.0.21",
     "@mapbox/mapbox-gl-draw": "^1.4.3",
+    "@tabler/icons-react": "^3.1.0",
     "@turf/bbox": "^6.5.0",
     "@turf/helpers": "^6.5.0",
     "@types/mapbox__mapbox-gl-draw": "^1.4.6",

@@ -116,7 +116,7 @@ function AnalyzeButton({ connectionType, onAnalyze, disabled }) {
           } else {
             throw new Error(
               responseData.detail ||
-                "An error occurred while applying the project name.",
+              "An error occurred while applying the project name.",
             );
           }
         } else {
@@ -148,13 +148,13 @@ function AnalyzeButton({ connectionType, onAnalyze, disabled }) {
           Overwrite
         </Button>
       </Modal>
-      {/* Project Name Modal */}
-      <Modal opened={opened} onClose={close} title="Name your project">
+      {/* Study Name Modal */}
+      <Modal opened={opened} onClose={close} title="Name your study">
         <input
           type="text"
           value={project}
           onChange={(e) => setProject(e.target.value)}
-          placeholder="Enter project name"
+          placeholder="Enter study name"
         />
         <Button loading={isLoading} onClick={applyProjectName}>
           Submit
