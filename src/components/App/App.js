@@ -41,7 +41,7 @@ export default function App() {
             path="/"
             element={
               <AuthenticatedLayout requireAdmin={false}>
-                <MainComponent onToggleTheme={toggleTheme} />
+                <MainComponent onToggleTheme={toggleTheme} themeType={themeType} />
               </AuthenticatedLayout>
             }
           />

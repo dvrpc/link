@@ -15,7 +15,11 @@ import drawInstance from "../Map/MapboxDrawConfig";
 mapboxgl.accessToken =
   "pk.eyJ1IjoiZHZycGNvbWFkIiwiYSI6ImNrczZlNDBkZzFnOG0ydm50bXR0dTJ4cGYifQ.VaJDo9EtH2JyzKm3cC0ypA";
 
-export default function MainComponent({ onToggleTheme }) {
+export default function MainComponent({ onToggleTheme, themeType }) {
+  const darkMapStyle = 'mapbox://styles/mapbox/dark-v11';
+  const lightMapStyle = 'mapbox://styles/mapbox/light-v11';
+
+
   const [connectionType, setConnectionType] = useState("bike");
   const [map, setMap] = useState(null);
   const [geojsonData, setGeojsonData] = useState(null);
@@ -23,6 +27,13 @@ export default function MainComponent({ onToggleTheme }) {
   const { user } = useAuth0();
   const [hasDrawings, setHasDrawings] = useState(false); // indicates presence of drawings on map
   const [isCleared, setIsCleared] = useState(false);
+
+  useEffect(() => {
+    if (map) {
+      const newStyle = themeType === 'dark' ? darkMapStyle : lightMapStyle;
+      map.setStyle(newStyle);
+    }
+  }, [themeType, map]);
 
   useEffect(() => {
     setGeojsonData(null);
@@ -87,6 +98,7 @@ export default function MainComponent({ onToggleTheme }) {
           setHasDrawings={setHasDrawings}
           setMap={setMap}
           connectionType={connectionType}
+          themeType={themeType}
         />
         {geojsonData && (
           <AddLayer geojsonData={geojsonData} connectionType={connectionType} />
