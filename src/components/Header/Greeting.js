@@ -1,5 +1,6 @@
 import React from "react";
 import { useAuth0 } from "@auth0/auth0-react";
+import { Text } from '@mantine/core'
 
 const Greeting = ({ style }) => {
   const { user, isAuthenticated, isLoading } = useAuth0();
@@ -9,7 +10,7 @@ const Greeting = ({ style }) => {
   }
 
   if (isAuthenticated) {
-    return <h3 style={style}>Hello, {user.nickname}! </h3>;
+    return <Text component="h3" style={{ color: 'white' }}>Hello, {user.nickname}! </Text>;
   } else {
     return <h3 style={style}>Please log in.</h3>;
   }

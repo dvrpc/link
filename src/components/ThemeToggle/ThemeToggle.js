@@ -17,7 +17,7 @@ function ThemeToggle({
   const moonIcon = (
     <IconMoonStars
       stroke={2.5}
-      color="white"
+      color="gray"
     />
   );
 
