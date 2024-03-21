@@ -33,13 +33,13 @@ export function HeaderSimple({
             setConnectionType={setConnectionType}
             onStudyClick={onStudyClick}
           />
+          <Explainer />
+          <Button onClick={onToggleTheme}>Toggle Theme</Button>
           <ConnectionToggle
             connectionType={connectionType}
             setConnectionType={setConnectionType}
             resetDrawingState={resetDrawingState}
           />
-          <Explainer />
-          <Button onClick={onToggleTheme}>Toggle Theme</Button>
           <Flex
             style={{ marginLeft: "auto" }}
             align="center"

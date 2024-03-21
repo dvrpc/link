@@ -1,11 +1,27 @@
 import React from "react";
-import { Button } from "@mantine/core";
+import { Switch } from "@mantine/core";
+import { IconWalk, IconBike } from '@tabler/icons-react';
 
 function ConnectionToggle({
   connectionType,
   setConnectionType,
   resetDrawingState,
 }) {
+
+
+  const walkIcon = (
+    <IconWalk
+      stroke={2.5}
+    />
+  );
+
+  const bikeIcon = (
+    <IconBike
+      stroke={2.5}
+    />
+  );
+
+
   const handleToggle = () => {
     const newType = connectionType === "bike" ? "pedestrian" : "bike";
     setConnectionType(newType);
@@ -13,9 +29,13 @@ function ConnectionToggle({
   };
 
   return (
-    <Button onClick={handleToggle}>
-      Switch to {connectionType === "bike" ? "Pedestrian" : "Bike"}
-    </Button>
+    <Switch
+      checked={connectionType === "pedestrian"}
+      onChange={handleToggle}
+      onLabel={walkIcon} offLabel={bikeIcon}
+      size="xl"
+      color="gray"
+    />
   );
 }
 
