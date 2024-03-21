@@ -6,6 +6,8 @@ function ConnectionToggle({
   connectionType,
   setConnectionType,
   resetDrawingState,
+  isLoading,
+  setIsLoading,
 }) {
 
 
@@ -23,6 +25,7 @@ function ConnectionToggle({
 
 
   const handleToggle = () => {
+    setIsLoading()
     const newType = connectionType === "bike" ? "pedestrian" : "bike";
     setConnectionType(newType);
     resetDrawingState();

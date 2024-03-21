@@ -14,6 +14,8 @@ export function HeaderSimple({
   onStudyClick,
   resetDrawingState,
   onToggleTheme,
+  isLoading,
+  setIsLoading,
 }) {
   return (
     <Container fluid h={80} bg="rgb(47, 79, 79)">
@@ -35,11 +37,13 @@ export function HeaderSimple({
             onStudyClick={onStudyClick}
           />
           <Explainer />
-          <ThemeToggle onToggleTheme={onToggleTheme} />
+          <ThemeToggle onToggleTheme={onToggleTheme} isLoading={isLoading} setIsLoading={setIsLoading} />
           <ConnectionToggle
             connectionType={connectionType}
             setConnectionType={setConnectionType}
             resetDrawingState={resetDrawingState}
+            isLoading={isLoading}
+            setIsLoading={setIsLoading}
           />
           <Flex
             style={{ marginLeft: "auto" }}

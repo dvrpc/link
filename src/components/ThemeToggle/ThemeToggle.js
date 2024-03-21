@@ -3,9 +3,14 @@ import { Switch } from "@mantine/core";
 import { IconSun, IconMoonStars } from '@tabler/icons-react';
 
 function ThemeToggle({
-  onToggleTheme,
+  onToggleTheme, isLoading, setIsLoading
 }) {
 
+
+  const handleToggle = () => {
+    onToggleTheme()
+    setIsLoading(true);
+  }
 
   const sunIcon = (
     <IconSun
@@ -24,7 +29,7 @@ function ThemeToggle({
 
   return (
     <Switch
-      onChange={onToggleTheme}
+      onChange={handleToggle}
       onLabel={sunIcon} offLabel={moonIcon}
       size="xl"
       color="gray"
