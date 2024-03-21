@@ -1,8 +1,9 @@
-import { Button, Header, Flex, Container } from "@mantine/core";
+import { Button, Switch, Header, Flex, Container } from "@mantine/core";
 import React from "react";
 import Logo from "../Logo/Logo";
 import StudyShelf from "../StudyShelf/StudyShelf";
 import ConnectionToggle from "../ConnectionToggle/ConnectionToggle";
+import ThemeToggle from "../ThemeToggle/ThemeToggle";
 import Logout from "../Authentication/Logout";
 import Greeting from "./Greeting";
 import Explainer from "../Explainer/Explainer";
@@ -34,7 +35,7 @@ export function HeaderSimple({
             onStudyClick={onStudyClick}
           />
           <Explainer />
-          <Button onClick={onToggleTheme}>Toggle Theme</Button>
+          <ThemeToggle onToggleTheme={onToggleTheme} />
           <ConnectionToggle
             connectionType={connectionType}
             setConnectionType={setConnectionType}
