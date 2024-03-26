@@ -13,6 +13,33 @@ function AnalyzeButton({ connectionType, onAnalyze, disabled }) {
   const [opened, { open, close }] = useDisclosure(false);
   const [errorModalOpened, setErrorModalOpened] = useState(false);
 
+
+
+  const handleAnalyzeClick = () => {
+    if (drawInstance) {
+      const allFeatures = drawInstance.getAll();
+      const automaticProjectName = checkAndSetProjectName(allFeatures.features);
+
+      if (automaticProjectName) {
+        setProject(automaticProjectName);
+        setIsLoading(true);
+        sendDataToServer(allFeatures);
+      } else {
+        open();
+      }
+    }
+  };
+
+
+  const checkAndSetProjectName = (features) => {
+    for (const feature of features) {
+      if (feature.properties && feature.properties.name) {
+        return feature.properties.name;
+      }
+    }
+    return null;
+  };
+
   const handleChooseDifferentName = () => {
     setErrorModalOpened(false);
     open();
@@ -73,21 +100,42 @@ function AnalyzeButton({ connectionType, onAnalyze, disabled }) {
       setProject("");
       close();
     } catch (error) {
-      console.log(error.message)
-      setError(error.message || "Network error occurred");
-      setErrorModalOpened(true);
+      let errorMessage;
+      if (error.message) {
+        errorMessage = error.message;
+      } else {
+        errorMessage = "Network error occured";
+      }
+
+      if (errorMessage.includes("Project name already used")) {
+        setError("Project name already used.");
+        setErrorModalOpened(true);
+      } else {
+        setError(errorMessage);
+        setErrorModalOpened(true);
+      }
     } finally {
       setIsLoading(false);
     }
   };
 
+
   const applyProjectName = async () => {
     if (drawInstance) {
       const allFeatures = drawInstance.getAll();
-      allFeatures.features.forEach((feature, index) => {
-        feature.properties.name =
-          index === 0 ? project : `${project}${index + 1}`;
-      });
+      console.log(allFeatures)
+
+      let automaticProjectName = checkAndSetProjectName(allFeatures.features);
+      if (automaticProjectName) {
+        setProject(automaticProjectName);
+        console.log("Project name in geojson:", automaticProjectName);
+      } else {
+
+        allFeatures.features.forEach((feature, index) => {
+          feature.properties.name =
+            index === 0 ? project : `${project}${index + 1}`;
+        });
+      }
 
       setIsLoading(true);
       const bodyData = {
@@ -141,6 +189,7 @@ function AnalyzeButton({ connectionType, onAnalyze, disabled }) {
         setIsLoading(false);
         close();
       }
+
     }
   };
 
@@ -159,17 +208,23 @@ function AnalyzeButton({ connectionType, onAnalyze, disabled }) {
 
 
       {/* Study Name Modal */}
-      <Modal opened={opened} onClose={close} title="Name your study">
-        <input
-          type="text"
-          value={project}
-          onChange={(e) => setProject(e.target.value)}
-          placeholder="Enter study name"
-        />
-        <Button loading={isLoading} onClick={applyProjectName}>
-          Submit
-        </Button>
+      <Modal opened={opened} onClose={close} title={isLoading ? "Processing..." : "Name your study"}>
+        {!isLoading && (
+          <>
+            <input
+              type="text"
+              value={project}
+              onChange={(e) => setProject(e.target.value)}
+              placeholder="Enter study name"
+            />
+            <Button loading={isLoading} onClick={applyProjectName}>
+              Submit
+            </Button>
+          </>
+        )}
+        {isLoading && <Text>Processing segments...</Text>}
       </Modal>
+
 
       {/* Analyze Button */}
       <Button
@@ -179,7 +234,7 @@ function AnalyzeButton({ connectionType, onAnalyze, disabled }) {
           left: "10px",
           zIndex: 10,
         }}
-        onClick={open}
+        onClick={handleAnalyzeClick}
         disabled={disabled}
       >
         Analyze
