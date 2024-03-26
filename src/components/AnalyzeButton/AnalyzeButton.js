@@ -152,7 +152,7 @@ function AnalyzeButton({ connectionType, onAnalyze, disabled }) {
         {error === "Project name already used." && (
           <>
             <Button onClick={handleChooseDifferentName}>Choose Different Name</Button>
-            <Button color="red" onClick={handleOverwrite}>Overwrite</Button>
+            <Button loading={isLoading} color="red" onClick={handleOverwrite}>Overwrite</Button>
           </>
         )}
       </Modal>
