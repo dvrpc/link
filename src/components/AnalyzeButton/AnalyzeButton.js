@@ -17,13 +17,13 @@ function AnalyzeButton({ connectionType, onAnalyze, disabled }) {
 
 
   const handleAnalyzeClick = () => {
+    setProcessingModalOpened(true);
     if (drawInstance) {
       const allFeatures = drawInstance.getAll();
       const automaticProjectName = checkAndSetProjectName(allFeatures.features);
 
       if (automaticProjectName) {
         setProject(automaticProjectName);
-        setIsLoading(true);
         sendDataToServer(allFeatures);
       } else {
         open();
@@ -43,6 +43,7 @@ function AnalyzeButton({ connectionType, onAnalyze, disabled }) {
 
   const handleChooseDifferentName = () => {
     setErrorModalOpened(false);
+    setProcessingModalOpened(false);
     open();
   };
 
@@ -96,6 +97,8 @@ function AnalyzeButton({ connectionType, onAnalyze, disabled }) {
         setProcessingModalOpened(false);
         const errorData = await response.json();
         throw new Error(errorData.detail || "An error occurred");
+      } else {
+        setProcessingModalOpened(true)
       }
 
       const data = await response.json();
@@ -104,6 +107,7 @@ function AnalyzeButton({ connectionType, onAnalyze, disabled }) {
       close();
       setProcessingModalOpened(false);
     } catch (error) {
+      setProcessingModalOpened(false);
       let errorMessage;
       if (error.message) {
         errorMessage = error.message;
