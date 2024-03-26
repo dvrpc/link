@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
 import { useDisclosure } from "@mantine/hooks";
-import { Modal, Button, Text } from "@mantine/core";
+import { Modal, Progress, Button, Text } from "@mantine/core";
 import { useAuth0 } from "@auth0/auth0-react";
 import drawInstance from "../Map/MapboxDrawConfig";
 import makeAuthenticatedRequest from "../Authentication/Api";
@@ -12,6 +12,7 @@ function AnalyzeButton({ connectionType, onAnalyze, disabled }) {
   const { user } = useAuth0();
   const [opened, { open, close }] = useDisclosure(false);
   const [errorModalOpened, setErrorModalOpened] = useState(false);
+  const [processingModalOpened, setProcessingModalOpened] = useState(false);
 
 
 
@@ -46,6 +47,7 @@ function AnalyzeButton({ connectionType, onAnalyze, disabled }) {
   };
 
   const handleOverwrite = async () => {
+    setProcessingModalOpened(true);
     if (drawInstance) {
       const allFeatures = drawInstance.getAll();
       const featuresWithNames = allFeatures.features.map((feature, index) => {
@@ -91,6 +93,7 @@ function AnalyzeButton({ connectionType, onAnalyze, disabled }) {
       );
 
       if (!response.ok) {
+        setProcessingModalOpened(false);
         const errorData = await response.json();
         throw new Error(errorData.detail || "An error occurred");
       }
@@ -99,6 +102,7 @@ function AnalyzeButton({ connectionType, onAnalyze, disabled }) {
       console.log("Server response:", data);
       setProject("");
       close();
+      setProcessingModalOpened(false);
     } catch (error) {
       let errorMessage;
       if (error.message) {
@@ -113,6 +117,7 @@ function AnalyzeButton({ connectionType, onAnalyze, disabled }) {
       } else {
         setError(errorMessage);
         setErrorModalOpened(true);
+        setProcessingModalOpened(false);
       }
     } finally {
       setIsLoading(false);
@@ -121,6 +126,7 @@ function AnalyzeButton({ connectionType, onAnalyze, disabled }) {
 
 
   const applyProjectName = async () => {
+    setProcessingModalOpened(false);
     if (drawInstance) {
       const allFeatures = drawInstance.getAll();
       console.log(allFeatures)
@@ -222,7 +228,13 @@ function AnalyzeButton({ connectionType, onAnalyze, disabled }) {
             </Button>
           </>
         )}
-        {isLoading && <Text>Processing segments...</Text>}
+        {isLoading && <Text>Processing, please wait...</Text>}
+      </Modal>
+
+      {/* Processing modal */}
+      <Modal opened={processingModalOpened} withCloseButton={false} title="Processing">
+        <Text>Processing segments...</Text>
+        <Progress value={100} striped animate />
       </Modal>
 
 
