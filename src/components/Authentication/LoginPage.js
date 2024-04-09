@@ -19,7 +19,6 @@ export default function LoginPage() {
       >
         <Logo />
         <Space h="md" />
-        <Space h="md" />
         <Text size="xl">Welcome to DVRPC LINK!</Text>
         <Text>
           Link is a tool that helps you understand the potential impact of
