@@ -7,11 +7,9 @@ const LoginButton = () => {
 
   return (
     <Button
-      variant="gradient"
-      gradient={{ from: "blue", to: "cyan", deg: 90 }}
       onClick={() => loginWithRedirect()}
     >
-      Enter
+      Login
     </Button>
   );
 };
