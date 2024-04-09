@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
 import { useDisclosure } from "@mantine/hooks";
-import { Modal, Button, Text } from "@mantine/core";
+import { Modal, Progress, Button, Text } from "@mantine/core";
 import { useAuth0 } from "@auth0/auth0-react";
 import drawInstance from "../Map/MapboxDrawConfig";
 import makeAuthenticatedRequest from "../Authentication/Api";
@@ -12,13 +12,43 @@ function AnalyzeButton({ connectionType, onAnalyze, disabled }) {
   const { user } = useAuth0();
   const [opened, { open, close }] = useDisclosure(false);
   const [errorModalOpened, setErrorModalOpened] = useState(false);
+  const [processingModalOpened, setProcessingModalOpened] = useState(false);
+
+
+
+  const handleAnalyzeClick = () => {
+    if (drawInstance) {
+      const allFeatures = drawInstance.getAll();
+      const automaticProjectName = checkAndSetProjectName(allFeatures.features);
+
+      if (automaticProjectName) {
+        setProject(automaticProjectName);
+        sendDataToServer(allFeatures);
+        setProcessingModalOpened(true);
+      } else {
+        open();
+      }
+    }
+  };
+
+
+  const checkAndSetProjectName = (features) => {
+    for (const feature of features) {
+      if (feature.properties && feature.properties.name) {
+        return feature.properties.name;
+      }
+    }
+    return null;
+  };
 
   const handleChooseDifferentName = () => {
     setErrorModalOpened(false);
+    setProcessingModalOpened(false);
     open();
   };
 
   const handleOverwrite = async () => {
+    setProcessingModalOpened(true);
     if (drawInstance) {
       const allFeatures = drawInstance.getAll();
       const featuresWithNames = allFeatures.features.map((feature, index) => {
@@ -64,29 +94,58 @@ function AnalyzeButton({ connectionType, onAnalyze, disabled }) {
       );
 
       if (!response.ok) {
+        setProcessingModalOpened(false);
         const errorData = await response.json();
         throw new Error(errorData.detail || "An error occurred");
+      } else {
+        setProcessingModalOpened(true)
       }
 
       const data = await response.json();
       console.log("Server response:", data);
       setProject("");
       close();
+      setProcessingModalOpened(false);
     } catch (error) {
-      setError(error.message || "Network error occurred");
-      setErrorModalOpened(true);
+      setProcessingModalOpened(false);
+      let errorMessage;
+      if (error.message) {
+        errorMessage = error.message;
+      } else {
+        errorMessage = "Network error occured";
+      }
+
+      if (errorMessage.includes("Project name already used")) {
+        setError("Project name already used.");
+        setErrorModalOpened(true);
+      } else {
+        setError(errorMessage);
+        setErrorModalOpened(true);
+        setProcessingModalOpened(false);
+      }
     } finally {
       setIsLoading(false);
     }
   };
 
+
   const applyProjectName = async () => {
+    setProcessingModalOpened(false);
     if (drawInstance) {
       const allFeatures = drawInstance.getAll();
-      allFeatures.features.forEach((feature, index) => {
-        feature.properties.name =
-          index === 0 ? project : `${project}${index + 1}`;
-      });
+      console.log(allFeatures)
+
+      let automaticProjectName = checkAndSetProjectName(allFeatures.features);
+      if (automaticProjectName) {
+        setProject(automaticProjectName);
+        console.log("Project name in geojson:", automaticProjectName);
+      } else {
+
+        allFeatures.features.forEach((feature, index) => {
+          feature.properties.name =
+            index === 0 ? project : `${project}${index + 1}`;
+        });
+      }
 
       setIsLoading(true);
       const bodyData = {
@@ -123,43 +182,65 @@ function AnalyzeButton({ connectionType, onAnalyze, disabled }) {
           onAnalyze(project);
         }
       } catch (error) {
-        setError(error.message || "Network error occurred");
+        let errorMessage = "Network error occurred";
+        if (typeof error.message === "string") {
+          try {
+            const errorObj = JSON.parse(error.message);
+            if (errorObj.detail) {
+              errorMessage = errorObj.detail;
+            }
+          } catch (e) {
+            errorMessage = error.message;
+          }
+        }
+        setError(errorMessage);
         setErrorModalOpened(true);
       } finally {
         setIsLoading(false);
         close();
       }
+
     }
   };
 
   return (
     <>
       {/* Error Modal */}
-      <Modal
-        opened={errorModalOpened}
-        onClose={() => setErrorModalOpened(false)}
-        title="Error"
-      >
+      <Modal opened={errorModalOpened} onClose={function() { setErrorModalOpened(false); }} title="Error">
         <Text>{error}</Text>
-        <Button onClick={handleChooseDifferentName}>
-          Choose Different Name
-        </Button>
-        <Button color="red" onClick={handleOverwrite}>
-          Overwrite
-        </Button>
+        {error === "Project name already used." && (
+          <>
+            <Button onClick={handleChooseDifferentName}>Choose Different Name</Button>
+            <Button loading={isLoading} color="red" onClick={handleOverwrite}>Overwrite</Button>
+          </>
+        )}
       </Modal>
+
+
       {/* Study Name Modal */}
-      <Modal opened={opened} onClose={close} title="Name your study">
-        <input
-          type="text"
-          value={project}
-          onChange={(e) => setProject(e.target.value)}
-          placeholder="Enter study name"
-        />
-        <Button loading={isLoading} onClick={applyProjectName}>
-          Submit
-        </Button>
+      <Modal opened={opened} onClose={close} title={isLoading ? "Processing..." : "Name your study"}>
+        {!isLoading && (
+          <>
+            <input
+              type="text"
+              value={project}
+              onChange={(e) => setProject(e.target.value)}
+              placeholder="Enter study name"
+            />
+            <Button loading={isLoading} onClick={applyProjectName}>
+              Submit
+            </Button>
+          </>
+        )}
+        {isLoading && <Text>Processing, please wait...</Text>}
       </Modal>
+
+      {/* Processing modal */}
+      <Modal opened={processingModalOpened} withCloseButton={false} title="Processing">
+        <Text>Processing segments...</Text>
+        <Progress value={100} striped animate />
+      </Modal>
+
 
       {/* Analyze Button */}
       <Button
@@ -169,7 +250,7 @@ function AnalyzeButton({ connectionType, onAnalyze, disabled }) {
           left: "10px",
           zIndex: 10,
         }}
-        onClick={open}
+        onClick={handleAnalyzeClick}
         disabled={disabled}
       >
         Analyze

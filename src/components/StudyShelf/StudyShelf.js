@@ -40,9 +40,10 @@ function StudyShelf({ connectionType, onStudyClick }) {
       ) {
         if (data.studies[0].hasOwnProperty("seg_name")) {
           const sortedStudies = data.studies.sort((a, b) =>
-            a.seg_name.localeCompare(b.seg_name),
+            a.seg_name.localeCompare(b.seg_name, undefined, { numeric: true })
           );
           setCards(sortedStudies);
+
         } else {
           console.error("Error: studies do not have a seg_name property.");
         }
