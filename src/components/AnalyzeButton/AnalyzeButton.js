@@ -17,7 +17,6 @@ function AnalyzeButton({ connectionType, onAnalyze, disabled }) {
 
 
   const handleAnalyzeClick = () => {
-    setProcessingModalOpened(true);
     if (drawInstance) {
       const allFeatures = drawInstance.getAll();
       const automaticProjectName = checkAndSetProjectName(allFeatures.features);
@@ -25,6 +24,7 @@ function AnalyzeButton({ connectionType, onAnalyze, disabled }) {
       if (automaticProjectName) {
         setProject(automaticProjectName);
         sendDataToServer(allFeatures);
+        setProcessingModalOpened(true);
       } else {
         open();
       }
