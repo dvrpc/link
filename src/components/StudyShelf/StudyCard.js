@@ -180,97 +180,129 @@ function StudyCard({
       <Text size="sm" color="dimmed">
         Miles of low-stress islands:{" "}
         <Text component="span" color="teal">
-          {data.miles}{" "}
+          {data.miles.toLocaleString()}{" "}
         </Text>
       </Text>
       <Text size="sm" color="dimmed">
         Total population:{" "}
         <Text component="span" color="teal">
-          {data.total_pop}{" "}
+          {data.total_pop.toLocaleString()}{" "}
         </Text>
       </Text>
       <Text size="sm" color="dimmed">
         - Disabled population:{" "}
         <Text component="span" color="teal">
-          {data.disabled}{" "}
+          {data.disabled.toLocaleString()}{" "}
         </Text>
       </Text>
       <Text size="sm" color="dimmed">
         - Ethnic minorities:{" "}
         <Text component="span" color="teal">
-          {data.ethnic_minority}{" "}
+          {data.ethnic_minority.toLocaleString()}{" "}
         </Text>
       </Text>
       <Text size="sm" color="dimmed">
         - Female population:{" "}
         <Text component="span" color="teal">
-          {data.female}{" "}
+          {data.female.toLocaleString()}{" "}
         </Text>
       </Text>
       <Text size="sm" color="dimmed">
         - Foreign born population:{" "}
         <Text component="span" color="teal">
-          {data.foreign_born}{" "}
+          {data.foreign_born.toLocaleString()}{" "}
         </Text>
       </Text>
       <Text size="sm" color="dimmed">
         - Limited English population:{" "}
         <Text component="span" color="teal">
-          {data.lep}{" "}
+          {data.lep.toLocaleString()}{" "}
         </Text>
       </Text>
       <Text size="sm" color="dimmed">
         - Low income population:{" "}
         <Text component="span" color="teal">
-          {data.low_income}{" "}
+          {data.low_income.toLocaleString()}{" "}
         </Text>
       </Text>
       <Text size="sm" color="dimmed">
         - Older adults:{" "}
         <Text component="span" color="teal">
-          {data.older_adult}{" "}
+          {data.older_adult.toLocaleString()}{" "}
         </Text>
       </Text>
       <Text size="sm" color="dimmed">
         - Racial minorities:{" "}
         <Text component="span" color="teal">
-          {data.racial_minority}{" "}
+          {data.racial_minority.toLocaleString()}{" "}
         </Text>
       </Text>
       <Text size="sm" color="dimmed">
         - Youth:{" "}
         <Text component="span" color="teal">
-          {data.youth}{" "}
-        </Text>
-      </Text>
-      <Text size="sm" color="dimmed">
-        Nearby circuit trails:{" "}
-        <Text component="span" color="teal">
-          {JSON.stringify(data.circuit)}
+          {data.youth.toLocaleString()}{" "}
         </Text>
       </Text>
       <Text size="sm" color="dimmed">
         Jobs:{" "}
         <Text component="span" color="teal">
-          {data.total_jobs}{" "}
+          {data.total_jobs.toLocaleString()}{" "}
         </Text>
+      </Text>
+      <Text size="sm" color="dimmed">
+        Nearby circuit trails:{" "}
+        <Text component="span" color="teal">
+          <pre>
+            {data.circuit.length === 0
+              ? 'N/A'
+              : data.circuit.map(({ circuit, miles }) =>
+                circuit ? `${circuit.toLocaleString()}: ${miles.toLocaleString()} miles` : 'N/A'
+              ).join('\n')
+            }
+          </pre>
+        </Text>
+
       </Text>
       <Text size="sm" color="dimmed">
         Bicyclist and Pedestrian crashes in study buffer:
         <Text component="span" color="teal">
-          {JSON.stringify(data.bike_ped_crashes)}
+          <pre>
+            {(data.bike_ped_crashes.length === 0 || (data.bike_ped_crashes.length === 1 && data.bike_ped_crashes[0]['Total Bike Crashes'] === 0 && data.bike_ped_crashes[0]['Total Pedestrian Crashes'] === 0))
+              ? 'N/A'
+              : data.bike_ped_crashes.map(item =>
+                `${item['Total Bike Crashes'] === 0 ? 'N/A' : `Total Bike Crashes: ${item['Total Bike Crashes']}`} \n${item['Total Pedestrian Crashes'] === 0 ? 'N/A' : `Total Pedestrian Crashes: ${item['Total Pedestrian Crashes']}`}`
+              ).join('\n')
+            }
+          </pre>
         </Text>
       </Text>
       <Text size="sm" color="dimmed">
-        Essential services:{" "}
+        Essential services:
         <Text component="span" color="teal">
-          {JSON.stringify(data.essential_services)}
+          <pre>
+            {data.essential_services.length === 0
+              ? 'N/A'
+              : data.essential_services.map(({ type, count }) =>
+                type ? `${type}: ${count}` : 'N/A'
+              ).join('\n')
+            }
+          </pre>
         </Text>
+
       </Text>
       <Text size="sm" color="dimmed">
         Rail Stations:{" "}
         <Text component="span" color="teal">
-          {JSON.stringify(data.rail_stations)}
+          <Text component="span" color="teal">
+            <pre>
+              {data.rail_stations.length === 0
+                ? 'N/A'
+                : data.rail_stations.map(({ type, count }) =>
+                  type ? `${type}: ${count}` : 'N/A'
+                ).join('\n')
+              }
+            </pre>
+          </Text>
         </Text>
       </Text>
       <Text size="sm" color="dimmed">
