@@ -244,33 +244,65 @@ function StudyCard({
         </Text>
       </Text>
       <Text size="sm" color="dimmed">
-        Nearby circuit trails:{" "}
-        <Text component="span" color="teal">
-          {JSON.stringify(data.circuit)}
-        </Text>
-      </Text>
-      <Text size="sm" color="dimmed">
         Jobs:{" "}
         <Text component="span" color="teal">
           {data.total_jobs}{" "}
         </Text>
       </Text>
       <Text size="sm" color="dimmed">
+        Nearby circuit trails:{" "}
+        <Text component="span" color="teal">
+          <pre>
+            {data.circuit.length === 0
+              ? 'N/A' // Display "N/A" if the data array is empty
+              : data.circuit.map(({ circuit, miles }) =>
+                circuit ? `${circuit}: ${miles}` : 'N/A'
+              ).join('\n')
+            }
+          </pre>
+        </Text>
+
+      </Text>
+      <Text size="sm" color="dimmed">
         Bicyclist and Pedestrian crashes in study buffer:
         <Text component="span" color="teal">
-          {JSON.stringify(data.bike_ped_crashes)}
+          <pre>
+            {(data.bike_ped_crashes.length === 0 || (data.bike_ped_crashes.length === 1 && data.bike_ped_crashes[0]['Total Bike Crashes'] === 0 && data.bike_ped_crashes[0]['Total Pedestrian Crashes'] === 0))
+              ? 'N/A'
+              : data.bike_ped_crashes.map(item =>
+                `${item['Total Bike Crashes'] === 0 ? 'N/A' : `Total Bike Crashes: ${item['Total Bike Crashes']}`} \n${item['Total Pedestrian Crashes'] === 0 ? 'N/A' : `Total Pedestrian Crashes: ${item['Total Pedestrian Crashes']}`}`
+              ).join('\n')
+            }
+          </pre>
         </Text>
       </Text>
       <Text size="sm" color="dimmed">
-        Essential services:{" "}
+        Essential services:
         <Text component="span" color="teal">
-          {JSON.stringify(data.essential_services)}
+          <pre>
+            {data.essential_services.length === 0
+              ? 'N/A'
+              : data.essential_services.map(({ type, count }) =>
+                type ? `${type}: ${count}` : 'N/A'
+              ).join('\n')
+            }
+          </pre>
         </Text>
+
       </Text>
       <Text size="sm" color="dimmed">
         Rail Stations:{" "}
         <Text component="span" color="teal">
-          {JSON.stringify(data.rail_stations)}
+          <Text component="span" color="teal">
+            <pre>
+              {data.rail_stations.length === 0
+                ? 'N/A'
+                : data.rail_stations.map(({ type, count }) =>
+                  type ? `${type}: ${count}` : 'N/A'
+                ).join('\n')
+              }
+            </pre>
+          </Text>
         </Text>
       </Text>
       <Text size="sm" color="dimmed">
