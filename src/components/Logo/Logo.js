@@ -1,5 +1,5 @@
 import React from "react";
-import logo from "../../assets/1727_Link_logo_co-branded-03.png";
+import logo from "../../assets/1727_Link_logo_transparent.png";
 
 function Logo({ logoWidth }) {
   console.log(logoWidth)

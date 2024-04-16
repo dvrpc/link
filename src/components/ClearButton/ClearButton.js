@@ -26,7 +26,7 @@ function ClearButton({ disabled, resetDrawingState }) {
     <Button
       style={{
         position: "absolute",
-        top: "150px",
+        top: "130px",
         left: "10px",
         zIndex: 11,
       }}

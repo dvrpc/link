@@ -246,7 +246,7 @@ function AnalyzeButton({ connectionType, onAnalyze, disabled }) {
       <Button
         style={{
           position: "absolute",
-          top: "110px",
+          top: "90px",
           left: "10px",
           zIndex: 10,
         }}
