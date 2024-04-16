@@ -17,7 +17,7 @@ export default function LoginPage() {
         }}
         bg="rgb(47, 79, 79)"
       >
-        <Logo />
+        <Logo logoWidth="300px" />
         <Space h="md" />
         <Text size="xl">Welcome to DVRPC LINK!</Text>
         <Text>

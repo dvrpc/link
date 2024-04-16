@@ -1,12 +1,13 @@
 import React from "react";
-import logo from "../../assets/dvrpc_white_logo.png";
+import logo from "../../assets/1727_Link_logo_co-branded-03.png";
 
-function Logo() {
+function Logo({ logoWidth }) {
+  console.log(logoWidth)
   return (
     <img
       src={logo}
       alt="White DVRPC Logo"
-      style={{ width: "200px", height: "auto" }}
+      style={{ width: logoWidth, height: "auto" }}
     />
   );
 }
