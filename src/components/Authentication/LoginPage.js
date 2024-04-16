@@ -2,8 +2,7 @@ import React from "react";
 import LoginButton from "./Login";
 import Explainer from "../Explainer/Explainer"
 import { Flex, Center, Text, Space } from "@mantine/core";
-import Logo from "../Logo/Logo"
-
+import logo from "../../assets/1727_Link_logo_co-branded-03.png"
 export default function LoginPage() {
   return (
     <>
@@ -17,9 +16,7 @@ export default function LoginPage() {
         }}
         bg="rgb(47, 79, 79)"
       >
-        <Logo />
-        <Space h="md" />
-        <Text size="xl">Welcome to DVRPC LINK!</Text>
+        <img style={{ width: "350px", height: "auto" }} src={logo} />
         <Text>
           Link is a tool that helps you understand the potential impact of
           building bicycle or pedestrian facilities.
