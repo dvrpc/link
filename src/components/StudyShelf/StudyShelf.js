@@ -1,104 +1,68 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useDisclosure } from "@mantine/hooks";
-import { Drawer, Button, Group, Affix, Space } from "@mantine/core";
-import StudyCard from "./StudyCard";
-import CsvButton from "../Csv/Csv";
+import { Drawer, Button, Group } from "@mantine/core";
 import { useAuth0 } from "@auth0/auth0-react";
 import makeAuthenticatedRequest from "../Authentication/Api";
+import { useMantineReactTable, MantineReactTable } from 'mantine-react-table';
+import { useColumns } from './columns';
 
 function StudyShelf({ connectionType, onStudyClick }) {
   const [opened, { open, close }] = useDisclosure(false);
-  const [cards, setCards] = useState([]);
+  const [studiesData, setStudiesData] = useState([]);  // State to store fetched data
   const { user } = useAuth0();
+  const columns = useColumns();
 
-  const refreshCards = async () => {
-    try {
-      const username = user.nickname;
-      let schema;
-      if (connectionType === "bike") {
-        schema = "lts";
-      } else if (connectionType === "pedestrian") {
-        schema = "sidewalk";
-      }
+  useEffect(() => {
+    console.log("Final data being rendered:", studiesData);
+  }, [studiesData]);  // This useEffect will run whenever studiesData changes
 
-      const response = await makeAuthenticatedRequest(
-        `${process.env.REACT_APP_API_URL}/get_user_studies?username=${username}&schema=${schema}`,
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        },
-      );
-      const data = await response.json();
-      console.log(data);
 
-      if (
-        data.studies &&
-        data.studies.length > 0 &&
-        typeof data.studies[0] === "object"
-      ) {
-        if (data.studies[0].hasOwnProperty("seg_name")) {
-          const sortedStudies = data.studies.sort((a, b) =>
-            a.seg_name.localeCompare(b.seg_name, undefined, { numeric: true })
-          );
-          setCards(sortedStudies);
+  useEffect(() => {
+    async function refreshCards() {
+      try {
+        const username = user?.nickname; // Ensure user is defined
+        let schema = connectionType === "bike" ? "lts" : "sidewalk";
+        const response = await makeAuthenticatedRequest(
+          `${process.env.REACT_APP_API_URL}/get_user_studies?username=${username}&schema=${schema}`,
+          { method: "GET", headers: { "Content-Type": "application/json" } }
+        );
+        const data = await response.json();
+        console.log("Fetched data:", data); // Log fetched data
 
+        if (data.studies && Array.isArray(data.studies) && data.studies.length > 0) {
+          setStudiesData(data.studies); // Directly set fetched data without sorting
         } else {
-          console.error("Error: studies do not have a seg_name property.");
+          console.error("No studies data found or invalid data structure.");
+          setStudiesData([]); // Handle no data case
         }
-      } else {
-        setCards(["No studies have been created yet!"]);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+        setStudiesData([]); // Handle error by setting an empty array
       }
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-    open();
-  };
+    };
+
+    refreshCards();
+  }, [user, connectionType]); // Dependencies are user and connectionType only
+
+  const table = useMantineReactTable({
+    columns,
+    data: studiesData, // Use state directly here as it's already stable
+  });
 
   return (
     <>
       <Drawer
         opened={opened}
         onClose={close}
-        transitionProps={{
-          transition: "slide-right",
-        }}
+        transitionProps={{ transition: "slide-up" }}
         title="My Studies"
         padding="20px 10px 60px 10px"
-
+        position="bottom"
       >
-        {cards.length > 0 &&
-          cards[0] !== "No studies have been created yet!" && (
-            <>
-              <Affix position={{ top: 50, left: 20 }}>
-                <CsvButton schema={connectionType} username={user.nickname} />
-              </Affix>
-            </>
-          )}
-        {cards.length === 0 ||
-          cards[0] === "No studies have been created yet!" ? (
-          <div>
-            No studies have been created yet! Draw one or upload a GeoJSON using
-            the tools on the right side of the map.
-          </div>
-        ) : (
-          cards.map((card, index) => (
-            <StudyCard
-              key={index}
-              data={card}
-              username={user.nickname}
-              connection={connectionType}
-              onRenameSuccess={refreshCards}
-              closeFunction={close}
-              onStudyClick={onStudyClick}
-              refreshCards={refreshCards}
-            />
-          ))
-        )}
+        <MantineReactTable table={table} />
       </Drawer>
       <Group position="center">
-        <Button onClick={refreshCards}>My Studies</Button>
+        <Button onClick={open}>My Studies</Button>
       </Group>
     </>
   );
