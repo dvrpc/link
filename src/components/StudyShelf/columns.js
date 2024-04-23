@@ -15,13 +15,21 @@ export const useColumns = () => useMemo(() => [
   { accessorKey: 'older_adult', header: 'Older Adults' },
   { accessorKey: 'racial_minority', header: 'Racial Minorities' },
   { accessorKey: 'youth', header: 'Youth' },
-  { accessorKey: 'circuit', header: 'Circuit', cell: info => info.value && info.value.length > 0 ? info.value.join(', ') : 'N/A' },
+  // { accessorKey: 'circuit', header: 'Circuit', cell: info => info.value && info.value.length > 0 ? info.value.join(', ') : 'N/A' },
   { accessorKey: 'total_jobs', header: 'Total Jobs' },
+  {
+    accessorKey: 'totalBikeCrashes',
+    header: 'Total Bike Crashes'
+  },
+  {
+    accessorKey: 'totalPedestrianCrashes',  // new flat property for pedestrian crashes
+    header: 'Total Pedestrian Crashes'
+  },
   // { accessorKey: 'essential_services', header: 'Essential Services', 
   //   cell: info => info.value && info.value.length > 0 
   //     ? info.value.map(service => `${service.count} x ${service.type}`).join(', ')
   //     : 'No Services'
   // },
-  { accessorKey: 'rail_stations', header: 'Rail Stations', cell: info => info.value && info.value.length > 0 ? info.value.join(', ') : 'None' },
+  // { accessorKey: 'rail_stations', header: 'Rail Stations', cell: info => info.value && info.value.length > 0 ? info.value.join(', ') : 'None' },
   { accessorKey: 'shared', header: 'Shared', cell: info => info.value ? 'Yes' : 'No' },
 ], []);

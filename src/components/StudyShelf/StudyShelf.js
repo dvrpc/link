@@ -8,45 +8,52 @@ import { useColumns } from './columns';
 
 function StudyShelf({ connectionType, onStudyClick }) {
   const [opened, { open, close }] = useDisclosure(false);
-  const [studiesData, setStudiesData] = useState([]);  // State to store fetched data
+  const [studiesData, setStudiesData] = useState([]);
   const { user } = useAuth0();
   const columns = useColumns();
 
   useEffect(() => {
     console.log("Final data being rendered:", studiesData);
-  }, [studiesData]);  // This useEffect will run whenever studiesData changes
+  }, [studiesData]);
 
 
   useEffect(() => {
-    async function refreshCards() {
+    const refreshCards = async () => {
       try {
-        const username = user?.nickname; // Ensure user is defined
+        const username = user?.nickname;
         let schema = connectionType === "bike" ? "lts" : "sidewalk";
         const response = await makeAuthenticatedRequest(
           `${process.env.REACT_APP_API_URL}/get_user_studies?username=${username}&schema=${schema}`,
           { method: "GET", headers: { "Content-Type": "application/json" } }
         );
         const data = await response.json();
-        console.log("Fetched data:", data); // Log fetched data
+        console.log("Fetched data:", data);
 
         if (data.studies && Array.isArray(data.studies) && data.studies.length > 0) {
-          setStudiesData(data.studies); // Directly set fetched data without sorting
+          const flattenedStudies = data.studies.map(study => ({
+            ...study,
+            totalBikeCrashes: study.bike_ped_crashes[0] ? study.bike_ped_crashes[0]['Total Bike Crashes'] : 'N/A',
+            totalPedestrianCrashes: study.bike_ped_crashes[0] ? study.bike_ped_crashes[0]['Total Pedestrian Crashes'] : 'N/A',
+            essentialServicesSummary: study.essential_services.map(es => `${es.count} x ${es.type}`).join(', ')
+          }));
+
+          setStudiesData(flattenedStudies);
         } else {
           console.error("No studies data found or invalid data structure.");
-          setStudiesData([]); // Handle no data case
+          setStudiesData([]);
         }
       } catch (error) {
         console.error("Error fetching data:", error);
-        setStudiesData([]); // Handle error by setting an empty array
+        setStudiesData([]);
       }
     };
 
     refreshCards();
-  }, [user, connectionType]); // Dependencies are user and connectionType only
+  }, [user, connectionType, opened]);
 
   const table = useMantineReactTable({
     columns,
-    data: studiesData, // Use state directly here as it's already stable
+    data: studiesData,
   });
 
   return (
