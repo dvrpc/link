@@ -18,12 +18,14 @@ export const useColumns = () => useMemo(() => [
   // { accessorKey: 'circuit', header: 'Circuit', cell: info => info.value && info.value.length > 0 ? info.value.join(', ') : 'N/A' },
   { accessorKey: 'total_jobs', header: 'Total Jobs' },
   {
-    accessorKey: 'totalBikeCrashes',
-    header: 'Total Bike Crashes'
+    accessorKey: 'bikeCrashesMessage',
+    header: 'Bike Crashes',
+    cell: info => info.value
   },
   {
-    accessorKey: 'totalPedestrianCrashes',  // new flat property for pedestrian crashes
-    header: 'Total Pedestrian Crashes'
+    accessorKey: 'pedCrashesMessage',
+    header: 'Pedestrian Crashes',
+    cell: info => info.value
   },
   // { accessorKey: 'essential_services', header: 'Essential Services', 
   //   cell: info => info.value && info.value.length > 0 

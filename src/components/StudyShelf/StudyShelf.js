@@ -18,6 +18,7 @@ function StudyShelf({ connectionType, onStudyClick }) {
 
 
   useEffect(() => {
+
     const refreshCards = async () => {
       try {
         const username = user?.nickname;
@@ -27,17 +28,18 @@ function StudyShelf({ connectionType, onStudyClick }) {
           { method: "GET", headers: { "Content-Type": "application/json" } }
         );
         const data = await response.json();
-        console.log("Fetched data:", data);
 
         if (data.studies && Array.isArray(data.studies) && data.studies.length > 0) {
-          const flattenedStudies = data.studies.map(study => ({
+          const processedData = data.studies.map(study => ({
             ...study,
-            totalBikeCrashes: study.bike_ped_crashes[0] ? study.bike_ped_crashes[0]['Total Bike Crashes'] : 'N/A',
-            totalPedestrianCrashes: study.bike_ped_crashes[0] ? study.bike_ped_crashes[0]['Total Pedestrian Crashes'] : 'N/A',
-            essentialServicesSummary: study.essential_services.map(es => `${es.count} x ${es.type}`).join(', ')
+            bikeCrashesMessage: study.bike_ped_crashes.find(crash => typeof crash === 'string' && crash.includes('414'))
+              ? 'Segment too long for crash API'
+              : `${study.bike_ped_crashes[0]?.['Total Bike Crashes'] ?? 0} `,
+            pedCrashesMessage: study.bike_ped_crashes.find(crash => typeof crash === 'string' && crash.includes('414'))
+              ? 'Segment too long for crash API'
+              : `${study.bike_ped_crashes[0]?.['Total Pedestrian Crashes'] ?? 0} `,
           }));
-
-          setStudiesData(flattenedStudies);
+          setStudiesData(processedData);
         } else {
           console.error("No studies data found or invalid data structure.");
           setStudiesData([]);
@@ -47,6 +49,8 @@ function StudyShelf({ connectionType, onStudyClick }) {
         setStudiesData([]);
       }
     };
+
+
 
     refreshCards();
   }, [user, connectionType, opened]);
