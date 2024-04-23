@@ -67,6 +67,9 @@ function StudyShelf({ connectionType, onStudyClick }) {
         onClose={close}
         transitionProps={{ transition: "slide-up" }}
         position="bottom"
+        overlayOpacity={0}
+        overlayColor="transparent"
+        withOverlay={false}
       >
         <MantineReactTable table={table} />
       </Drawer>
