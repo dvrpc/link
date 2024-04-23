@@ -7,6 +7,7 @@ import ThemeToggle from "../ThemeToggle/ThemeToggle";
 import Logout from "../Authentication/Logout";
 import Greeting from "./Greeting";
 import Explainer from "../Explainer/Explainer";
+import Video from "../Video/Video"
 
 export function HeaderSimple({
   connectionType,
@@ -37,6 +38,7 @@ export function HeaderSimple({
             onStudyClick={onStudyClick}
           />
           <Explainer />
+          <Video></Video>
           <ThemeToggle onToggleTheme={onToggleTheme} isLoading={isLoading} setIsLoading={setIsLoading} />
           <ConnectionToggle
             connectionType={connectionType}
