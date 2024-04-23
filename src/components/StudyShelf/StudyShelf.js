@@ -66,8 +66,6 @@ function StudyShelf({ connectionType, onStudyClick }) {
         opened={opened}
         onClose={close}
         transitionProps={{ transition: "slide-up" }}
-        title="My Studies"
-        padding="20px 10px 60px 10px"
         position="bottom"
       >
         <MantineReactTable table={table} />
