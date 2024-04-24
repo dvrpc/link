@@ -52,8 +52,8 @@ function MapboxMap({ setHasDrawings, setMap, connectionType, themeType, isLoadin
                 stops: [
                   [1, 1],
                   [2, 1],
-                  [3, 0.5],
-                  [4, 0.5],
+                  [3, .75],
+                  [4, .75],
                 ],
               },
               "line-color": {
