@@ -5,7 +5,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import makeAuthenticatedRequest from "../Authentication/Api";
 import { useMantineReactTable, MantineReactTable } from 'mantine-react-table';
 import { useColumns } from './columns';
-import { IconUserCircle, IconSend } from '@tabler/icons-react';
+import { IconDownload, IconSend } from '@tabler/icons-react';
 import { downloadGeojson } from './ShelfApis'
 
 function StudyShelf({ connectionType, onStudyClick }) {
@@ -64,7 +64,7 @@ function StudyShelf({ connectionType, onStudyClick }) {
     enableRowActions: true,
     renderRowActionMenuItems: ({ row }) => (
       <>
-        <Menu.Item onClick={() => downloadGeojson(row.original.seg_name, row.original.username, connectionType)} icon={<IconUserCircle />}>Download GeoJSON</Menu.Item>
+        <Menu.Item onClick={() => downloadGeojson(row.original.seg_name, row.original.username, connectionType)} icon={<IconDownload />}>Download GeoJSON of Study</Menu.Item>
         <Menu.Item icon={<IconSend />}>Send Email</Menu.Item>
       </>
     ),
