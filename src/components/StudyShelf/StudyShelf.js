@@ -6,6 +6,7 @@ import makeAuthenticatedRequest from "../Authentication/Api";
 import { useMantineReactTable, MantineReactTable } from 'mantine-react-table';
 import { useColumns } from './columns';
 import { IconUserCircle, IconSend } from '@tabler/icons-react';
+import { downloadGeojson } from './ShelfApis'
 
 function StudyShelf({ connectionType, onStudyClick }) {
   const [opened, { open, close }] = useDisclosure(false);
@@ -56,13 +57,14 @@ function StudyShelf({ connectionType, onStudyClick }) {
     refreshCards();
   }, [user, connectionType, opened]);
 
+
   const table = useMantineReactTable({
     columns,
     data: studiesData,
     enableRowActions: true,
-    renderRowActionMenuItems: () => (
+    renderRowActionMenuItems: ({ row }) => (
       <>
-        <Menu.Item icon={<IconUserCircle />}>View Profile</Menu.Item>
+        <Menu.Item onClick={() => downloadGeojson(row.original.seg_name, row.original.username, connectionType)} icon={<IconUserCircle />}>Download GeoJSON</Menu.Item>
         <Menu.Item icon={<IconSend />}>Send Email</Menu.Item>
       </>
     ),
