@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useDisclosure } from "@mantine/hooks";
-import { Drawer, Button, Group } from "@mantine/core";
+import { Drawer, Button, Group, Menu } from "@mantine/core";
 import { useAuth0 } from "@auth0/auth0-react";
 import makeAuthenticatedRequest from "../Authentication/Api";
 import { useMantineReactTable, MantineReactTable } from 'mantine-react-table';
 import { useColumns } from './columns';
+import { IconUserCircle, IconSend } from '@tabler/icons-react';
 
 function StudyShelf({ connectionType, onStudyClick }) {
   const [opened, { open, close }] = useDisclosure(false);
@@ -58,6 +59,13 @@ function StudyShelf({ connectionType, onStudyClick }) {
   const table = useMantineReactTable({
     columns,
     data: studiesData,
+    enableRowActions: true,
+    renderRowActionMenuItems: () => (
+      <>
+        <Menu.Item icon={<IconUserCircle />}>View Profile</Menu.Item>
+        <Menu.Item icon={<IconSend />}>Send Email</Menu.Item>
+      </>
+    ),
   });
 
   return (
