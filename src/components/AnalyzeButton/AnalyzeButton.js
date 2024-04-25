@@ -148,6 +148,8 @@ function AnalyzeButton({ connectionType, onAnalyze, disabled }) {
       }
 
       setIsLoading(true);
+      setProcessingModalOpened(true);
+      close();
       const bodyData = {
         connection_type: connectionType,
         geo_json: allFeatures,
@@ -197,7 +199,7 @@ function AnalyzeButton({ connectionType, onAnalyze, disabled }) {
         setErrorModalOpened(true);
       } finally {
         setIsLoading(false);
-        close();
+        setProcessingModalOpened(false);
       }
 
     }
