@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useDisclosure } from "@mantine/hooks";
-import { Drawer, Button, Group, Menu } from "@mantine/core";
+import { Modal, Drawer, Button, Group, Menu } from "@mantine/core";
 import { useAuth0 } from "@auth0/auth0-react";
 import makeAuthenticatedRequest from "../Authentication/Api";
 import { useMantineReactTable, MantineReactTable } from 'mantine-react-table';
 import { useColumns } from './columns';
 import { IconDownload, IconSend, IconEye } from '@tabler/icons-react';
-import { downloadGeojson } from './ShelfApis'
+import { downloadGeojson, handleDelete, } from './ShelfApis'
 
 function StudyShelf({ connectionType, onStudyClick }) {
   const [opened, { open, close }] = useDisclosure(false);
@@ -66,7 +66,7 @@ function StudyShelf({ connectionType, onStudyClick }) {
       <>
         <Menu.Item onClick={() => onStudyClick(row.original.seg_name)} icon={<IconEye />}>View Study</Menu.Item>
         <Menu.Item onClick={() => downloadGeojson(row.original.seg_name, row.original.username, connectionType)} icon={<IconDownload />}>Download GeoJSON of Study</Menu.Item>
-        <Menu.Item icon={<IconSend />}>Send Email</Menu.Item>
+        <Menu.Item onClick={() => handleDelete(row.original.seg_name, row.original.username, connectionType)} icon={<IconSend />}>Delete Study</Menu.Item>
       </>
     ),
   });

@@ -1,5 +1,6 @@
 import makeAuthenticatedRequest from "../Authentication/Api";
 
+
 export const downloadGeojson = async (segName, user, connectionType) => {
   const schema = connectionType === "bike" ? "lts" : "sidewalk";
   try {
@@ -34,5 +35,29 @@ export const downloadGeojson = async (segName, user, connectionType) => {
   }
 };
 
+export const handleDelete = async (seg_name, username, connectionType) => {
+  const schema = connectionType === "bike" ? "lts" : "sidewalk";
+  try {
+    const response = await makeAuthenticatedRequest(
+      `${process.env.REACT_APP_API_URL}/delete?username=${username}&seg_name=${seg_name}&schema=${schema}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      },
+    );
+
+    if (response.status === 200) {
+      const data = await response.json();
+      console.log("Server response:", data);
+      // refreshCards();
+    } else {
+      console.log("Error:", response.status, response.statusText);
+    }
+  } catch (error) {
+    console.error("Network error:", error);
+  }
+};
 
 
