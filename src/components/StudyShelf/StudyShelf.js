@@ -1,16 +1,18 @@
 import React, { useState, useEffect } from "react";
 import { useDisclosure } from "@mantine/hooks";
-import { Modal, Drawer, Button, Group, Menu } from "@mantine/core";
+import { Text, Modal, Drawer, Button, Group, Menu } from "@mantine/core";
 import { useAuth0 } from "@auth0/auth0-react";
 import makeAuthenticatedRequest from "../Authentication/Api";
 import { useMantineReactTable, MantineReactTable } from 'mantine-react-table';
 import { useColumns } from './columns';
-import { IconDownload, IconSend, IconEye } from '@tabler/icons-react';
+import { IconDownload, IconEye, IconTrash } from '@tabler/icons-react';
 import { downloadGeojson, handleDelete, } from './ShelfApis'
 
 function StudyShelf({ connectionType, onStudyClick }) {
   const [opened, { open, close }] = useDisclosure(false);
   const [studiesData, setStudiesData] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [deleteParams, setDeleteParams] = useState({});
   const { user } = useAuth0();
   const columns = useColumns();
 
@@ -52,11 +54,21 @@ function StudyShelf({ connectionType, onStudyClick }) {
       }
     };
 
+    if (!isModalOpen) {
+      refreshCards();
+    }
 
+  }, [user, connectionType, isModalOpen]);
 
-    refreshCards();
-  }, [user, connectionType, opened]);
+  const openDeleteConfirmModal = (seg, user, cxtype) => {
+    setIsModalOpen(true);
+    setDeleteParams({ seg, user, cxtype });
+  };
 
+  const handleDeleteClick = () => {
+    setIsModalOpen(false);
+    handleDelete(deleteParams.seg, deleteParams.user, deleteParams.cxtype)
+  };
 
   const table = useMantineReactTable({
     columns,
@@ -66,7 +78,7 @@ function StudyShelf({ connectionType, onStudyClick }) {
       <>
         <Menu.Item onClick={() => onStudyClick(row.original.seg_name)} icon={<IconEye />}>View Study</Menu.Item>
         <Menu.Item onClick={() => downloadGeojson(row.original.seg_name, row.original.username, connectionType)} icon={<IconDownload />}>Download GeoJSON of Study</Menu.Item>
-        <Menu.Item onClick={() => handleDelete(row.original.seg_name, row.original.username, connectionType)} icon={<IconSend />}>Delete Study</Menu.Item>
+        <Menu.Item onClick={() => openDeleteConfirmModal(row.original.seg_name, row.original.username, connectionType)} color='red' icon={<IconTrash />}>Delete Study</Menu.Item>
       </>
     ),
   });
@@ -84,6 +96,19 @@ function StudyShelf({ connectionType, onStudyClick }) {
       >
         <MantineReactTable table={table} />
       </Drawer>
+      <Modal
+        opened={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        title="Confirm Deletion"
+      >
+        <Text>Are you sure you want to delete this study?</Text>
+        <Group position="right" mt="md">
+          <Button onClick={() => handleDeleteClick(deleteParams.seg, deleteParams.user, deleteParams.cxtype)} color="red">
+            Yes, Delete
+          </Button>
+          <Button onClick={() => setIsModalOpen(false)}>Cancel</Button>
+        </Group>
+      </Modal>
       <Group position="center">
         <Button onClick={open}>My Studies</Button>
       </Group>
