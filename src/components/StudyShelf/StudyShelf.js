@@ -93,6 +93,9 @@ function StudyShelf({ connectionType, onStudyClick }) {
         overlayOpacity={0}
         overlayColor="transparent"
         withOverlay={false}
+        padding="xs"
+        closeOnEscape={true}
+        style={{ padding: 0 }}
       >
         <MantineReactTable table={table} />
       </Drawer>
