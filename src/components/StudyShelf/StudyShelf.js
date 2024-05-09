@@ -1,19 +1,22 @@
 import React, { useState, useEffect } from "react";
 import { useDisclosure } from "@mantine/hooks";
-import { Affix, Text, Modal, Drawer, Button, Group, Menu } from "@mantine/core";
+import { TextInput, Text, Modal, Drawer, Button, Group, Menu } from "@mantine/core";
 import { useAuth0 } from "@auth0/auth0-react";
 import makeAuthenticatedRequest from "../Authentication/Api";
 import { useMantineReactTable, MantineReactTable } from 'mantine-react-table';
 import { useColumns } from './columns';
-import { IconDownload, IconEye, IconTrash } from '@tabler/icons-react';
-import { downloadGeojson, handleDelete, } from './ShelfApis'
+import { IconDownload, IconEye, IconTrash, IconPencil } from '@tabler/icons-react';
+import { downloadGeojson, handleDelete, handleShareSwitch, handleRename } from './ShelfApis'
 import CsvButton from "../Csv/Csv";
 
 function StudyShelf({ connectionType, onStudyClick }) {
   const [opened, { open, close }] = useDisclosure(false);
   const [studiesData, setStudiesData] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isRenameModalOpen, setIsRenameModalOpen] = useState(false);
   const [deleteParams, setDeleteParams] = useState({});
+  const [renameParams, setRenameParams] = useState({});
+  const [newName, setNewName] = useState('');
   const { user } = useAuth0();
   const columns = useColumns();
 
@@ -55,11 +58,26 @@ function StudyShelf({ connectionType, onStudyClick }) {
       }
     };
 
-    if (!isModalOpen) {
+    if (!isModalOpen || !isRenameModalOpen) {
       refreshCards();
     }
 
-  }, [user, connectionType, isModalOpen]);
+  }, [user, connectionType, isModalOpen, isRenameModalOpen]);
+
+  const openRenameConfirmModal = (cxtype, seg, user) => {
+    setIsRenameModalOpen(true);
+    setRenameParams({ cxtype, seg, user, });
+  };
+
+  const handleRenameClick = async () => {
+    try {
+      await handleRename(renameParams.cxtype, renameParams.seg, renameParams.user, newName);
+      setIsRenameModalOpen(false);
+      setNewName('');
+    } catch (error) {
+      alert(`Error: ${error.message}`);
+    }
+  };
 
   const openDeleteConfirmModal = (seg, user, cxtype) => {
     setIsModalOpen(true);
@@ -77,6 +95,7 @@ function StudyShelf({ connectionType, onStudyClick }) {
     enableRowActions: true,
     renderRowActionMenuItems: ({ row }) => (
       <>
+        <Menu.Item onClick={() => openRenameConfirmModal(connectionType, row.original.seg_name, row.original.username)} icon={<IconPencil />}>Rename Study</Menu.Item>
         <Menu.Item onClick={() => onStudyClick(row.original.seg_name)} icon={<IconEye />}>View Study</Menu.Item>
         <Menu.Item onClick={() => downloadGeojson(row.original.seg_name, row.original.username, connectionType)} icon={<IconDownload />}>Download GeoJSON of Study</Menu.Item>
         <Menu.Item onClick={() => openDeleteConfirmModal(row.original.seg_name, row.original.username, connectionType)} color='red' icon={<IconTrash />}>Delete Study</Menu.Item>
@@ -114,6 +133,25 @@ function StudyShelf({ connectionType, onStudyClick }) {
           <Button onClick={() => setIsModalOpen(false)}>Cancel</Button>
         </Group>
       </Modal>
+      <Modal
+        opened={isRenameModalOpen}
+        onClose={() => setIsRenameModalOpen(false)}
+        title="Rename Segment?"
+      >
+        <Text>What do you want to rename the study to?</Text>
+        <Group position="right" mt="md">
+          <TextInput
+            placeholder="New Study Name"
+            value={newName}
+            onChange={(event) => setNewName(event.currentTarget.value)}
+
+          ></TextInput>
+          <Button onClick={() => handleRenameClick(renameParams.seg, renameParams.user, renameParams.cxtype)} >
+            Rename
+          </Button>
+          <Button onClick={() => setIsRenameModalOpen(false)}>Cancel</Button>
+        </Group>
+      </Modal >
       <Group position="center">
         <Button onClick={open}>My Studies</Button>
       </Group>
