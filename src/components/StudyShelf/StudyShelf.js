@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { useDisclosure } from "@mantine/hooks";
 import { TextInput, Text, Modal, Drawer, Button, Group, Menu } from "@mantine/core";
 import { useAuth0 } from "@auth0/auth0-react";
@@ -89,9 +89,22 @@ function StudyShelf({ connectionType, onStudyClick }) {
     handleDelete(deleteParams.seg, deleteParams.user, deleteParams.cxtype)
   };
 
+  // have to do this for mantine react table, otherwise throws errors about objects
+  const preprocessData = (data) => {
+    return data.map(item => ({
+      ...item,
+      circuit: item.circuit.map(c => `${c.circuit}: ${c.miles.toFixed(2)} miles`).join(', ') || 'N/A',
+      essential_services: item.essential_services.map(s => `${s.count} x ${s.type}`).join(', ') || 'No Services',
+      rail_stations: item.rail_stations.map(s => `${s.count} x ${s.type}`).join(', ') || 'No Stations'
+    }));
+  };
+
+  const processedData = useMemo(() => preprocessData(studiesData), [studiesData]);
+
+
   const table = useMantineReactTable({
     columns,
-    data: studiesData,
+    data: processedData,
     enableRowActions: true,
     renderRowActionMenuItems: ({ row }) => (
       <>
