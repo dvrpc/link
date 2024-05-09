@@ -55,7 +55,7 @@ const AddLayer = ({ geojsonData, connectionType }) => {
       }
 
       const bounds = bbox(filteredGeoJson);
-      map.fitBounds(bounds, { padding: 20 });
+      map.fitBounds(bounds, { padding: { top: 10, bottom: 400, left: 10, right: 0 } });
     };
 
     if (map.isStyleLoaded()) {
