@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { useDisclosure } from "@mantine/hooks";
-import { Text, Modal, Drawer, Button, Group, Menu } from "@mantine/core";
+import { Affix, Text, Modal, Drawer, Button, Group, Menu } from "@mantine/core";
 import { useAuth0 } from "@auth0/auth0-react";
 import makeAuthenticatedRequest from "../Authentication/Api";
 import { useMantineReactTable, MantineReactTable } from 'mantine-react-table';
 import { useColumns } from './columns';
 import { IconDownload, IconEye, IconTrash } from '@tabler/icons-react';
 import { downloadGeojson, handleDelete, } from './ShelfApis'
+import CsvButton from "../Csv/Csv";
 
 function StudyShelf({ connectionType, onStudyClick }) {
   const [opened, { open, close }] = useDisclosure(false);
@@ -98,6 +99,7 @@ function StudyShelf({ connectionType, onStudyClick }) {
         style={{ padding: 0 }}
       >
         <MantineReactTable table={table} />
+        <CsvButton schema={connectionType} username={user.nickname} />
       </Drawer>
       <Modal
         opened={isModalOpen}
