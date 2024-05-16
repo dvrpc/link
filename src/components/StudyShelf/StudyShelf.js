@@ -6,7 +6,7 @@ import makeAuthenticatedRequest from "../Authentication/Api";
 import { useMantineReactTable, MantineReactTable } from 'mantine-react-table';
 import { useColumns } from './columns';
 import { IconDownload, IconEye, IconTrash, IconPencil } from '@tabler/icons-react';
-import { downloadGeojson, handleDelete, handleShareSwitch, handleRename } from './ShelfApis'
+import { downloadGeojson, handleDelete, handleShareSwitch, handleRename } from './ShelfApis';
 import CsvButton from "../Csv/Csv";
 
 function StudyShelf({ connectionType, onStudyClick }) {
@@ -18,15 +18,26 @@ function StudyShelf({ connectionType, onStudyClick }) {
   const [renameParams, setRenameParams] = useState({});
   const [newName, setNewName] = useState('');
   const { user } = useAuth0();
-  const columns = useColumns();
+
+  const handleSwitchChange = (rowIndex, rowData) => {
+    setStudiesData((prevData) => {
+      const newData = prevData.map((row, index) =>
+        index === rowIndex ? { ...row, shared: !row.shared } : row
+      );
+      console.log(connectionType)
+      handleShareSwitch(
+        connectionType,
+        user.nickname,
+        rowData.seg_name,
+        !rowData.shared
+      );
+      return newData;
+    });
+  };
+
+  const columns = useMemo(() => useColumns(handleSwitchChange, connectionType), [handleSwitchChange, connectionType]);
 
   useEffect(() => {
-    console.log("Final data being rendered:", studiesData);
-  }, [studiesData]);
-
-
-  useEffect(() => {
-
     const refreshCards = async () => {
       try {
         const username = user?.nickname;
@@ -61,12 +72,11 @@ function StudyShelf({ connectionType, onStudyClick }) {
     if (!isModalOpen || !isRenameModalOpen) {
       refreshCards();
     }
-
   }, [user, connectionType, isModalOpen, isRenameModalOpen]);
 
   const openRenameConfirmModal = (cxtype, seg, user) => {
     setIsRenameModalOpen(true);
-    setRenameParams({ cxtype, seg, user, });
+    setRenameParams({ cxtype, seg, user });
   };
 
   const handleRenameClick = async () => {
@@ -86,10 +96,9 @@ function StudyShelf({ connectionType, onStudyClick }) {
 
   const handleDeleteClick = () => {
     setIsModalOpen(false);
-    handleDelete(deleteParams.seg, deleteParams.user, deleteParams.cxtype)
+    handleDelete(deleteParams.seg, deleteParams.user, deleteParams.cxtype);
   };
 
-  // have to do this for mantine react table, otherwise throws errors about objects
   const preprocessData = (data) => {
     return data.map(item => ({
       ...item,
@@ -101,7 +110,6 @@ function StudyShelf({ connectionType, onStudyClick }) {
 
   const processedData = useMemo(() => preprocessData(studiesData), [studiesData]);
 
-
   const table = useMantineReactTable({
     columns,
     data: processedData,
@@ -111,7 +119,7 @@ function StudyShelf({ connectionType, onStudyClick }) {
         <Menu.Item onClick={() => openRenameConfirmModal(connectionType, row.original.seg_name, row.original.username)} icon={<IconPencil />}>Rename Study</Menu.Item>
         <Menu.Item onClick={() => onStudyClick(row.original.seg_name)} icon={<IconEye />}>View Study</Menu.Item>
         <Menu.Item onClick={() => downloadGeojson(row.original.seg_name, row.original.username, connectionType)} icon={<IconDownload />}>Download GeoJSON of Study</Menu.Item>
-        <Menu.Item onClick={() => openDeleteConfirmModal(row.original.seg_name, row.original.username, connectionType)} color='red' icon={<IconTrash />}>Delete Study</Menu.Item>
+        <Menu.Item onClick={() => openDeleteConfirmModal(row.original.seg_name, row.original.username, connectionType)} color="red" icon={<IconTrash />}>Delete Study</Menu.Item>
       </>
     ),
   });
@@ -127,7 +135,7 @@ function StudyShelf({ connectionType, onStudyClick }) {
         overlayColor="transparent"
         withOverlay={false}
         padding="xs"
-        closeOnEscape={true}
+        closeOnEscape
         style={{ padding: 0 }}
       >
         <MantineReactTable table={table} />
@@ -140,7 +148,7 @@ function StudyShelf({ connectionType, onStudyClick }) {
       >
         <Text>Are you sure you want to delete this study?</Text>
         <Group position="right" mt="md">
-          <Button onClick={() => handleDeleteClick(deleteParams.seg, deleteParams.user, deleteParams.cxtype)} color="red">
+          <Button onClick={handleDeleteClick} color="red">
             Yes, Delete
           </Button>
           <Button onClick={() => setIsModalOpen(false)}>Cancel</Button>
@@ -157,14 +165,13 @@ function StudyShelf({ connectionType, onStudyClick }) {
             placeholder="New Study Name"
             value={newName}
             onChange={(event) => setNewName(event.currentTarget.value)}
-
-          ></TextInput>
-          <Button onClick={() => handleRenameClick(renameParams.seg, renameParams.user, renameParams.cxtype)} >
+          />
+          <Button onClick={handleRenameClick}>
             Rename
           </Button>
           <Button onClick={() => setIsRenameModalOpen(false)}>Cancel</Button>
         </Group>
-      </Modal >
+      </Modal>
       <Group position="center">
         <Button onClick={open}>My Studies</Button>
       </Group>

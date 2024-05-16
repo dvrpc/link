@@ -1,6 +1,30 @@
 import { useMemo } from 'react';
+import { Switch } from '@mantine/core';
 
-export const useColumns = () => useMemo(() => [
+export const useColumns = (handleSwitchChange, connectionType) => useMemo(() => [
+  {
+    header: 'Shared',
+    accessorKey: 'shared',
+    Cell: ({ cell }) => (
+      <div style={{ display: 'flex', alignItems: 'center' }}>
+        <Switch
+          checked={cell.row.original.shared}
+          onChange={() => handleSwitchChange(cell.row.index, cell.row.original)}
+          color="green"
+        />
+        {cell.row.original.shared == true && (
+          <a
+            href={`/webmaps/link/user/${cell.row.original.username}/${connectionType === "bike" ? "lts" : "sidewalk"}/study/${cell.row.original.seg_name}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ marginLeft: '8px' }}
+          >
+            Public Link
+          </a>
+        )}
+      </div>
+    ),
+  },
   { accessorKey: 'username', header: 'Username' },
   { accessorKey: 'seg_name', header: 'Segment Name' },
   {
