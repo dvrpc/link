@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { Switch } from '@mantine/core';
+import { Switch, Anchor } from '@mantine/core';
 
 export const useColumns = (handleSwitchChange, connectionType) => useMemo(() => [
   {
@@ -11,17 +11,17 @@ export const useColumns = (handleSwitchChange, connectionType) => useMemo(() => 
           checked={cell.row.original.shared}
           onChange={() => handleSwitchChange(cell.row.index, cell.row.original)}
           color="green"
+          labelPosition="left"
+          label={
+            cell.row.original.shared == true ? (
+              <Anchor href={`/webmaps/link/user/${cell.row.original.username}/${connectionType === "bike" ? "lts" : "sidewalk"}/study/${cell.row.original.seg_name}`} target="_blank" rel="noopener noreferrer" >
+                Sharable Link
+              </Anchor>
+            ) : (
+              'Make study public'
+            )
+          }
         />
-        {cell.row.original.shared == true && (
-          <a
-            href={`/webmaps/link/user/${cell.row.original.username}/${connectionType === "bike" ? "lts" : "sidewalk"}/study/${cell.row.original.seg_name}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{ marginLeft: '8px' }}
-          >
-            Public Link
-          </a>
-        )}
       </div>
     ),
   },
