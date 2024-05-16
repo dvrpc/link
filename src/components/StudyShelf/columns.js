@@ -104,7 +104,12 @@ export const useColumns = (handleSwitchChange, connectionType) => useMemo(() => 
     cell: info => info.value || 'N/A'
   },
 
-  { accessorKey: 'total_jobs', header: 'Total Jobs' },
+  {
+    accessorKey: 'total_jobs', header: 'Total Jobs',
+    Cell: ({ cell }) =>
+      cell.getValue().toLocaleString('en-US', {
+      }),
+  },
   {
     accessorKey: 'bikeCrashesMessage',
     header: 'Bike Crashes',
