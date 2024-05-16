@@ -29,13 +29,12 @@ function StudyShelf({ connectionType, onStudyClick }) {
         connectionType,
         user.nickname,
         rowData.seg_name,
-        !rowData.shared
+        rowData.shared
       );
       return newData;
     });
   };
-
-  const columns = useMemo(() => useColumns(handleSwitchChange, connectionType), [handleSwitchChange, connectionType]);
+  const columns = useColumns(handleSwitchChange, connectionType);
 
   useEffect(() => {
     const refreshCards = async () => {

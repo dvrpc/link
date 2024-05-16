@@ -123,4 +123,4 @@ export const useColumns = (handleSwitchChange, connectionType) => useMemo(() => 
     accessorKey: 'rail_stations', header: 'Rail Stations',
     cell: info => info.value || 'N/A'
   },
-], []);
+], [handleSwitchChange, connectionType]);
