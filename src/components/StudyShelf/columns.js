@@ -30,7 +30,7 @@ export const useColumns = (handleSwitchChange, connectionType) => useMemo(() => 
   {
     accessorKey: 'has_isochrone', header: 'Has Isochrone',
     Cell: ({ cell }) =>
-      cell.getValue() === true ? 'Yes' : 'No',
+      cell.getValue() === true ? 'True' : 'False',
   },
   {
     accessorKey: 'miles', header: 'Miles',
