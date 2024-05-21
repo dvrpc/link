@@ -1,104 +1,178 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { useDisclosure } from "@mantine/hooks";
-import { Drawer, Button, Group, Affix, Space } from "@mantine/core";
-import StudyCard from "./StudyCard";
-import CsvButton from "../Csv/Csv";
+import { TextInput, Text, Modal, Drawer, Button, Group, Menu } from "@mantine/core";
 import { useAuth0 } from "@auth0/auth0-react";
 import makeAuthenticatedRequest from "../Authentication/Api";
+import { useMantineReactTable, MantineReactTable } from 'mantine-react-table';
+import { useColumns } from './columns';
+import { IconDownload, IconEye, IconTrash, IconPencil } from '@tabler/icons-react';
+import { downloadGeojson, handleDelete, handleShareSwitch, handleRename } from './ShelfApis';
+import CsvButton from "../Csv/Csv";
 
 function StudyShelf({ connectionType, onStudyClick }) {
   const [opened, { open, close }] = useDisclosure(false);
-  const [cards, setCards] = useState([]);
+  const [studiesData, setStudiesData] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isRenameModalOpen, setIsRenameModalOpen] = useState(false);
+  const [deleteParams, setDeleteParams] = useState({});
+  const [renameParams, setRenameParams] = useState({});
+  const [newName, setNewName] = useState('');
   const { user } = useAuth0();
 
-  const refreshCards = async () => {
-    try {
-      const username = user.nickname;
-      let schema;
-      if (connectionType === "bike") {
-        schema = "lts";
-      } else if (connectionType === "pedestrian") {
-        schema = "sidewalk";
-      }
-
-      const response = await makeAuthenticatedRequest(
-        `${process.env.REACT_APP_API_URL}/get_user_studies?username=${username}&schema=${schema}`,
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        },
+  const handleSwitchChange = (rowIndex, rowData) => {
+    setStudiesData((prevData) => {
+      const newData = prevData.map((row, index) =>
+        index === rowIndex ? { ...row, shared: !row.shared } : row
       );
-      const data = await response.json();
-      console.log(data);
-
-      if (
-        data.studies &&
-        data.studies.length > 0 &&
-        typeof data.studies[0] === "object"
-      ) {
-        if (data.studies[0].hasOwnProperty("seg_name")) {
-          const sortedStudies = data.studies.sort((a, b) =>
-            a.seg_name.localeCompare(b.seg_name, undefined, { numeric: true })
-          );
-          setCards(sortedStudies);
-
-        } else {
-          console.error("Error: studies do not have a seg_name property.");
-        }
-      } else {
-        setCards(["No studies have been created yet!"]);
-      }
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-    open();
+      console.log(connectionType)
+      handleShareSwitch(
+        connectionType,
+        user.nickname,
+        rowData.seg_name,
+        rowData.shared
+      );
+      return newData;
+    });
   };
+  const columns = useColumns(handleSwitchChange, connectionType);
+
+  useEffect(() => {
+    const refreshCards = async () => {
+      try {
+        const username = user?.nickname;
+        let schema = connectionType === "bike" ? "lts" : "sidewalk";
+        const response = await makeAuthenticatedRequest(
+          `${process.env.REACT_APP_API_URL}/get_user_studies?username=${username}&schema=${schema}`,
+          { method: "GET", headers: { "Content-Type": "application/json" } }
+        );
+        const data = await response.json();
+
+        if (data.studies && Array.isArray(data.studies) && data.studies.length > 0) {
+          const processedData = data.studies.map(study => ({
+            ...study,
+            bikeCrashesMessage: study.bike_ped_crashes.find(crash => typeof crash === 'string' && crash.includes('414'))
+              ? 'Segment too long for crash API'
+              : `${study.bike_ped_crashes[0]?.['Total Bike Crashes'] ?? 0} `,
+            pedCrashesMessage: study.bike_ped_crashes.find(crash => typeof crash === 'string' && crash.includes('414'))
+              ? 'Segment too long for crash API'
+              : `${study.bike_ped_crashes[0]?.['Total Pedestrian Crashes'] ?? 0} `,
+          }));
+          setStudiesData(processedData);
+        } else {
+          console.error("No studies data found or invalid data structure.");
+          setStudiesData([]);
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+        setStudiesData([]);
+      }
+    };
+
+    if (!isModalOpen || !isRenameModalOpen) {
+      refreshCards();
+    }
+  }, [user, connectionType, isModalOpen, isRenameModalOpen, onStudyClick]);
+
+  const openRenameConfirmModal = (cxtype, seg, user) => {
+    setIsRenameModalOpen(true);
+    setRenameParams({ cxtype, seg, user });
+  };
+
+  const handleRenameClick = async () => {
+    try {
+      await handleRename(renameParams.cxtype, renameParams.seg, renameParams.user, newName);
+      setIsRenameModalOpen(false);
+      setNewName('');
+    } catch (error) {
+      alert(`Error: ${error.message}`);
+    }
+  };
+
+  const openDeleteConfirmModal = (seg, user, cxtype) => {
+    setIsModalOpen(true);
+    setDeleteParams({ seg, user, cxtype });
+  };
+
+  const handleDeleteClick = () => {
+    setIsModalOpen(false);
+    handleDelete(deleteParams.seg, deleteParams.user, deleteParams.cxtype);
+  };
+
+  const preprocessData = (data) => {
+    return data.map(item => ({
+      ...item,
+      circuit: item.circuit.map(c => `${c.circuit}: ${c.miles.toFixed(2)} miles`).join(', ') || 'N/A',
+      essential_services: item.essential_services.map(s => `${s.count} x ${s.type}`).join(', ') || 'No Services',
+      rail_stations: item.rail_stations.map(s => `${s.count} x ${s.type}`).join(', ') || 'No Stations'
+    }));
+  };
+
+  const processedData = useMemo(() => preprocessData(studiesData), [studiesData]);
+
+  const table = useMantineReactTable({
+    columns,
+    data: processedData,
+    enableRowActions: true,
+    renderRowActionMenuItems: ({ row }) => (
+      <>
+        <Menu.Item onClick={() => openRenameConfirmModal(connectionType, row.original.seg_name, row.original.username)} icon={<IconPencil />}>Rename Study</Menu.Item>
+        <Menu.Item onClick={() => onStudyClick(row.original.seg_name)} icon={<IconEye />}>View Study</Menu.Item>
+        <Menu.Item onClick={() => downloadGeojson(row.original.seg_name, row.original.username, connectionType)} icon={<IconDownload />}>Download GeoJSON of Study</Menu.Item>
+        <Menu.Item onClick={() => openDeleteConfirmModal(row.original.seg_name, row.original.username, connectionType)} color="red" icon={<IconTrash />}>Delete Study</Menu.Item>
+      </>
+    ),
+  });
 
   return (
     <>
       <Drawer
         opened={opened}
         onClose={close}
-        transitionProps={{
-          transition: "slide-right",
-        }}
-        title="My Studies"
-        padding="20px 10px 60px 10px"
-
+        transitionProps={{ transition: "slide-up" }}
+        position="bottom"
+        overlayOpacity={0}
+        overlayColor="transparent"
+        withOverlay={false}
+        padding="xs"
+        closeOnEscape
+        style={{ padding: 0 }}
       >
-        {cards.length > 0 &&
-          cards[0] !== "No studies have been created yet!" && (
-            <>
-              <Affix position={{ top: 50, left: 20 }}>
-                <CsvButton schema={connectionType} username={user.nickname} />
-              </Affix>
-            </>
-          )}
-        {cards.length === 0 ||
-          cards[0] === "No studies have been created yet!" ? (
-          <div>
-            No studies have been created yet! Draw one or upload a GeoJSON using
-            the tools on the right side of the map.
-          </div>
-        ) : (
-          cards.map((card, index) => (
-            <StudyCard
-              key={index}
-              data={card}
-              username={user.nickname}
-              connection={connectionType}
-              onRenameSuccess={refreshCards}
-              closeFunction={close}
-              onStudyClick={onStudyClick}
-              refreshCards={refreshCards}
-            />
-          ))
-        )}
+        <MantineReactTable table={table} />
+        <CsvButton schema={connectionType} username={user.nickname} />
       </Drawer>
+      <Modal
+        opened={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        title="Confirm Deletion"
+      >
+        <Text>Are you sure you want to delete this study?</Text>
+        <Group position="right" mt="md">
+          <Button onClick={handleDeleteClick} color="red">
+            Yes, Delete
+          </Button>
+          <Button onClick={() => setIsModalOpen(false)}>Cancel</Button>
+        </Group>
+      </Modal>
+      <Modal
+        opened={isRenameModalOpen}
+        onClose={() => setIsRenameModalOpen(false)}
+        title="Rename Segment?"
+      >
+        <Text>What do you want to rename the study to?</Text>
+        <Group position="right" mt="md">
+          <TextInput
+            placeholder="New Study Name"
+            value={newName}
+            onChange={(event) => setNewName(event.currentTarget.value)}
+          />
+          <Button onClick={handleRenameClick}>
+            Rename
+          </Button>
+          <Button onClick={() => setIsRenameModalOpen(false)}>Cancel</Button>
+        </Group>
+      </Modal>
       <Group position="center">
-        <Button onClick={refreshCards}>My Studies</Button>
+        <Button onClick={open}>My Studies</Button>
       </Group>
     </>
   );

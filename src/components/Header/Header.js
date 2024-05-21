@@ -1,4 +1,4 @@
-import { Button, Switch, Header, Flex, Container } from "@mantine/core";
+import { Header, Flex, Container } from "@mantine/core";
 import React from "react";
 import Logo from "../Logo/Logo";
 import StudyShelf from "../StudyShelf/StudyShelf";
