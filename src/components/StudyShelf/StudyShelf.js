@@ -71,7 +71,7 @@ function StudyShelf({ connectionType, onStudyClick }) {
     if (!isModalOpen || !isRenameModalOpen) {
       refreshCards();
     }
-  }, [user, connectionType, isModalOpen, isRenameModalOpen]);
+  }, [user, connectionType, isModalOpen, isRenameModalOpen, onStudyClick]);
 
   const openRenameConfirmModal = (cxtype, seg, user) => {
     setIsRenameModalOpen(true);
