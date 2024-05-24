@@ -143,7 +143,7 @@ function StudyShelf({ connectionType, onStudyClick }) {
       <Modal
         opened={isModalOpen}
         onClose={() => setIsModalOpen(false)}
-        title="Confirm Deletion"
+        title="Confirming Deletion"
       >
         <Text>Are you sure you want to delete this study?</Text>
         <Group position="right" mt="md">
@@ -156,7 +156,7 @@ function StudyShelf({ connectionType, onStudyClick }) {
       <Modal
         opened={isRenameModalOpen}
         onClose={() => setIsRenameModalOpen(false)}
-        title="Rename Segment?"
+        title="Rename Study?"
       >
         <Text>What do you want to rename the study to?</Text>
         <Group position="right" mt="md">
