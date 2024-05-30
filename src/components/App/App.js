@@ -13,6 +13,7 @@ import AuthenticatedLayout from "../Authentication/AuthenticatedLayout";
 import VerifyEmail from "../Authentication/VerifyEmail";
 import Admin from "../Authentication/Admin";
 import SharedStudy from "../SharedStudy/SharedStudy";
+import RegionalCx from "../Map/RegionalCx";
 
 export default function App() {
   const [themeType, setThemeType] = useState("dark");
@@ -59,6 +60,11 @@ export default function App() {
             path="/user/:username/:schema/study/:studyId"
             element={<StudyPageRoute />}
           />
+          <Route
+            path="/regional-connectivity-analysis"
+            element={
+              <RegionalCx themeType={themeType}></RegionalCx>
+            } />
         </Routes>
       </Router>
     </MantineProvider>
