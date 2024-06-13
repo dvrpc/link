@@ -28,15 +28,15 @@ export const useColumns = (handleSwitchChange, connectionType) => useMemo(() => 
   { accessorKey: 'username', header: 'Username' },
   { accessorKey: 'seg_name', header: 'Segment Name' },
   {
-    accessorKey: 'has_isochrone', header: 'Has Isochrone',
-    Cell: ({ cell }) =>
-      cell.getValue() === true ? 'True' : 'False',
-  },
-  {
     accessorKey: 'miles', header: 'Miles',
     Cell: ({ cell }) =>
       cell.getValue().toLocaleString('en-US', {
       }),
+  },
+  {
+    accessorKey: 'has_isochrone', header: 'Island > 300 Miles',
+    Cell: ({ cell }) =>
+      cell.getValue() === true ? 'Yes' : 'No',
   },
   {
     accessorKey: 'total_pop', header: 'Total Population',
