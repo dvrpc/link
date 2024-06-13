@@ -114,6 +114,7 @@ function StudyShelf({ connectionType, onStudyClick }) {
     data: processedData,
     enableRowActions: true,
     enableStickyHeader: true,
+    enableFullScreenToggle: false,
     mantineTableContainerProps: { sx: { maxHeight: '300px' } },
     renderRowActionMenuItems: ({ row }) => (
       <>
