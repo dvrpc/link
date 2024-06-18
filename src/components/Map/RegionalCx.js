@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import RegionalHeader from "./RegionalHeader"
 import mapboxgl from "mapbox-gl";
 mapboxgl.accessToken =
   "pk.eyJ1IjoiZHZycGNvbWFkIiwiYSI6ImNrczZlNDBkZzFnOG0ydm50bXR0dTJ4cGYifQ.VaJDo9EtH2JyzKm3cC0ypA";
@@ -6,25 +7,10 @@ mapboxgl.accessToken =
 function RegionalCx({ themeType, isLoading, setIsLoading }) {
   const mapContainer = useRef(null);
   const [geojsonData, setGeojsonData] = useState(null);
-
-  function fetchGeoJSON(filePath) {
-    return fetch(filePath)
-      .then(response => {
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        console.log(response)
-        return response.json();
-      })
-      .catch(error => {
-        console.error('Error loading GeoJSON:', error);
-        throw error;
-      });
-  }
-
+  const counties = ['DVRPC Region (All Counties)', 'Bucks', 'Burlington', 'Camden', 'Chester', 'Delaware', 'Gloucester', 'Mercer', 'Montgomery', 'Philadelphia']
+  const attributes = ['Total Population', 'Disabled', 'Ethnic Minority', 'Female', 'Foreign Born', 'Limited English Proficiency (LEP)', 'Low Income', 'Older Adult', 'Racial Minority', 'Youth', 'Total Jobs']
 
   useEffect(() => {
-
     const fetchGeoJSON = async () => {
       try {
         const response = await fetch('./for_mapbox.geojson');
@@ -33,12 +19,16 @@ function RegionalCx({ themeType, isLoading, setIsLoading }) {
         }
         const data = await response.json();
         setGeojsonData(data);
+        console.log(geojsonData);
       } catch (error) {
         console.error('Error loading GeoJSON:', error);
       }
     };
 
     fetchGeoJSON();
+  }, []);
+
+  useEffect(() => {
     const mapInstance = new mapboxgl.Map({
       container: mapContainer.current,
       style: themeType === 'dark' ? 'mapbox://styles/mapbox/dark-v11' : 'mapbox://styles/mapbox/light-v11',
@@ -46,33 +36,38 @@ function RegionalCx({ themeType, isLoading, setIsLoading }) {
       zoom: 8.5,
     });
 
-
     mapInstance.on("load", () => {
-      mapInstance.addSource("regional", {
-        type: "geojson",
-        data: geojsonData
-      });
-      mapInstance.addLayer(
-        {
-          id: "region",
-          type: "line",
-          source: "regional",
-          paint: {
-            "line-width": 1,
-            "line-color": "blue"
+      if (geojsonData) {
+        mapInstance.addSource("regional", {
+          type: "geojson",
+          data: geojsonData
+        });
+        mapInstance.addLayer(
+          {
+            id: "region",
+            type: "line",
+            source: "regional",
+            paint: {
+              "line-width": 1,
+              "line-color": "blue"
+            },
           },
-        },
-        "road-label-simple",
-      );
+          "road-label-simple",
+        );
+      }
     });
 
-  }, [themeType]);
+  }, [themeType, geojsonData]);
+
   return (
-    <div
-      ref={mapContainer}
-      className="regional-map-container"
-      style={{ width: "100%", height: "100%" }}
-    />
+    <>
+      <RegionalHeader counties={counties} attributes={attributes} />
+      <div
+        ref={mapContainer}
+        className="regional-map-container"
+        style={{ width: "100%", height: "100%" }}
+      />
+    </>
   );
 }
 
