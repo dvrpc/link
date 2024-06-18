@@ -9,6 +9,8 @@ function RegionalCx({ themeType, isLoading, setIsLoading }) {
   const [geojsonData, setGeojsonData] = useState(null);
   const counties = ['DVRPC Region (All Counties)', 'Bucks', 'Burlington', 'Camden', 'Chester', 'Delaware', 'Gloucester', 'Mercer', 'Montgomery', 'Philadelphia']
   const attributes = ['Total Population', 'Disabled', 'Ethnic Minority', 'Female', 'Foreign Born', 'Limited English Proficiency (LEP)', 'Low Income', 'Older Adult', 'Racial Minority', 'Youth', 'Total Jobs']
+  const [currentCounty, setCurrentCounty] = useState('DVRPC Region (All Counties)');
+  const [currentAttribute, setCurrentAttribute] = useState('Total Population')
 
   useEffect(() => {
     const fetchGeoJSON = async () => {
@@ -57,11 +59,11 @@ function RegionalCx({ themeType, isLoading, setIsLoading }) {
       }
     });
 
-  }, [themeType, geojsonData]);
+  }, [themeType, geojsonData, currentCounty, currentAttribute]);
 
   return (
     <>
-      <RegionalHeader counties={counties} attributes={attributes} />
+      <RegionalHeader counties={counties} attributes={attributes} setCurrentCounty={setCurrentCounty} setCurrentAttribute={setCurrentAttribute} />
       <div
         ref={mapContainer}
         className="regional-map-container"
