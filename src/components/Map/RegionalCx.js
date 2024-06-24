@@ -56,6 +56,11 @@ function RegionalCx({ themeType, isLoading, setIsLoading }) {
           },
           "road-label-simple",
         );
+        if (currentCounty == 'DVRPC Region (All Counties)') {
+
+        } else {
+          mapInstance.setFilter('region', ['==', ['get', 'co_name'], currentCounty])
+        }
       }
     });
 
