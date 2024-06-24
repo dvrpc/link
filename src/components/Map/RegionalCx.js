@@ -8,9 +8,9 @@ function RegionalCx({ themeType, isLoading, setIsLoading }) {
   const mapContainer = useRef(null);
   const [geojsonData, setGeojsonData] = useState(null);
   const counties = ['DVRPC Region (All Counties)', 'Bucks', 'Burlington', 'Camden', 'Chester', 'Delaware', 'Gloucester', 'Mercer', 'Montgomery', 'Philadelphia']
-  const attributes = ['Total Population', 'Disabled', 'Ethnic Minority', 'Female', 'Foreign Born', 'Limited English Proficiency (LEP)', 'Low Income', 'Older Adult', 'Racial Minority', 'Youth', 'Total Jobs']
+  const attributes = ['total_pop', 'disabled', 'ethnic_minority', 'female', 'foreign_born', 'lep', 'low_income', 'older_adult', 'racial_minority', 'youth', 'total_jobs']
   const [currentCounty, setCurrentCounty] = useState('DVRPC Region (All Counties)');
-  const [currentAttribute, setCurrentAttribute] = useState('Total Population')
+  const [currentAttribute, setCurrentAttribute] = useState('total_pop')
 
   useEffect(() => {
     const fetchGeoJSON = async () => {
