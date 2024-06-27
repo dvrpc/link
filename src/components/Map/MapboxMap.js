@@ -4,8 +4,7 @@ import drawInstance from "./MapboxDrawConfig";
 import { MapContext } from "./MapContext";
 import { GeoJSONUploadControl } from "./GeojsonButton";
 import { SelectAllButton } from "./SelectAllButton";
-mapboxgl.accessToken =
-  "pk.eyJ1IjoiZHZycGNvbWFkIiwiYSI6ImNrczZlNDBkZzFnOG0ydm50bXR0dTJ4cGYifQ.VaJDo9EtH2JyzKm3cC0ypA";
+mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_ACCESS_TOKEN
 
 function MapboxMap({ setHasDrawings, setMap, connectionType, themeType, isLoading, setIsLoading }) {
   const mapContainer = useRef(null);

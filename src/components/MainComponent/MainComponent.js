@@ -13,8 +13,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { getGeometries, getSegments } from "../Map/GetGeoms";
 import drawInstance from "../Map/MapboxDrawConfig";
 
-mapboxgl.accessToken =
-  "pk.eyJ1IjoiZHZycGNvbWFkIiwiYSI6ImNrczZlNDBkZzFnOG0ydm50bXR0dTJ4cGYifQ.VaJDo9EtH2JyzKm3cC0ypA";
+mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_ACCESS_TOKEN;
 
 export default function MainComponent({ onToggleTheme, themeType }) {
   const [isLoading, setIsLoading] = useState(false);
