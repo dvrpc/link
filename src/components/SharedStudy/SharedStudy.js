@@ -4,8 +4,7 @@ import mapboxgl from "mapbox-gl";
 import { Stack, Box, Table } from "@mantine/core";
 import bbox from "@turf/bbox";
 import makeAuthenticatedRequest from "../Authentication/Api";
-mapboxgl.accessToken =
-  "pk.eyJ1IjoiZHZycGNvbWFkIiwiYSI6ImNrczZlNDBkZzFnOG0ydm50bXR0dTJ4cGYifQ.VaJDo9EtH2JyzKm3cC0ypA";
+mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_ACCESS_TOKEN;
 
 const SharedStudy = ({
   username: propUsername,
