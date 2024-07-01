@@ -1,8 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import RegionalHeader from "./RegionalHeader"
 import mapboxgl from "mapbox-gl";
-mapboxgl.accessToken =
-  "pk.eyJ1IjoiZHZycGNvbWFkIiwiYSI6ImNrczZlNDBkZzFnOG0ydm50bXR0dTJ4cGYifQ.VaJDo9EtH2JyzKm3cC0ypA";
+mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_ACCESS_TOKEN
 
 function RegionalCx({ themeType, isLoading, setIsLoading }) {
   const mapContainer = useRef(null);
