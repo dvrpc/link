@@ -10,6 +10,7 @@ function RegionalCx({ themeType, isLoading, setIsLoading }) {
   const attributes = ['total_pop', 'disabled', 'ethnic_minority', 'female', 'foreign_born', 'lep', 'low_income', 'older_adult', 'racial_minority', 'youth', 'total_jobs']
   const [currentCounty, setCurrentCounty] = useState('DVRPC Region (All Counties)');
   const [currentAttribute, setCurrentAttribute] = useState('total_pop')
+  const [maxOfAttribute, setMaxOfAttribute] = useState(null)
 
   useEffect(() => {
     const fetchGeoJSON = async () => {
@@ -50,16 +51,17 @@ function RegionalCx({ themeType, isLoading, setIsLoading }) {
             source: "regional",
             paint: {
               "line-width": 1,
-              "line-color": "blue"
+              "line-color": {
+                property: currentAttribute,
+                stops: [
+                  [0, "red"],
+                  [maxOfAttribute, "green"]
+                ]
+              }
             },
           },
           "road-label-simple",
         );
-        if (currentCounty == 'DVRPC Region (All Counties)') {
-
-        } else {
-          mapInstance.setFilter('region', ['==', ['get', 'co_name'], currentCounty])
-        }
       }
     });
 
