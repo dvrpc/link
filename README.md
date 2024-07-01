@@ -48,6 +48,7 @@ For example, env.development might look like:
 REACT_APP_API_URL=http://localhost:8000/api
 REACT_APP_API_USER=user
 REACT_APP_API_PASSWORD=pw
+REACT_APP_MAPBOX_ACCESS_TOKEN=your mapbox token
 ```
 note the /api in the api. This should match whatever you set the environment variable to in the backend, if you set one.
 
