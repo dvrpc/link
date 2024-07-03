@@ -26,6 +26,11 @@ function ModalRegional() {
           <List.Item>County name</List.Item>
         </List>
 
+        The results were added to this webmap. Symbology is created dynamically using quantile breaks, depending on the current County and attribute selected.
+        Not all results from LINK can be considered attributes- for example, lists of adjacent rail stations are not used or totaled in this regional analysis.
+
+        Blue segments represent a lower number of people or jobs that that segment would connect, while pink or white represent greater numbers of people.
+
 
       </Modal>
 
