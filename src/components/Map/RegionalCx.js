@@ -10,7 +10,8 @@ function RegionalCx({ themeType, isLoading, setIsLoading }) {
   const attributes = ['total_pop', 'disabled', 'ethnic_minority', 'female', 'foreign_born', 'lep', 'low_income', 'older_adult', 'racial_minority', 'youth', 'total_jobs']
   const [currentCounty, setCurrentCounty] = useState('DVRPC Region (All Counties)');
   const [currentAttribute, setCurrentAttribute] = useState('total_pop')
-  const [maxOfAttribute, setMaxOfAttribute] = useState(null)
+  const [maxOfAttribute, setMaxOfAttribute] = useState(-Infinity);
+
 
   useEffect(() => {
     const fetchGeoJSON = async () => {
@@ -21,14 +22,22 @@ function RegionalCx({ themeType, isLoading, setIsLoading }) {
         }
         const data = await response.json();
         setGeojsonData(data);
-        console.log(geojsonData);
+        // Calculate max immediately after setting geojsonData
+        const max = data.features.reduce((max, feature) => {
+          if (!currentCounty || currentCounty === 'DVRPC Region (All Counties)' || feature.properties.co_name === currentCounty) {
+            return Math.max(max, feature.properties[currentAttribute]);
+          }
+          return max;
+        }, -Infinity);
+        setMaxOfAttribute(max);
+        console.log('Max attribute value:', max);
       } catch (error) {
         console.error('Error loading GeoJSON:', error);
       }
     };
 
     fetchGeoJSON();
-  }, []);
+  }, [currentAttribute, currentCounty]);
 
   useEffect(() => {
     const mapInstance = new mapboxgl.Map({
@@ -40,6 +49,10 @@ function RegionalCx({ themeType, isLoading, setIsLoading }) {
 
     mapInstance.on("load", () => {
       if (geojsonData) {
+        if (currentCounty == 'DVRPC Region (All Counties)') {
+        } else {
+          mapInstance.setFilter('region', ['==', ['get', 'co_name'], currentCounty])
+        }
         mapInstance.addSource("regional", {
           type: "geojson",
           data: geojsonData
@@ -54,7 +67,7 @@ function RegionalCx({ themeType, isLoading, setIsLoading }) {
               "line-color": {
                 property: currentAttribute,
                 stops: [
-                  [0, "red"],
+                  [1, "red"],
                   [maxOfAttribute, "green"]
                 ]
               }
