@@ -26,8 +26,18 @@ export default function RegionalHeader({ counties, attributes, setCurrentCounty,
   return (
     <>
       <Container fluid h={80} bg="rgb(47, 79, 79)">
-        <Flex gap='xl' align="center">
+        <Flex
+          bg="rgb(47, 79, 79)"
+          mih={80}
+          gap="md"
+          justify="left"
+          align="center"
+          direction="row"
+          wrap="wrap"
+          pl="20px"
+        >
           <Logo logoWidth={'150px'} />
+          <ModalRegional />
           <NativeSelect
             label="Selected County"
             placeholder="DVRPC Region (All Counties)"
@@ -40,7 +50,6 @@ export default function RegionalHeader({ counties, attributes, setCurrentCounty,
             onChange={(event) => setCurrentAttribute(event.currentTarget.value)}
             data={attributeOptions}
           />
-          <ModalRegional />
         </Flex>
       </Container>
     </>

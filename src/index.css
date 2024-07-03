@@ -12,7 +12,7 @@
 }
 
 .regional-map-container {
-  height: 100vh !important;
+  height: calc(100vh - 80px) !important;
   width: 100vw;
 }
 

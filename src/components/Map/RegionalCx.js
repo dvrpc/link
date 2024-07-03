@@ -137,36 +137,39 @@ const RegionalCx = ({ themeType, isLoading, setIsLoading }) => {
   }, [themeType, geojsonData, currentCounty, currentAttribute, maxOfAttribute]);
   return (
     <>
-      <RegionalHeader counties={counties} attributes={attributes} setCurrentCounty={setCurrentCounty} setCurrentAttribute={setCurrentAttribute} />
-      <div
-        ref={mapContainer}
-        className="regional-map-container"
-        style={{ width: "100%", height: "100%", position: "relative" }}
-      >
+      <div className="parent">
+        <RegionalHeader counties={counties} attributes={attributes} setCurrentCounty={setCurrentCounty} setCurrentAttribute={setCurrentAttribute} />
         <div
-          style={{
-            position: "absolute",
-            top: "10px",
-            right: "10px",
-            backgroundColor: "rgb(47, 79, 79)",
-            padding: "10px",
-            borderRadius: "5px",
-            boxShadow: "0 0 10px rgba(0,0,0,0.5)",
-            zIndex: 1
-          }}
+          ref={mapContainer}
+          className="regional-map-container"
+          style={{ width: "100%", height: "100%", position: "relative" }}
         >
-          <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-            <div style={{ display: "flex" }}>
-              {colors.map(color => (
-                <div key={color} style={{ width: "20px", height: "20px", backgroundColor: color }} />
-              ))}
-            </div>
-            <div style={{ display: "flex", justifyContent: "space-between", width: "100%", marginTop: "5px" }}>
-              <span style={{ color: "white" }}>Low</span>
-              <span style={{ color: "white" }}>High</span>
+          <div
+            style={{
+              position: "absolute",
+              top: "10px",
+              right: "10px",
+              backgroundColor: "rgb(47, 79, 79)",
+              padding: "10px",
+              borderRadius: "5px",
+              boxShadow: "0 0 10px rgba(0,0,0,0.5)",
+              zIndex: 1
+            }}
+          >
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+              <div style={{ display: "flex" }}>
+                {colors.map(color => (
+                  <div key={color} style={{ width: "20px", height: "20px", backgroundColor: color }} />
+                ))}
+              </div>
+              <div style={{ display: "flex", justifyContent: "space-between", width: "100%", marginTop: "5px" }}>
+                <span style={{ color: "white" }}>Low</span>
+                <span style={{ color: "white" }}>High</span>
+              </div>
             </div>
           </div>
-        </div>      </div>
+        </div>
+      </div>
     </>
   );
 }
