@@ -49,10 +49,6 @@ function RegionalCx({ themeType, isLoading, setIsLoading }) {
 
     mapInstance.on("load", () => {
       if (geojsonData) {
-        if (currentCounty == 'DVRPC Region (All Counties)') {
-        } else {
-          mapInstance.setFilter('region', ['==', ['get', 'co_name'], currentCounty])
-        }
         mapInstance.addSource("regional", {
           type: "geojson",
           data: geojsonData
@@ -75,10 +71,20 @@ function RegionalCx({ themeType, isLoading, setIsLoading }) {
           },
           "road-label-simple",
         );
+
+        // Ensure the layer exists before setting the filter
+        if (mapInstance.getLayer('region')) {
+          if (currentCounty !== 'DVRPC Region (All Counties)') {
+            mapInstance.setFilter('region', ['==', ['get', 'co_name'], currentCounty]);
+          } else {
+            mapInstance.setFilter('region', null);
+          }
+        }
       }
     });
 
-  }, [themeType, geojsonData, currentCounty, currentAttribute]);
+    return () => mapInstance.remove();
+  }, [themeType, geojsonData, currentCounty, currentAttribute, maxOfAttribute]);
 
   return (
     <>
