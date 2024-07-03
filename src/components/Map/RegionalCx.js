@@ -11,6 +11,13 @@ const RegionalCx = ({ themeType, isLoading, setIsLoading }) => {
   const [currentCounty, setCurrentCounty] = useState('DVRPC Region (All Counties)');
   const [currentAttribute, setCurrentAttribute] = useState('total_pop');
   const [maxOfAttribute, setMaxOfAttribute] = useState(-Infinity);
+  const colors = [
+    '#0000ff', // Blue
+    '#8000ff', // Purple-Blue
+    '#bf40ff', // Light Purple
+    '#ff80ff', // Light Pink
+    '#ffffff'  // Pink
+  ];
 
   useEffect(() => {
     const fetchGeoJSON = async () => {
@@ -76,13 +83,6 @@ const RegionalCx = ({ themeType, isLoading, setIsLoading }) => {
           return values[index];
         });
         console.log('Quantiles:', quantiles);
-        const colors = [
-          '#0000ff', // Blue
-          '#8000ff', // Purple-Blue
-          '#bf40ff', // Light Purple
-          '#ff80ff', // Light Pink
-          '#ffffff'  // Pink
-        ];
         const colorStops = quantiles.map((quantile, index) => [quantile, colors[index]]);
         console.log('Color Stops:', colorStops);
 
@@ -141,8 +141,32 @@ const RegionalCx = ({ themeType, isLoading, setIsLoading }) => {
       <div
         ref={mapContainer}
         className="regional-map-container"
-        style={{ width: "100%", height: "100%" }}
-      />
+        style={{ width: "100%", height: "100%", position: "relative" }}
+      >
+        <div
+          style={{
+            position: "absolute",
+            top: "10px",
+            right: "10px",
+            backgroundColor: "rgb(47, 79, 79)",
+            padding: "10px",
+            borderRadius: "5px",
+            boxShadow: "0 0 10px rgba(0,0,0,0.5)",
+            zIndex: 1
+          }}
+        >
+          <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+            <div style={{ display: "flex" }}>
+              {colors.map(color => (
+                <div key={color} style={{ width: "20px", height: "20px", backgroundColor: color }} />
+              ))}
+            </div>
+            <div style={{ display: "flex", justifyContent: "space-between", width: "100%", marginTop: "5px" }}>
+              <span style={{ color: "white" }}>Low</span>
+              <span style={{ color: "white" }}>High</span>
+            </div>
+          </div>
+        </div>      </div>
     </>
   );
 }
