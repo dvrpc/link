@@ -1,4 +1,4 @@
-import { Header, Flex, Container } from "@mantine/core";
+import { Header, Flex, Container, Button } from "@mantine/core";
 import React from "react";
 import Logo from "../Logo/Logo";
 import StudyShelf from "../StudyShelf/StudyShelf";
@@ -39,6 +39,8 @@ export function HeaderSimple({
           />
           <Explainer />
           <Video></Video>
+          <Button component="a"
+            href="./link/regional-connectivity-analysis">Regional Analysis </Button>
           <ThemeToggle onToggleTheme={onToggleTheme} isLoading={isLoading} setIsLoading={setIsLoading} />
           <ConnectionToggle
             connectionType={connectionType}

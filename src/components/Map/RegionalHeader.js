@@ -1,5 +1,6 @@
 import { Container, NativeSelect, Flex } from '@mantine/core';
 import Logo from '../Logo/Logo'
+import ModalRegional from './ModalRegional'
 
 const attributeDisplayNames = {
   total_pop: 'Total Population',
@@ -39,6 +40,7 @@ export default function RegionalHeader({ counties, attributes, setCurrentCounty,
             onChange={(event) => setCurrentAttribute(event.currentTarget.value)}
             data={attributeOptions}
           />
+          <ModalRegional />
         </Flex>
       </Container>
     </>
