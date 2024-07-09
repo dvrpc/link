@@ -26,15 +26,27 @@ function ModalRegional() {
           <List.Item>County name</List.Item>
         </List>
 
-        The results were added to this webmap. Symbology is created dynamically using quantile breaks, depending on the current County and attribute selected.
-        Not all results from LINK can be considered attributes- for example, lists of adjacent rail stations are not used or totaled in this regional analysis.
+        <div>
 
-        Blue segments represent a lower number of people or jobs that that segment would connect, while pink or white represent greater numbers of people.
+          <br></br>
+          The results were added to this webmap. Symbology is created dynamically using quantile breaks, depending on the current County and attribute selected.
+          Not all results from LINK can be considered attributes- for example, lists of adjacent rail stations are not used or totaled in this regional analysis. <br></br>
+          <br></br>
+          Blue segments represent a lower number of people or jobs that that segment would connect, while pink or white represent greater numbers of people.
 
+          <br></br>
+          <br></br>
+          In short, each attribute of a segment (e.g., total population) represents the total number of people or jobs along the segment, but also within the low-stress islands accessible from
+          that segment.
+        </div>
 
       </Modal>
 
-      <Button onClick={open}>Explainer</Button>
+      <Button
+        onClick={open}
+        variant="gradient"
+        gradient={{ from: 'blue', to: 'pink', deg: 90 }}
+      >LINKing the region</Button>
     </>
   );
 }

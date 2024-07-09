@@ -39,13 +39,11 @@ export default function RegionalHeader({ counties, attributes, setCurrentCounty,
           <Logo logoWidth={'150px'} />
           <ModalRegional />
           <NativeSelect
-            label="Selected County"
             placeholder="DVRPC Region (All Counties)"
             onChange={(event) => setCurrentCounty(event.currentTarget.value)}
             data={counties}
           />
           <NativeSelect
-            label="Current Attribute"
             placeholder="Total Population"
             onChange={(event) => setCurrentAttribute(event.currentTarget.value)}
             data={attributeOptions}
