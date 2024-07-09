@@ -13,18 +13,17 @@ const RegionalCx = ({ themeType, isLoading, setIsLoading }) => {
   const [currentAttribute, setCurrentAttribute] = useState('total_pop');
   const [maxOfAttribute, setMaxOfAttribute] = useState(-Infinity);
   const colors = [
-    '#0000ff', // Blue
-    '#4b00ff',
-    '#8000ff',
-    '#aa00ff',
-    '#d100ff',
-    '#ff00ff', // Pink
-    '#ff66ff',
-    '#ff99ff',
-    '#ffccff',
-    '#ffffff'  // White
+    '#474ED7', // Low (blue)
+    '#6B4FCB',
+    '#8E50C0',
+    '#B051B4',
+    '#D351A9',
+    '#EC458D', // Middle (pink)
+    '#EF6E97',
+    '#F296A2',
+    '#F5BFAE',
+    '#FFF4CA'  // High (light yellow)
   ];
-
   useEffect(() => {
     const fetchGeoJSON = async () => {
       try {

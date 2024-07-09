@@ -46,7 +46,7 @@ function ModalRegional() {
       <Button
         onClick={open}
         variant="gradient"
-        gradient={{ from: 'blue', to: 'pink', deg: 90 }}
+        gradient={{ from: '#474ED7', to: '#EC458D', deg: 90 }}
       >LINKing the region</Button>
     </>
   );
