@@ -13,7 +13,8 @@ const attributeDisplayNames = {
   older_adult: 'Older Adult',
   racial_minority: 'Racial Minority',
   youth: 'Youth',
-  total_jobs: 'Total Jobs'
+  total_jobs: 'Total Jobs',
+  miles: 'Miles of low-stress island connected'
 };
 
 
