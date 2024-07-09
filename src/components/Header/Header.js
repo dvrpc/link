@@ -40,7 +40,7 @@ export function HeaderSimple({
           <Explainer />
           <Video></Video>
           <Button component="a"
-            href="./link/regional-connectivity-analysis">Regional Analysis </Button>
+            href="regional-connectivity-analysis">Regional Analysis </Button>
           <ThemeToggle onToggleTheme={onToggleTheme} isLoading={isLoading} setIsLoading={setIsLoading} />
           <ConnectionToggle
             connectionType={connectionType}
