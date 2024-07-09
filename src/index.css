@@ -11,6 +11,11 @@
   width: 100%;
 }
 
+.regional-map-container {
+  height: calc(100vh - 80px) !important;
+  width: 100vw;
+}
+
 body {
   padding-left: 0px !important;
 }

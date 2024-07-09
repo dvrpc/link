@@ -113,6 +113,9 @@ function StudyShelf({ connectionType, onStudyClick }) {
     columns,
     data: processedData,
     enableRowActions: true,
+    enableStickyHeader: true,
+    enableFullScreenToggle: false,
+    mantineTableContainerProps: { sx: { maxHeight: '300px' } },
     renderRowActionMenuItems: ({ row }) => (
       <>
         <Menu.Item onClick={() => openRenameConfirmModal(connectionType, row.original.seg_name, row.original.username)} icon={<IconPencil />}>Rename Study</Menu.Item>
