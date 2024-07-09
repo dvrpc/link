@@ -13,12 +13,16 @@ const RegionalCx = ({ themeType, isLoading, setIsLoading }) => {
   const [maxOfAttribute, setMaxOfAttribute] = useState(-Infinity);
   const colors = [
     '#0000ff', // Blue
-    '#8000ff', // Purple-Blue
-    '#bf40ff', // Light Purple
-    '#ff80ff', // Light Pink
-    '#ffffff'  // Pink
+    '#4b00ff',
+    '#8000ff',
+    '#aa00ff',
+    '#d100ff',
+    '#ff00ff', // Pink
+    '#ff66ff',
+    '#ff99ff',
+    '#ffccff',
+    '#ffffff'  // White
   ];
-
   useEffect(() => {
     const fetchGeoJSON = async () => {
       try {
@@ -44,18 +48,6 @@ const RegionalCx = ({ themeType, isLoading, setIsLoading }) => {
     fetchGeoJSON();
   }, []);
 
-  useEffect(() => {
-    if (geojsonData) {
-      const max = geojsonData.features.reduce((max, feature) => {
-        if (!currentCounty || currentCounty === 'DVRPC Region (All Counties)' || feature.properties.co_name === currentCounty) {
-          return Math.max(max, feature.properties[currentAttribute]);
-        }
-        return max;
-      }, -Infinity);
-      setMaxOfAttribute(max);
-      console.log('Max attribute value:', max);
-    }
-  }, [geojsonData, currentAttribute, currentCounty]);
 
   useEffect(() => {
     const mapInstance = new mapboxgl.Map({
@@ -78,8 +70,8 @@ const RegionalCx = ({ themeType, isLoading, setIsLoading }) => {
           .filter(value => value !== null && value !== undefined)
           .sort((a, b) => a - b);
 
-        const quantiles = Array.from({ length: 5 }, (_, i) => {
-          const index = Math.floor((i + 1) * values.length / 5) - 1;
+        const quantiles = Array.from({ length: 10 }, (_, i) => {
+          const index = Math.floor((i + 1) * values.length / 10) - 1;
           return values[index];
         });
         console.log('Quantiles:', quantiles);
