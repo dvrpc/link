@@ -112,7 +112,7 @@ const SharedStudy = ({
       map.current.on("load", () => {
         map.current.addSource("lts_tile", {
           type: "vector",
-          url: "https://www.tiles.dvrpc.org/data/lts.json",
+          url: "https://www.tiles.dvrpc.org/data/lts_v2.json",
           minzoom: 8,
           promoteId: "id",
         });
@@ -128,11 +128,11 @@ const SharedStudy = ({
               id: "lts",
               type: "line",
               source: "lts_tile",
-              "source-layer": "existing_conditions_lts",
+              "source-layer": "lts",
               paint: {
                 "line-width": 1,
                 "line-opacity": {
-                  property: "lts_score",
+                  property: "lts",
                   stops: [
                     [1, 1],
                     [2, 1],
@@ -141,7 +141,7 @@ const SharedStudy = ({
                   ],
                 },
                 "line-color": {
-                  property: "lts_score",
+                  property: "lts",
                   stops: [
                     [1, "green"],
                     [2, "light green"],

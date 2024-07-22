@@ -26,7 +26,7 @@ function MapboxMap({ setHasDrawings, setMap, connectionType, themeType, isLoadin
       mapInstance.addControl(selectAll, "top-right");
       mapInstance.addSource("lts_tile", {
         type: "vector",
-        url: "https://www.tiles.dvrpc.org/data/lts.json",
+        url: "https://www.tiles.dvrpc.org/data/lts_v2.json",
         minzoom: 8,
         promoteId: "id",
       });
@@ -43,11 +43,11 @@ function MapboxMap({ setHasDrawings, setMap, connectionType, themeType, isLoadin
             id: "lts",
             type: "line",
             source: "lts_tile",
-            "source-layer": "existing_conditions_lts",
+            "source-layer": "lts",
             paint: {
               "line-width": 1,
               "line-opacity": {
-                property: "lts_score",
+                property: "lts",
                 stops: [
                   [1, 1],
                   [2, 1],
@@ -56,7 +56,7 @@ function MapboxMap({ setHasDrawings, setMap, connectionType, themeType, isLoadin
                 ],
               },
               "line-color": {
-                property: "lts_score",
+                property: "lts",
                 stops: [
                   [1, "green"],
                   [2, "light green"],
