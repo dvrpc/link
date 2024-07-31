@@ -8,6 +8,7 @@ import Logout from "../Authentication/Logout";
 import Greeting from "./Greeting";
 import Explainer from "../Explainer/Explainer";
 import Video from "../Video/Video"
+import Draft from "../Logo/Draft"
 
 export function HeaderSimple({
   connectionType,
@@ -32,6 +33,7 @@ export function HeaderSimple({
           pl="20px"
         >
           <Logo logoWidth="150px" />
+          <Draft logoWidth="50px" />
           <StudyShelf
             connectionType={connectionType}
             setConnectionType={setConnectionType}
