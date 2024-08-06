@@ -33,7 +33,7 @@ function ModalRegional() {
           Not all results from LINK can be considered attributes- for example, lists of adjacent rail stations are not used or totaled in this regional analysis. Also
           note that ONLY LTS 3 and 4 segments are shown here. <br></br>
           <br></br>
-          Blue segments represent a lower number of people or jobs that that segment would connect, while pink or white represent greater numbers of people.
+          Blue segments represent a lower number of people or jobs that the segment would connect, while pink or white represent greater numbers of people.
 
           <br></br>
           <br></br>
