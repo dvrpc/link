@@ -32,8 +32,8 @@ export function HeaderSimple({
           wrap="wrap"
           pl="20px"
         >
+          <Draft logoWidth="140px" />
           <Logo logoWidth="150px" />
-          <Draft logoWidth="50px" />
           <StudyShelf
             connectionType={connectionType}
             setConnectionType={setConnectionType}
