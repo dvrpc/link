@@ -20,7 +20,7 @@ function ModalRegional() {
         <List>
           <List.Item>Number of lanes</List.Item>
           <List.Item>Speed</List.Item>
-          <List.Item>Typeno</List.Item>
+          <List.Item>Type</List.Item>
           <List.Item>LTS score</List.Item>
           <List.Item>Bike facilities</List.Item>
           <List.Item>County name</List.Item>
