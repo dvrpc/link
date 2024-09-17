@@ -100,6 +100,47 @@ function MapboxMap({ setHasDrawings, setMap, connectionType, themeType, isLoadin
       }
     });
 
+    mapInstance.on('click', 'lts', (e) => {
+      const coordinates = e.lngLat;
+      const properties = e.features[0].properties;
+      const popupContent = Object.keys(properties)
+        .map(key => `<strong>${key}:</strong> ${properties[key]}`)
+        .join('<br>');
+
+      new mapboxgl.Popup()
+        .setLngLat(coordinates)
+        .setHTML(`<div style="color: black;">${popupContent}</div>`)
+        .addTo(mapInstance);
+    });
+
+    mapInstance.on('mouseenter', 'lts', () => {
+      mapInstance.getCanvas().style.cursor = 'pointer';
+    });
+
+    mapInstance.on('mouseleave', 'lts', () => {
+      mapInstance.getCanvas().style.cursor = '';
+    });
+    mapInstance.on('click', 'sw', (e) => {
+      const coordinates = e.lngLat;
+      const properties = e.features[0].properties;
+      const popupContent = Object.keys(properties)
+        .map(key => `<strong>${key}:</strong> ${properties[key]}`)
+        .join('<br>');
+
+      new mapboxgl.Popup()
+        .setLngLat(coordinates)
+        .setHTML(`<div style="color: black;">${popupContent}</div>`)
+        .addTo(mapInstance);
+    });
+
+    mapInstance.on('mouseenter', 'sw', () => {
+      mapInstance.getCanvas().style.cursor = 'pointer';
+    });
+
+    mapInstance.on('mouseleave', 'sw', () => {
+      mapInstance.getCanvas().style.cursor = '';
+    });
+
     setMap(mapInstance);
 
     const onIdle = () => {
