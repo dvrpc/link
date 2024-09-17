@@ -1,5 +1,6 @@
 import { Container, NativeSelect, Flex } from '@mantine/core';
 import Logo from '../Logo/Logo'
+import Draft from '../Logo/Draft'
 import ModalRegional from './ModalRegional'
 
 const attributeDisplayNames = {
@@ -37,6 +38,7 @@ export default function RegionalHeader({ counties, attributes, setCurrentCounty,
           wrap="wrap"
           pl="20px"
         >
+          <Draft logoWidth={'140px'} />
           <Logo logoWidth={'150px'} />
           <ModalRegional />
           <NativeSelect
