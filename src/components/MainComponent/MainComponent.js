@@ -8,6 +8,7 @@ import AnalyzeButton from "../AnalyzeButton/AnalyzeButton";
 import ClearButton from "../ClearButton/ClearButton";
 import AddLayer from "../Map/UserLayers";
 import AddSegment from "../Map/UserSegments";
+import Legend from "../Legends/Legend"
 import { MapContext } from "../Map/MapContext";
 import { useAuth0 } from "@auth0/auth0-react";
 import { getGeometries, getSegments } from "../Map/GetGeoms";
@@ -102,6 +103,9 @@ export default function MainComponent({ onToggleTheme, themeType }) {
         <ClearButton
           disabled={!hasDrawings}
           resetDrawingState={resetDrawingState}
+        />
+        <Legend
+          connectionType={connectionType}
         />
         <MapboxMap
           setHasDrawings={setHasDrawings}
