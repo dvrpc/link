@@ -1,15 +1,17 @@
 import React from "react";
-import logo from "../../assets/draft.png";
+import logo from "../../assets/dvrpc_white_logo.png";
 
 function Draft({ logoWidth }) {
   console.log(logoWidth)
   return (
     <>
-      <img
-        src={logo}
-        alt="Draft stamp"
-        style={{ width: logoWidth, height: "auto" }}
-      />
+      <a href="https://www.dvrpc.org/">
+        <img
+          src={logo}
+          alt="DVRPC Logo"
+          style={{ width: logoWidth, height: "auto" }}
+        />
+      </a>
     </>
   );
 }
