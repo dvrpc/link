@@ -100,17 +100,23 @@ function MapboxMap({ setHasDrawings, setMap, connectionType, themeType, isLoadin
       }
     });
 
-    mapInstance.on('click', 'lts', (e) => {
-      const coordinates = e.lngLat;
-      const properties = e.features[0].properties;
-      const popupContent = Object.keys(properties)
-        .map(key => `<strong>${key}:</strong> ${properties[key]}`)
-        .join('<br>');
+    function isDrawingLine() {
+      return drawInstance.getMode() === 'draw_line_string';
+    }
 
-      new mapboxgl.Popup()
-        .setLngLat(coordinates)
-        .setHTML(`<div style="color: black;">${popupContent}</div>`)
-        .addTo(mapInstance);
+    mapInstance.on('click', 'lts', (e) => {
+      if (!isDrawingLine()) {
+        const coordinates = e.lngLat;
+        const properties = e.features[0].properties;
+        const popupContent = Object.keys(properties)
+          .map(key => `<strong>${key}:</strong> ${properties[key]}`)
+          .join('<br>');
+
+        new mapboxgl.Popup()
+          .setLngLat(coordinates)
+          .setHTML(`<div style="color: black;">${popupContent}</div>`)
+          .addTo(mapInstance);
+      }
     });
 
     mapInstance.on('mouseenter', 'lts', () => {
@@ -121,16 +127,18 @@ function MapboxMap({ setHasDrawings, setMap, connectionType, themeType, isLoadin
       mapInstance.getCanvas().style.cursor = '';
     });
     mapInstance.on('click', 'sw', (e) => {
-      const coordinates = e.lngLat;
-      const properties = e.features[0].properties;
-      const popupContent = Object.keys(properties)
-        .map(key => `<strong>${key}:</strong> ${properties[key]}`)
-        .join('<br>');
+      if (!isDrawingLine()) {
+        const coordinates = e.lngLat;
+        const properties = e.features[0].properties;
+        const popupContent = Object.keys(properties)
+          .map(key => `<strong>${key}:</strong> ${properties[key]}`)
+          .join('<br>');
 
-      new mapboxgl.Popup()
-        .setLngLat(coordinates)
-        .setHTML(`<div style="color: black;">${popupContent}</div>`)
-        .addTo(mapInstance);
+        new mapboxgl.Popup()
+          .setLngLat(coordinates)
+          .setHTML(`<div style="color: black;">${popupContent}</div>`)
+          .addTo(mapInstance);
+      }
     });
 
     mapInstance.on('mouseenter', 'sw', () => {
