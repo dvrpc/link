@@ -15,7 +15,7 @@ export default function LoginPage() {
       bg="rgb(47, 79, 79)"
     >
       <div>
-        <Text size="xl">Welcome to DVRPC Connect.</Text>
+        <Text size="xl">Welcome to DVRPC LINK.</Text>
         <Text>
           You must verify your email before proceeding. Please check click the
           link in your email, and then come back.

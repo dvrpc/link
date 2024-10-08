@@ -30,7 +30,7 @@ function Video() {
 
   return (
     <>
-      <Modal size="auto" opened={opened} onClose={close} title="Welcome to DVRPC LINK!">
+      <Modal size="auto" opened={opened} onClose={close} title="Welcome to DVRPC's LINK!">
         <Yt />
       </Modal>
 
