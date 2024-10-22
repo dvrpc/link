@@ -24,7 +24,7 @@ export function HeaderSimple({
       <Header height={80}>
         <Flex
           bg="rgb(47, 79, 79)"
-          mih={80}
+          mih={85}
           gap="md"
           justify="left"
           align="center"
@@ -32,7 +32,7 @@ export function HeaderSimple({
           wrap="wrap"
           pl="20px"
         >
-          <Draft logoWidth="140px" />
+          <Draft logoWidth="110px" />
           <Logo logoWidth="150px" />
           <StudyShelf
             connectionType={connectionType}

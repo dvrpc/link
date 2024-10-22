@@ -8,7 +8,7 @@ function Logo({ logoWidth }) {
       <a href="/webmaps/link">
         <img
           src={logo}
-          alt="White DVRPC Logo"
+          alt="DVRPC LINK Logo"
           style={{ width: logoWidth, height: "auto" }}
         />
       </a>
