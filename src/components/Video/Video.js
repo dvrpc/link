@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Button, Modal } from "@mantine/core";
+import { Tooltip, Button, Modal } from "@mantine/core";
 import { useDisclosure } from '@mantine/hooks';
 import YouTube from 'react-youtube';
 
@@ -33,8 +33,9 @@ function Video() {
       <Modal size="auto" opened={opened} onClose={close} title="Welcome to DVRPC's LINK!">
         <Yt />
       </Modal>
-
-      <Button onClick={open}>Video</Button>
+      <Tooltip label="Watch a video explaining LINK">
+        <Button onClick={open}>Video</Button>
+      </Tooltip>
     </>
   );
 }

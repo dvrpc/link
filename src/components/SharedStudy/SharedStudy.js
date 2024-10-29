@@ -1,9 +1,11 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import mapboxgl from "mapbox-gl";
-import { Stack, Box, Table } from "@mantine/core";
+import { Stack, Box, Table, Space } from "@mantine/core";
 import bbox from "@turf/bbox";
 import makeAuthenticatedRequest from "../Authentication/Api";
+import Logo from "../Logo/Logo";
+import Draft from "../Logo/Draft";
 mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_ACCESS_TOKEN;
 
 const SharedStudy = ({
@@ -217,7 +219,11 @@ const SharedStudy = ({
               maxHeight: "400px",
             }}
           >
-            <h2>Study Name: {study.studies[0].seg_name}</h2>
+            <Draft logoWidth={'100px'} />
+            <Space h="s" />
+            <Logo logoWidth={'150px'} />
+            <h3>Study Name: {study.studies[0].seg_name}</h3>
+            <a href="https://dvrpc.github.io/link-docs/getting-started/Interpreting-the-results/" target="_blank" rel="noopener noreferrer">How to interpret these results </a>
             <Table>
               <tbody>
                 {/* Basic and Demographic Information */}
@@ -243,7 +249,7 @@ const SharedStudy = ({
                 </tr>
                 <tr>
                   <td>
-                    <strong>Disabled Population:</strong>
+                    <strong>Disabled:</strong>
                   </td>
                   <td>{study.studies[0].disabled}</td>
                   <td>
@@ -329,6 +335,8 @@ const SharedStudy = ({
                   </tr>
                 ))}
               </tbody>
+              <h4> This study was generated with <a href="https://cloud.dvrpc.org/webmaps/link/login" target="_blank" rel="noopener noreferrer">DVRPC LINK. </a>
+              </h4>
             </Table>
           </div>
         )}

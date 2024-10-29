@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, } from "@mantine/core";
+import { Button, Tooltip } from "@mantine/core";
 
 function Explainer() {
 
@@ -8,7 +8,9 @@ function Explainer() {
   }
   return (
     <>
-      <Button onClick={openLink} >Getting Started</Button>
+      <Tooltip label="View the Getting Started guide, and other documentation!">
+        <Button onClick={openLink} >Getting Started</Button>
+      </Tooltip>
     </>
   );
 }
