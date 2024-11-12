@@ -108,8 +108,34 @@ function MapboxMap({ setHasDrawings, setMap, connectionType, themeType, isLoadin
       if (!isDrawingLine()) {
         const coordinates = e.lngLat;
         const properties = e.features[0].properties;
+
+        const propertyLabels = {
+          "id": "ID",
+          "no": "Number",
+          "fromnodeno": "From Node Number",
+          "tonodeno": "To Node Number",
+          "typeno": "Type Number",
+          "length": "Length (km)",
+          "totnumla~1": "Total Number Lanes",
+          "bike_fac~2": "Bike Facility",
+          "vcur_prt~3": "vcur",
+          "wktpolyw~4": "Geometry",
+          "rise_run": "Rise/Run",
+          "isoneway~5": "Is One Way",
+          "reversel~6": "Reverse Length",
+          "penndot_speed": "PennDOT Speed",
+          "njdot_speed": "NJDOT Speed",
+          "lts": "LTS level"
+        };
+
+        const propertiesToOmit = ["id", "no", "vcur_prt~3", "wktpolyw~4", "reversel~6"];
+
         const popupContent = Object.keys(properties)
-          .map(key => `<strong>${key}:</strong> ${properties[key]}`)
+          .filter(key => !propertiesToOmit.includes(key))
+          .map(key => {
+            const label = propertyLabels[key] || key;
+            return `<strong>${label}:</strong> ${properties[key]}`;
+          })
           .join('<br>');
 
         new mapboxgl.Popup()
@@ -130,8 +156,22 @@ function MapboxMap({ setHasDrawings, setMap, connectionType, themeType, isLoadin
       if (!isDrawingLine()) {
         const coordinates = e.lngLat;
         const properties = e.features[0].properties;
+        const propertyLabels = {
+          "line_type": "Line Type",
+          "material": "Material",
+          "feat_type": "Feature Type",
+          "raised": "Raised",
+          "county": "County",
+        };
+
+        const propertiesToOmit = [];
+
         const popupContent = Object.keys(properties)
-          .map(key => `<strong>${key}:</strong> ${properties[key]}`)
+          .filter(key => !propertiesToOmit.includes(key))
+          .map(key => {
+            const label = propertyLabels[key] || key;
+            return `<strong>${label}:</strong> ${properties[key]}`;
+          })
           .join('<br>');
 
         new mapboxgl.Popup()
