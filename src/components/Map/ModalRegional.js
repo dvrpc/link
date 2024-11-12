@@ -31,7 +31,7 @@ function ModalRegional() {
           <br></br>
           The results were added to this webmap. Symbology is created dynamically using quantile breaks, depending on the current County and attribute selected.
           Not all results from LINK can be considered attributes- for example, lists of adjacent rail stations are not used or totaled in this regional analysis. Also
-          note that ONLY LTS 3 and 4 segments are shown here. <br></br>
+          note that <b>ONLY LTS 3 and 4 segments</b> are shown here. <br></br>
           <br></br>
           Blue segments represent a lower number of people or jobs that the segment would connect, while pink or white represent greater numbers of people.
 
@@ -47,7 +47,7 @@ function ModalRegional() {
         onClick={open}
         variant="gradient"
         gradient={{ from: '#474ED7', to: '#EC458D', deg: 90 }}
-      >LINKing the region</Button>
+      >About the Regional Analysis</Button>
     </>
   );
 }

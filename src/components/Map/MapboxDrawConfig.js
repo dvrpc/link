@@ -74,7 +74,7 @@ const drawInstance = new MapboxDraw({
       },
       paint: {
         "line-color": "#4682B4",
-        "line-width": 3,
+        "line-width": 5,
       },
     },
     // polygon fill

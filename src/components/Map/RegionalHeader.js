@@ -1,4 +1,4 @@
-import { Container, NativeSelect, Flex, Button } from '@mantine/core';
+import { Tooltip, Container, NativeSelect, Flex, Button } from '@mantine/core';
 import Logo from '../Logo/Logo'
 import Draft from '../Logo/Draft'
 import ModalRegional from './ModalRegional'
@@ -40,8 +40,10 @@ export default function RegionalHeader({ counties, attributes, setCurrentCounty,
         >
           <Draft logoWidth={'140px'} />
           <Logo logoWidth={'150px'} />
-          <Button component="a"
-            href="./">LTS Analysis </Button>
+          <Tooltip label="Use the interactive LTS analysis">
+            <Button component="a"
+              href="./">LTS Analysis </Button>
+          </Tooltip>
           <ModalRegional />
           <NativeSelect
             placeholder="DVRPC Region (All Counties)"
