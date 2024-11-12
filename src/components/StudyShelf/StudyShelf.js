@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { useDisclosure } from "@mantine/hooks";
-import { TextInput, Text, Modal, Drawer, Button, Group, Menu } from "@mantine/core";
+import { Tooltip, TextInput, Text, Modal, Drawer, Button, Group, Menu } from "@mantine/core";
 import { useAuth0 } from "@auth0/auth0-react";
 import makeAuthenticatedRequest from "../Authentication/Api";
 import { useMantineReactTable, MantineReactTable } from 'mantine-react-table';
@@ -102,8 +102,8 @@ function StudyShelf({ connectionType, onStudyClick }) {
     return data.map(item => ({
       ...item,
       circuit: item.circuit.map(c => `${c.circuit}: ${c.miles.toFixed(2)} miles`).join(', ') || 'N/A',
-      essential_services: item.essential_services.map(s => `${s.count} x ${s.type}`).join(', ') || 'No Services',
-      rail_stations: item.rail_stations.map(s => `${s.count} x ${s.type}`).join(', ') || 'No Stations'
+      essential_services: item.essential_services.map(s => `${s.type} (${s.count})`).join(', ') || 'No Services',
+      rail_stations: item.rail_stations.map(s => `${s.type}  (${s.count})`).join(', ') || 'No Stations'
     }));
   };
 
@@ -175,7 +175,9 @@ function StudyShelf({ connectionType, onStudyClick }) {
         </Group>
       </Modal>
       <Group position="center">
-        <Button onClick={open}>My Studies</Button>
+        <Tooltip label="View studies that you've created here">
+          <Button onClick={open}>My Studies</Button>
+        </Tooltip>
       </Group>
     </>
   );

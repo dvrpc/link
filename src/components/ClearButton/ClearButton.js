@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { Button } from "@mantine/core";
+import { Tooltip, Button } from "@mantine/core";
 import { MapContext } from "../Map/MapContext";
 import drawInstance from "../Map/MapboxDrawConfig";
 
@@ -23,18 +23,24 @@ function ClearButton({ disabled, resetDrawingState }) {
   };
 
   return (
-    <Button
-      style={{
-        position: "absolute",
-        top: "130px",
-        left: "10px",
-        zIndex: 11,
-      }}
-      onClick={clearFeatures}
-      disabled={disabled}
-    >
-      Clear
-    </Button>
+    <>
+      <Tooltip label="Clear any studies off of the screen.">
+        <Button
+          variant="filled"
+          color="blue"
+          style={{
+            position: "absolute",
+            top: "130px",
+            left: "10px",
+            zIndex: 11,
+          }}
+          onClick={clearFeatures}
+          disabled={disabled}
+        >
+          Clear
+        </Button>
+      </Tooltip>
+    </>
   );
 }
 

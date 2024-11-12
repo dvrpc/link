@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
-import { Button, Modal, List } from "@mantine/core";
+import { Image, Button, Modal, List } from "@mantine/core";
 import { useDisclosure } from '@mantine/hooks';
+import legend from '../../assets/regionallegend.PNG';
 
 
 function ModalRegional() {
@@ -31,23 +32,31 @@ function ModalRegional() {
           <br></br>
           The results were added to this webmap. Symbology is created dynamically using quantile breaks, depending on the current County and attribute selected.
           Not all results from LINK can be considered attributes- for example, lists of adjacent rail stations are not used or totaled in this regional analysis. Also
-          note that ONLY LTS 3 and 4 segments are shown here. <br></br>
+          note that <b>ONLY LTS 3 and 4 segments</b> are shown here. <br></br>
           <br></br>
-          Blue segments represent a lower number of people or jobs that the segment would connect, while pink or white represent greater numbers of people.
+          Blue segments represent a lower number of people/jobs (or miles of low-stress islands connected) that the segment would connect, while pink or white represent higher numbers.
+          You can click on segments to get a sense of what high / low means for the metric you're looking at.
+          <br></br>
+          <Image
+            src={legend}
+            h="200"
+            w="auto"
+            fit="contain"
+          />
 
-          <br></br>
           <br></br>
           In short, each attribute of a segment (e.g., total population) represents the total number of people or jobs along the segment, but also within the low-stress islands accessible from
           that segment.
+          The demographic-specific information (e.g., low-income, racial minorities, older adults, etc...) is derived from DVRPC's Indicators of Potential Disadvantage (IPD). To learn more about IPD, please visit  <a href="https://www.dvrpc.org/webmaps/ipd/">DVRPC's IPD webmap.</a>
         </div>
 
-      </Modal>
+      </Modal >
 
       <Button
         onClick={open}
         variant="gradient"
         gradient={{ from: '#474ED7', to: '#EC458D', deg: 90 }}
-      >LINKing the region</Button>
+      >About the Regional Analysis</Button>
     </>
   );
 }

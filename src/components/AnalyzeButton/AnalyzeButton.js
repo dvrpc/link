@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
 import { useDisclosure } from "@mantine/hooks";
-import { Modal, Progress, Button, Text } from "@mantine/core";
+import { Tooltip, Modal, Progress, Button, Text } from "@mantine/core";
 import { useAuth0 } from "@auth0/auth0-react";
 import drawInstance from "../Map/MapboxDrawConfig";
 import makeAuthenticatedRequest from "../Authentication/Api";
@@ -245,18 +245,22 @@ function AnalyzeButton({ connectionType, onAnalyze, disabled }) {
 
 
       {/* Analyze Button */}
-      <Button
-        style={{
-          position: "absolute",
-          top: "90px",
-          left: "10px",
-          zIndex: 10,
-        }}
-        onClick={handleAnalyzeClick}
-        disabled={disabled}
-      >
-        Analyze
-      </Button>
+      <Tooltip label="Run the analysis on your study. Your study should then populate on screen, and you can view the results with the 'My Studies' button.">
+        <Button
+          variant="filled"
+          color="blue"
+          style={{
+            position: "absolute",
+            top: "90px",
+            left: "10px",
+            zIndex: 10,
+          }}
+          onClick={handleAnalyzeClick}
+          disabled={disabled}
+        >
+          Analyze
+        </Button>
+      </Tooltip >
     </>
   );
 }
