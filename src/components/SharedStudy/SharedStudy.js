@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import mapboxgl from "mapbox-gl";
-import { Stack, Box, Table, Space } from "@mantine/core";
+import { Text, Stack, Box, Table, Space } from "@mantine/core";
 import bbox from "@turf/bbox";
 import makeAuthenticatedRequest from "../Authentication/Api";
 import Logo from "../Logo/Logo";
@@ -338,6 +338,7 @@ const SharedStudy = ({
               <h4> This study was generated with <a href="https://cloud.dvrpc.org/webmaps/link/login" target="_blank" rel="noopener noreferrer">DVRPC LINK. </a>
               </h4>
             </Table>
+            <Text >Data sources: US Census American Community Survey (ACS) 5-year estimates (2017-2021), American Census Bureau’s LODES 8 dataset (2020), NJDOT (2019-2023), PennDOT (2019-2023), NJTransit (2023), SEPTA (2023)  </Text>
           </div>
         )}
       </Box>
