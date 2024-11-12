@@ -102,8 +102,8 @@ function StudyShelf({ connectionType, onStudyClick }) {
     return data.map(item => ({
       ...item,
       circuit: item.circuit.map(c => `${c.circuit}: ${c.miles.toFixed(2)} miles`).join(', ') || 'N/A',
-      essential_services: item.essential_services.map(s => `${s.count} x ${s.type}`).join(', ') || 'No Services',
-      rail_stations: item.rail_stations.map(s => `${s.count} x ${s.type}`).join(', ') || 'No Stations'
+      essential_services: item.essential_services.map(s => `${s.type} (${s.count})`).join(', ') || 'No Services',
+      rail_stations: item.rail_stations.map(s => `${s.type}  (${s.count})`).join(', ') || 'No Stations'
     }));
   };
 
