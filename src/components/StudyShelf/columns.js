@@ -45,6 +45,36 @@ export const useColumns = (handleSwitchChange, connectionType) => useMemo(() => 
       }),
   },
   {
+    accessorKey: 'total_jobs', header: 'Total Jobs',
+    Cell: ({ cell }) =>
+      cell.getValue().toLocaleString('en-US', {
+      }),
+  },
+  {
+    accessorKey: 'circuit',
+    header: 'Circuit',
+    cell: info => info.value || 'N/A'
+  },
+
+  {
+    accessorKey: 'bikeCrashesMessage',
+    header: 'Bike Crashes',
+    cell: info => info.value
+  },
+  {
+    accessorKey: 'pedCrashesMessage',
+    header: 'Pedestrian Crashes',
+    cell: info => info.value
+  },
+  {
+    accessorKey: 'essential_services', header: 'Essential Services',
+    cell: info => info.value || 'N/A'
+  },
+  {
+    accessorKey: 'rail_stations', header: 'Rail Stations',
+    cell: info => info.value || 'N/A'
+  },
+  {
     accessorKey: 'disabled', header: 'Disabled Individuals',
     Cell: ({ cell }) =>
       cell.getValue().toLocaleString('en-US', {
@@ -97,35 +127,5 @@ export const useColumns = (handleSwitchChange, connectionType) => useMemo(() => 
     Cell: ({ cell }) =>
       cell.getValue().toLocaleString('en-US', {
       }),
-  },
-  {
-    accessorKey: 'circuit',
-    header: 'Circuit',
-    cell: info => info.value || 'N/A'
-  },
-
-  {
-    accessorKey: 'total_jobs', header: 'Total Jobs',
-    Cell: ({ cell }) =>
-      cell.getValue().toLocaleString('en-US', {
-      }),
-  },
-  {
-    accessorKey: 'bikeCrashesMessage',
-    header: 'Bike Crashes',
-    cell: info => info.value
-  },
-  {
-    accessorKey: 'pedCrashesMessage',
-    header: 'Pedestrian Crashes',
-    cell: info => info.value
-  },
-  {
-    accessorKey: 'essential_services', header: 'Essential Services',
-    cell: info => info.value || 'N/A'
-  },
-  {
-    accessorKey: 'rail_stations', header: 'Rail Stations',
-    cell: info => info.value || 'N/A'
   },
 ], [handleSwitchChange, connectionType]);
