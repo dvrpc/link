@@ -247,6 +247,8 @@ function AnalyzeButton({ connectionType, onAnalyze, disabled }) {
       {/* Analyze Button */}
       <Tooltip label="Run the analysis on your study. Your study should then populate on screen, and you can view the results with the 'My Studies' button.">
         <Button
+          variant="filled"
+          color="blue"
           style={{
             position: "absolute",
             top: "90px",
