@@ -119,9 +119,41 @@ const RegionalCx = ({ themeType, isLoading, setIsLoading }) => {
         map.on('click', 'region', (e) => {
           const coordinates = e.lngLat;
           const properties = e.features[0].properties;
+          const propertyLabels = {
+            "objectid": "Object ID",
+            "co_name": "County Name",
+            "name": "Name",
+            "id": "ID",
+            "username": "Username",
+            "network_type": "Network Type",
+            "miles": "Miles of low stress islands connected",
+            "total_pop": "Total Population",
+            "disabled": "Disabled Population",
+            "ethnic_minority": "Ethnic Minority Population",
+            "female": "Female Population",
+            "foreign_born": "Foreign-Born Population",
+            "lep": "Limited English Proficiency (LEP)",
+            "low_income": "Low-Income Population",
+            "older_adult": "Older Adult Population",
+            "racial_minority": "Racial Minority Population",
+            "youth": "Youth Population",
+            "total_jobs": "Total Jobs"
+          };
+
+
+          const propertiesToOmit = ["objectid", "id", "username", "name", "network_type"];
+
           const popupContent = Object.keys(properties)
-            .map(key => `<strong>${key}:</strong> ${properties[key]}`)
+            .filter(key => !propertiesToOmit.includes(key))
+            .map(key => {
+              const label = propertyLabels[key] || key;
+
+              const value = typeof properties[key] === "number" ? properties[key].toLocaleString() : properties[key];
+
+              return `<strong>${label}:</strong> ${value}`;
+            })
             .join('<br>');
+
 
           new mapboxgl.Popup()
             .setLngLat(coordinates)
