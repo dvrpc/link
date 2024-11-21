@@ -16,6 +16,8 @@ function ModalRegional() {
       <Modal size="xl" opened={opened} onClose={close} title="LINK Regional Connectivity Analysis">
         To create a regional connectivity analysis with LINK, DVRPC ran the tool on all LTS 3 and 4 roads in the region.
         The results are available in this webmap, and can be filtered by county or by attribute reported in LINK.
+        Note that the regional analysis was only performed on the bike network; it would not be possible to perform on the
+        sidewalk network without a 'gaps' layer representing missing sidewalks.
 
         To run this analysis, DVRPC segmented LTS 3 and 4 roads into smaller pieces by dissolving on the following fields:
         <List>
