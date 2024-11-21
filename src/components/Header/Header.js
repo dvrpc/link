@@ -10,6 +10,17 @@ import Explainer from "../Explainer/Explainer";
 import Video from "../Video/Video"
 import Draft from "../Logo/Draft"
 
+function Regional({ connectionType }) {
+  if (connectionType == 'bike') {
+    return <Tooltip multiline label="View the regional analysis, which was performed on all LTS 3 and 4 segments in the DVRPC Region.">
+      <Button component="a"
+        href="regional-connectivity-analysis">Regional Analysis </Button>
+    </Tooltip>
+
+  }
+  return;
+}
+
 export function HeaderSimple({
   connectionType,
   setConnectionType,
@@ -41,10 +52,7 @@ export function HeaderSimple({
           />
           <Explainer />
           <Video></Video>
-          <Tooltip multiline label="View the regional analysis, which was performed on all LTS 3 and 4 segments in the DVRPC Region.">
-            <Button component="a"
-              href="regional-connectivity-analysis">Regional Analysis </Button>
-          </Tooltip>
+          <Regional connectionType={connectionType} />
           <ThemeToggle onToggleTheme={onToggleTheme} isLoading={isLoading} setIsLoading={setIsLoading} />
           <ConnectionToggle
             connectionType={connectionType}

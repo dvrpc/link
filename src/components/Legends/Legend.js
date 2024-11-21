@@ -16,7 +16,7 @@ function Legend({ connectionType }) {
   }
   else {
     legend = sidewalkLegend
-    label = "Sidewalks are shown in green, unmarked crosswalks are shown in red. Draw a study to see the low-stress area it would connect!Your study and the low-stress area are visible when you draw or view one of your studies."
+    label = "Sidewalks are shown in green, unmarked crosswalks are shown in red. Draw a study to see the low-stress area it would connect! Your study and the low-stress area are visible when you draw or view one of your studies."
   }
   return (
     <>
