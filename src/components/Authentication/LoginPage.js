@@ -1,7 +1,7 @@
 import React from "react";
 import LoginButton from "./Login";
 import Explainer from "../Explainer/Explainer"
-import { Anchor, Flex, Center, Text, Space } from "@mantine/core";
+import { Anchor, Flex, Box, Center, Text, Space } from "@mantine/core";
 import logo from "../../assets/1727_Link_logo_transparent.png"
 import logofull from "../../assets/logofull.png"
 export default function LoginPage() {

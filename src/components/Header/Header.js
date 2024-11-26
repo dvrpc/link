@@ -9,6 +9,7 @@ import Greeting from "./Greeting";
 import Explainer from "../Explainer/Explainer";
 import Video from "../Video/Video"
 import Draft from "../Logo/Draft"
+import Disclaimer from "../Header/Disclaimer"
 
 function Regional({ connectionType }) {
   if (connectionType == 'bike') {
@@ -53,6 +54,7 @@ export function HeaderSimple({
           <Explainer />
           <Video></Video>
           <Regional connectionType={connectionType} />
+          <Disclaimer />
           <ThemeToggle onToggleTheme={onToggleTheme} isLoading={isLoading} setIsLoading={setIsLoading} />
           <ConnectionToggle
             connectionType={connectionType}
