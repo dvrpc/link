@@ -41,6 +41,10 @@ export default function LoginPage() {
         <Anchor href="https://www.dvrpc.org/policies/" target="_blank" underline="hover">
           Policies
         </Anchor>
+        <Anchor href="https://www.dvrpc.org/products/24156?key=2uMKwNhTN1k4h7gPhw9RyJcani7dWpdu" target="_blank" underline="hover">
+          Abstract
+        </Anchor>
+
       </Center>
     </>
   );
