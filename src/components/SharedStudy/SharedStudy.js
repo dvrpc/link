@@ -11,7 +11,11 @@ import "mapbox-gl/dist/mapbox-gl.css";
 
 mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_ACCESS_TOKEN;
 
-const SharedStudy = ({ username: propUsername, schema: propSchema, studyId }) => {
+const SharedStudy = ({
+  username: propUsername,
+  schema: propSchema,
+  studyId,
+}) => {
   const { user } = useAuth0();
   const [study, setStudy] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -24,10 +28,10 @@ const SharedStudy = ({ username: propUsername, schema: propSchema, studyId }) =>
   const layerId = "user_geoms";
   let schema = "none";
 
-  if (propSchema == 'lts') {
-    schema = 'bike'
+  if (propSchema == "lts") {
+    schema = "bike";
   } else {
-    schema = 'sw'
+    schema = "sw";
   }
 
   const fetchStudy = async () => {
@@ -35,7 +39,7 @@ const SharedStudy = ({ username: propUsername, schema: propSchema, studyId }) =>
       const authUsername = user?.nickname || propUsername;
       let resolvedSchema = propSchema;
       const response = await makeAuthenticatedRequest(
-        `${process.env.REACT_APP_API_URL}/get_user_studies?username=${authUsername}&schema=${resolvedSchema}&study_name=${studyId}`
+        `${process.env.REACT_APP_API_URL}/get_user_studies?username=${authUsername}&schema=${resolvedSchema}&study_name=${studyId}`,
       );
       if (!response.ok) throw new Error("Study not found");
       const data = await response.json();
@@ -59,7 +63,7 @@ const SharedStudy = ({ username: propUsername, schema: propSchema, studyId }) =>
           headers: {
             "Content-Type": "application/json",
           },
-        }
+        },
       );
 
       if (!response.ok) {
@@ -94,7 +98,7 @@ const SharedStudy = ({ username: propUsername, schema: propSchema, studyId }) =>
             "fill-opacity": 0.5,
           },
         },
-        propSchema === "lts" ? "lts" : "sw"
+        propSchema === "lts" ? "lts" : "sw",
       );
     }
 
@@ -137,11 +141,27 @@ const SharedStudy = ({ username: propUsername, schema: propSchema, studyId }) =>
               "source-layer": "lts",
               paint: {
                 "line-width": 1,
-                "line-opacity": { property: "lts", stops: [[1, 1], [2, 1], [3, 0.5], [4, 0.5]] },
-                "line-color": { property: "lts", stops: [[1, "green"], [2, "lightgreen"], [3, "yellow"], [4, "red"]] },
+                "line-opacity": {
+                  property: "lts",
+                  stops: [
+                    [1, 1],
+                    [2, 1],
+                    [3, 0.5],
+                    [4, 0.5],
+                  ],
+                },
+                "line-color": {
+                  property: "lts",
+                  stops: [
+                    [1, "green"],
+                    [2, "lightgreen"],
+                    [3, "yellow"],
+                    [4, "red"],
+                  ],
+                },
               },
             },
-            "road-label-simple"
+            "road-label-simple",
           );
         } else if (propSchema === "sidewalk") {
           map.current.addLayer(
@@ -153,10 +173,16 @@ const SharedStudy = ({ username: propUsername, schema: propSchema, studyId }) =>
               paint: {
                 "line-width": 1,
                 "line-opacity": 1,
-                "line-color": ["match", ["get", "feat_type"], "UNMARKED", "#FF0000", "#00A36C"],
+                "line-color": [
+                  "match",
+                  ["get", "feat_type"],
+                  "UNMARKED",
+                  "#FF0000",
+                  "#00A36C",
+                ],
               },
             },
-            "road-label-simple"
+            "road-label-simple",
           );
         }
         setMapStyleLoaded(true);
@@ -202,60 +228,95 @@ const SharedStudy = ({ username: propUsername, schema: propSchema, studyId }) =>
             <Space h="s" />
             <Logo logoWidth={"150px"} />
             <h3>Study Name: {study.studies[0].seg_name}</h3>
-            <a href="https://dvrpc.github.io/link-docs/getting-started/Interpreting-the-results/" target="_blank" rel="noopener noreferrer">
+            <a
+              href="https://dvrpc.github.io/link-docs/getting-started/Interpreting-the-results/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               How to interpret these results
             </a>
             <Table>
               <tbody>
                 <tr>
-                  <td><strong>Username:</strong></td>
+                  <td>
+                    <strong>Username:</strong>
+                  </td>
                   <td>{study.studies[0].username}</td>
-                  <td><strong>Has Isochrone:</strong></td>
+                  <td>
+                    <strong>Has Isochrone:</strong>
+                  </td>
                   <td>{study.studies[0].has_isochrone ? "Yes" : "No"}</td>
                 </tr>
                 <tr>
-                  <td><strong>Miles:</strong></td>
+                  <td>
+                    <strong>Miles:</strong>
+                  </td>
                   <td>{study.studies[0].miles}</td>
-                  <td><strong>Total Population:</strong></td>
+                  <td>
+                    <strong>Total Population:</strong>
+                  </td>
                   <td>{study.studies[0].total_pop}</td>
                 </tr>
                 <tr>
-                  <td><strong>Disabled:</strong></td>
+                  <td>
+                    <strong>Disabled:</strong>
+                  </td>
                   <td>{study.studies[0].disabled}</td>
-                  <td><strong>Ethnic Minority:</strong></td>
+                  <td>
+                    <strong>Ethnic Minority:</strong>
+                  </td>
                   <td>{study.studies[0].ethnic_minority}</td>
                 </tr>
                 <tr>
-                  <td><strong>Female:</strong></td>
+                  <td>
+                    <strong>Female:</strong>
+                  </td>
                   <td>{study.studies[0].female}</td>
-                  <td><strong>Foreign Born:</strong></td>
+                  <td>
+                    <strong>Foreign Born:</strong>
+                  </td>
                   <td>{study.studies[0].foreign_born}</td>
                 </tr>
                 <tr>
-                  <td><strong>LEP:</strong></td>
+                  <td>
+                    <strong>LEP:</strong>
+                  </td>
                   <td>{study.studies[0].lep}</td>
-                  <td><strong>Low Income:</strong></td>
+                  <td>
+                    <strong>Low Income:</strong>
+                  </td>
                   <td>{study.studies[0].low_income}</td>
                 </tr>
                 <tr>
-                  <td><strong>Older Adult:</strong></td>
+                  <td>
+                    <strong>Older Adult:</strong>
+                  </td>
                   <td>{study.studies[0].older_adult}</td>
-                  <td><strong>Racial Minority:</strong></td>
+                  <td>
+                    <strong>Racial Minority:</strong>
+                  </td>
                   <td>{study.studies[0].racial_minority}</td>
                 </tr>
                 <tr>
-                  <td><strong>Youth:</strong></td>
+                  <td>
+                    <strong>Youth:</strong>
+                  </td>
                   <td>{study.studies[0].youth}</td>
-                  <td><strong>Total Jobs:</strong></td>
+                  <td>
+                    <strong>Total Jobs:</strong>
+                  </td>
                   <td>{study.studies[0].total_jobs}</td>
                 </tr>
 
                 {/* Crashes Information */}
                 {study.studies[0].bike_ped_crashes.map((crash, index) => (
                   <tr key={`crash-${index}`}>
-                    <td><strong>Bike/Pedestrian Crash {index + 1}:</strong></td>
+                    <td>
+                      <strong>Bike/Pedestrian Crash {index + 1}:</strong>
+                    </td>
                     <td colSpan={3}>
-                      Bike: {crash["Total Bike Crashes"]}, Pedestrian: {crash["Total Pedestrian Crashes"]}
+                      Bike: {crash["Total Bike Crashes"]}, Pedestrian:{" "}
+                      {crash["Total Pedestrian Crashes"]}
                     </td>
                   </tr>
                 ))}
@@ -263,7 +324,9 @@ const SharedStudy = ({ username: propUsername, schema: propSchema, studyId }) =>
                 {/* Essential Services */}
                 {study.studies[0].essential_services.map((service, index) => (
                   <tr key={`service-${index}`}>
-                    <td><strong>Essential Service {index + 1}:</strong></td>
+                    <td>
+                      <strong>Essential Service {index + 1}:</strong>
+                    </td>
                     <td colSpan={3}>
                       {service.type}: {service.count}
                     </td>
@@ -273,7 +336,9 @@ const SharedStudy = ({ username: propUsername, schema: propSchema, studyId }) =>
                 {/* Rail Stations */}
                 {study.studies[0].rail_stations.map((station, index) => (
                   <tr key={`station-${index}`}>
-                    <td><strong>Rail Station {index + 1}:</strong></td>
+                    <td>
+                      <strong>Rail Station {index + 1}:</strong>
+                    </td>
                     <td colSpan={3}>
                       {station.type}: {station.count}
                     </td>
@@ -282,10 +347,32 @@ const SharedStudy = ({ username: propUsername, schema: propSchema, studyId }) =>
               </tbody>
             </Table>
             <h4>
-              This study was generated with <a href="https://cloud.dvrpc.org/webmaps/link/login" target="_blank" rel="noopener noreferrer">DVRPC LINK</a>
+              This study was generated with{" "}
+              <a
+                href="https://cloud.dvrpc.org/webmaps/link/login"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                DVRPC LINK
+              </a>
             </h4>
             <Text>
-              Data sources: US Census American Community Survey (ACS) 5-year estimates (2017-2021), American Census Bureau’s LODES 8 dataset (2020), NJDOT (2019-2023), PennDOT (2019-2023), NJTransit (2023), SEPTA (2023)
+              Data sources: US Census American Community Survey (ACS) 5-year
+              estimates (2017-2021), American Census Bureau’s LODES 8 dataset
+              (2020), NJDOT (2019-2023), PennDOT (2019-2023), NJTransit (2023),
+              SEPTA (2023)
+            </Text>
+            <Text size="sm">
+              This web page is a public resource of general information. The
+              Delaware Valley Regional Planning Commission (DVRPC) makes no
+              warranty, representation, or guarantee as to the content,
+              sequence, accuracy, timeliness, or completeness of any of the
+              spatial data or database information provided herein. DVRPC and
+              partner state, local, and other agencies shall assume no liability
+              for errors, omissions, or inaccuracies in the information provided
+              regardless of how caused; or any decision made or action taken or
+              not taken by any person relying on any information or data
+              furnished within.
             </Text>
           </div>
         )}

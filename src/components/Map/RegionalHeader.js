@@ -2,7 +2,6 @@ import { Tooltip, Container, NativeSelect, Flex, Button } from '@mantine/core';
 import Logo from '../Logo/Logo'
 import Draft from '../Logo/Draft'
 import ModalRegional from './ModalRegional'
-import Disclaimer from '../Header/Disclaimer'
 
 const attributeDisplayNames = {
   total_pop: 'Total Population',
@@ -46,7 +45,7 @@ export default function RegionalHeader({ counties, attributes, setCurrentCounty,
               href="./">LTS Analysis </Button>
           </Tooltip>
           <ModalRegional />
-          <Disclaimer />
+
           <NativeSelect
             placeholder="DVRPC Region (All Counties)"
             onChange={(event) => setCurrentCounty(event.currentTarget.value)}

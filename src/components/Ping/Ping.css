@@ -1,0 +1,38 @@
+.container {
+  position: absolute;
+  display: flex;
+  align-items: top;
+  justify-content: end;
+  height: 100%;
+  width: 100%;
+  margin-left: -0.7rem;
+  margin-top: -0.5rem;
+}
+
+.heartbeat {
+  position: absolute;
+  width: fit-content;
+  background-color: #ffed28;
+  border-radius: 40px;
+  width: 0.7rem;
+  height: 0.7rem;
+  opacity: 0.75;
+  animation: ping 1s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+.dot {
+  position: relative;
+  width: fit-content;
+  background: #ffed28;
+  border-radius: 40px;
+  width: 0.7rem;
+  height: 0.7rem;
+}
+
+@keyframes ping {
+  75%,
+  100% {
+    transform: scale(2);
+    opacity: 0;
+  }
+}
