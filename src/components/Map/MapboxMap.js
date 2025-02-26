@@ -128,7 +128,18 @@ function MapboxMap({ setHasDrawings, setMap, connectionType, themeType, isLoadin
           "lts": "LTS level"
         };
 
-        const propertiesToOmit = ["id", "no", "vcur_prt~3", "wktpolyw~4", "reversel~6"];
+        const bikeFacilities = [
+          "None",
+          "Sharrow",
+          "Bicycle lane",
+          "Buffered bicycle lane",
+          "Off-road trail/path",
+          "Bicycle route",
+          "Protected bicycle lane"
+        ]
+        Object.assign(properties, { "bike_fac~2": bikeFacilities[properties['bike_fac~2']]});
+
+        const propertiesToOmit = ["id", "no", "vcur_prt~3", "wktpolyw~4", "reversel~6", "typeno"];
 
         const popupContent = Object.keys(properties)
           .filter(key => !propertiesToOmit.includes(key))
