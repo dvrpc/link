@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
 import { useDisclosure } from "@mantine/hooks";
-import { Tooltip, Modal, Progress, Button, Text, Box, Flex } from "@mantine/core";
+import { Tooltip, Modal, Progress, Button, Text, Flex } from "@mantine/core";
 import { useAuth0 } from "@auth0/auth0-react";
 import drawInstance from "../Map/MapboxDrawConfig";
 import makeAuthenticatedRequest from "../Authentication/Api";
