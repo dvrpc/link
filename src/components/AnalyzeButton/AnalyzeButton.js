@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
 import { useDisclosure } from "@mantine/hooks";
-import { Tooltip, Modal, Progress, Button, Text, Box } from "@mantine/core";
+import { Tooltip, Modal, Progress, Button, Text, Box, Flex } from "@mantine/core";
 import { useAuth0 } from "@auth0/auth0-react";
 import drawInstance from "../Map/MapboxDrawConfig";
 import makeAuthenticatedRequest from "../Authentication/Api";
@@ -253,12 +253,12 @@ function AnalyzeButton({ connectionType, onAnalyze, disabled }) {
         {error === "Mileage of connected islands exceeds 300" && (
           <>
             <br/>
-            <Text>High mileage of connected islands currently causes excessively long processing times and failures. 
-              Consider setting up a smaller study segment or a study less dense location. There is ongoing work to remedy this issue.</Text>
-            <Box display='flex' gap='4px' marginTop='8px'>
+            <Text>Due to high mileage of connected islands, this study may take extra time to process or possibly fail.</Text>
+            <Text>Select 'Run Anyway' to proceed with the study</Text>
+            <Flex gap="16px" style={{ marginTop: "16px"}}>
               <Button onClick={handleCancel}>Cancel</Button>
-              <Button loading={isLoading} color="orange" onClick={handleResubmit}>Re-submit</Button>
-            </Box>
+              <Button loading={isLoading} color="orange" onClick={handleResubmit}>Run Anyway</Button>
+            </Flex>
 
           </>
         )}
