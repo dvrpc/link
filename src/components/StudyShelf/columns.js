@@ -56,16 +56,16 @@ export const useColumns = (handleSwitchChange, connectionType) => useMemo(() => 
     cell: info => info.value || 'N/A'
   },
 
-  {
-    accessorKey: 'bikeCrashesMessage',
-    header: 'Bike Crashes',
-    cell: info => info.value
-  },
-  {
-    accessorKey: 'pedCrashesMessage',
-    header: 'Pedestrian Crashes',
-    cell: info => info.value
-  },
+  // {
+  //   accessorKey: 'bikeCrashesMessage',
+  //   header: 'Bike Crashes',
+  //   cell: info => info.value
+  // },
+  // {
+  //   accessorKey: 'pedCrashesMessage',
+  //   header: 'Pedestrian Crashes',
+  //   cell: info => info.value
+  // },
   {
     accessorKey: 'essential_services', header: 'Essential Services',
     cell: info => info.value || 'N/A'
