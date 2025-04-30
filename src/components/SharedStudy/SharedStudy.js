@@ -123,13 +123,13 @@ const SharedStudy = ({
       map.current.on("load", () => {
         map.current.addSource("lts_tile", {
           type: "vector",
-          url: "https://www.tiles.dvrpc.org/data/lts_v2.json",
+          url: "https://tiles.dvrpc.org/data/lts_v2.json",
           minzoom: 8,
           promoteId: "id",
         });
         map.current.addSource("sw_tile", {
           type: "vector",
-          url: "https://www.tiles.dvrpc.org/data/pedestrian-network.json",
+          url: "https://tiles.dvrpc.org/data/pedestrian-network.json",
           minzoom: 8,
         });
         if (propSchema === "lts") {

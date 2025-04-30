@@ -26,14 +26,14 @@ function MapboxMap({ setHasDrawings, setMap, connectionType, themeType, isLoadin
       mapInstance.addControl(selectAll, "top-right");
       mapInstance.addSource("lts_tile", {
         type: "vector",
-        url: "https://www.tiles.dvrpc.org/data/lts_v2.json",
+        url: "https://tiles.dvrpc.org/data/lts_v2.json",
         minzoom: 8,
         promoteId: "id",
       });
 
       mapInstance.addSource("sw_tile", {
         type: "vector",
-        url: "https://www.tiles.dvrpc.org/data/pedestrian-network.json",
+        url: "https://tiles.dvrpc.org/data/pedestrian-network.json",
         minzoom: 8,
       });
 
