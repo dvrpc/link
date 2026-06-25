@@ -138,7 +138,7 @@ const SharedStudy = ({
               id: "lts",
               type: "line",
               source: "lts_tile",
-              "source-layer": "lts",
+              "source-layer": "lts_network",
               paint: {
                 "line-width": 1,
                 "line-opacity": {
@@ -328,7 +328,7 @@ const SharedStudy = ({
                       <strong>Essential Service {index + 1}:</strong>
                     </td>
                     <td colSpan={3}>
-                      {service.type}: {service.count}
+                      {service.category}: {service.count}
                     </td>
                   </tr>
                 ))}

@@ -29,7 +29,6 @@ function Regional({ connectionType }) {
 export function HeaderSimple({
   connectionType,
   setConnectionType,
-  onStudyClick,
   resetDrawingState,
   onToggleTheme,
   isLoading,
@@ -40,7 +39,7 @@ export function HeaderSimple({
       <Header height={80}>
         <Flex
           bg="rgb(47, 79, 79)"
-          mih={85}
+          mih={80}
           gap="md"
           justify="left"
           align="center"
@@ -50,11 +49,6 @@ export function HeaderSimple({
         >
           <Draft logoWidth="110px" />
           <Logo logoWidth="150px" />
-          <StudyShelf
-            connectionType={connectionType}
-            setConnectionType={setConnectionType}
-            onStudyClick={onStudyClick}
-          />
           <Explainer />
           <Video></Video>
           <Regional connectionType={connectionType} />

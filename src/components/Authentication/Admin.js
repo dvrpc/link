@@ -100,7 +100,7 @@ export default function Admin() {
               </td>
               <td>
                 {studies.essential_services
-                  .map((service) => `${service.type}: ${service.count}`)
+                  .map((service) => `${service.category}: ${service.count}`)
                   .join(", ")}
               </td>
               <td>{studies.rail_stations}</td>
