@@ -33,7 +33,7 @@ export default function MainComponent({ onToggleTheme, themeType }) {
   const { user } = useAuth0();
   const [hasDrawings, setHasDrawings] = useState(false); // indicates presence of drawings on map
   const [isCleared, setIsCleared] = useState(false);
-  const [shelfOpened, { open, close }] = useDisclosure(true);
+  const [shelfOpened, { open, close }] = useDisclosure(false);
 
   useEffect(() => {
     if (map) {

@@ -27,6 +27,9 @@ import {
   handleRename,
 } from "./ShelfApis";
 import CsvButton from "../Csv/Csv";
+import { StudyDetailView } from "./StudyDetailView";
+
+const CONDENSED_COLUMN_KEYS = ["seg_name", "miles", "total_jobs", "total_pop"];
 
 function StudyShelf({ connectionType, onStudyClick, opened, open, close }) {
   const [studiesData, setStudiesData] = useState([]);
@@ -35,6 +38,7 @@ function StudyShelf({ connectionType, onStudyClick, opened, open, close }) {
   const [deleteParams, setDeleteParams] = useState({});
   const [renameParams, setRenameParams] = useState({});
   const [newName, setNewName] = useState("");
+  const [selectedStudy, setSelectedStudy] = useState(null);
   const { user } = useAuth0();
 
   const handleSwitchChange = (rowIndex, rowData) => {
@@ -42,7 +46,6 @@ function StudyShelf({ connectionType, onStudyClick, opened, open, close }) {
       const newData = prevData.map((row, index) =>
         index === rowIndex ? { ...row, shared: !row.shared } : row,
       );
-      console.log(connectionType);
       handleShareSwitch(
         connectionType,
         user.nickname,
@@ -52,7 +55,16 @@ function StudyShelf({ connectionType, onStudyClick, opened, open, close }) {
       return newData;
     });
   };
-  const columns = useColumns(handleSwitchChange, connectionType);
+
+  const allColumns = useColumns(handleSwitchChange, connectionType);
+
+  const columns = useMemo(
+    () =>
+      CONDENSED_COLUMN_KEYS.map((key) =>
+        allColumns.find((c) => c.accessorKey === key),
+      ).filter(Boolean),
+    [allColumns],
+  );
 
   useEffect(() => {
     const refreshCards = async () => {
@@ -130,20 +142,22 @@ function StudyShelf({ connectionType, onStudyClick, opened, open, close }) {
   };
 
   const preprocessData = (data) => {
-    return data.map((item) => ({
-      ...item,
-      circuit:
-        item.circuit
-          .map((c) => `${c.circuit}: ${c.miles.toFixed(2)} miles`)
-          .join(", ") || "N/A",
-      essential_services:
-        item.essential_services
-          .map((s) => `${s.category} (${s.count})`)
-          .join(", ") || "No Services",
-      rail_stations:
-        item.rail_stations.map((s) => `${s.type}  (${s.count})`).join(", ") ||
-        "No Stations",
-    }));
+    return data
+      .map((item) => ({
+        ...item,
+        circuit:
+          item.circuit
+            .map((c) => `${c.circuit}: ${c.miles.toFixed(2)} miles`)
+            .join(", ") || "N/A",
+        essential_services:
+          item.essential_services
+            .map((s) => `${s.category} (${s.count})`)
+            .join(", ") || "No Services",
+        rail_stations:
+          item.rail_stations.map((s) => `${s.type}  (${s.count})`).join(", ") ||
+          "No Stations",
+      }))
+      .sort((a, b) => a.archived - b.archived);
   };
 
   const processedData = useMemo(
@@ -154,12 +168,68 @@ function StudyShelf({ connectionType, onStudyClick, opened, open, close }) {
   const table = useMantineReactTable({
     columns,
     data: processedData,
+
     enableRowActions: true,
+    positionActionsColumn: "last",
+
     enableStickyHeader: true,
     enableFullScreenToggle: false,
-    mantineTableContainerProps: { sx: { maxHeight: "300px" } },
+    enableColumnActions: false,
+
+    displayColumnDefOptions: {
+      "mrt-row-actions": {
+        header: "Actions",
+        size: 60,
+        minSize: 60,
+        maxSize: 60,
+        grow: false,
+      },
+    },
+    mantineTableContainerProps: {
+      sx: {
+        maxHeight: "300px",
+        overflowX: "hidden",
+      },
+    },
+    mantineTableProps: {
+      sx: {
+        tableLayout: "fixed",
+      },
+    },
+    mantineTableHeadCellProps: {
+      sx: {
+        "& .mantine-TableHeadCell-Content-Wrapper": {
+          whiteSpace: "wrap",
+        },
+
+        height: "auto",
+        paddingTop: 8,
+        paddingBottom: 8,
+        alignItems: "flex-end",
+      },
+    },
+
+    defaultColumn: {
+      minSize: 20,
+      maxSize: 9999,
+      size: 50,
+    },
+    mantineTableBodyRowProps: ({ row }) => ({
+      onClick: () => {
+        setSelectedStudy(row.original);
+        onStudyClick(row.original.seg_name);
+      },
+      sx: {
+        cursor: "pointer",
+      },
+    }),
     renderRowActionMenuItems: ({ row }) => (
       <>
+        {row.original.archived && (
+          <Menu.Item onClick={() => {}} color="green" icon={<IconPencil />}>
+            Re-Run Study on new LTS Network
+          </Menu.Item>
+        )}
         <Menu.Item
           onClick={() =>
             openRenameConfirmModal(
@@ -172,12 +242,17 @@ function StudyShelf({ connectionType, onStudyClick, opened, open, close }) {
         >
           Rename Study
         </Menu.Item>
+
         <Menu.Item
-          onClick={() => onStudyClick(row.original.seg_name)}
+          onClick={() => {
+            setSelectedStudy(row.original);
+            onStudyClick(row.original.seg_name);
+          }}
           icon={<IconEye />}
         >
           View Study
         </Menu.Item>
+
         <Menu.Item
           onClick={() =>
             downloadGeojson(
@@ -190,6 +265,7 @@ function StudyShelf({ connectionType, onStudyClick, opened, open, close }) {
         >
           Download GeoJSON of Study
         </Menu.Item>
+
         <Menu.Item
           onClick={() =>
             openDeleteConfirmModal(
@@ -209,10 +285,6 @@ function StudyShelf({ connectionType, onStudyClick, opened, open, close }) {
 
   return (
     <>
-      {/* In-flow panel: takes up real layout space (flex item) instead of
-          floating over the page like Drawer did. Width animates between
-          0 and its open width, and the sibling map shrinks/grows to match
-          since they're both flex children of the same row. */}
       <div
         style={{
           width: opened ? "50%" : "0px",
@@ -234,9 +306,6 @@ function StudyShelf({ connectionType, onStudyClick, opened, open, close }) {
             padding: "8px 12px",
             boxSizing: "border-box",
             overflowY: "auto",
-            // Prevent content from reflowing/wrapping while the panel is
-            // animating closed - it keeps its natural width and just gets
-            // clipped by the overflow:hidden on the parent.
             minWidth: "300px",
           }}
         >
@@ -247,8 +316,18 @@ function StudyShelf({ connectionType, onStudyClick, opened, open, close }) {
               </ActionIcon>
             </Tooltip>
           </Group>
-          <MantineReactTable table={table} />
-          <CsvButton schema={connectionType} username={user.nickname} />
+
+          {selectedStudy ? (
+            <StudyDetailView
+              study={selectedStudy}
+              onBack={() => setSelectedStudy(null)}
+            />
+          ) : (
+            <>
+              <MantineReactTable table={table} onRowCl />
+              <CsvButton schema={connectionType} username={user.nickname} />
+            </>
+          )}
         </div>
       </div>
 
