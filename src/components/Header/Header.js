@@ -35,10 +35,10 @@ export function HeaderSimple({
   setIsLoading,
 }) {
   return (
-    <Container fluid h={80} bg="rgb(47, 79, 79)">
+    <Container fluid h={80} bg="rgb(44, 76, 76)">
       <Header height={80}>
         <Flex
-          bg="rgb(47, 79, 79)"
+          bg="rgb(44, 76, 76)"
           mih={80}
           gap="md"
           justify="left"

@@ -90,7 +90,7 @@ function MapboxMap({
                   [1, "green"],
                   [2, "light green"],
                   [3, "yellow"],
-                  [4, "red"],
+                  [4, "#8E5FB0"],
                 ],
               },
             },

@@ -8,6 +8,8 @@ import {
   Group,
   Menu,
   ActionIcon,
+  Switch,
+  Flex,
 } from "@mantine/core";
 import { useAuth0 } from "@auth0/auth0-react";
 import makeAuthenticatedRequest from "../Authentication/Api";
@@ -31,10 +33,28 @@ import { StudyDetailView } from "./StudyDetailView";
 
 const CONDENSED_COLUMN_KEYS = ["seg_name", "miles", "total_jobs", "total_pop"];
 
-function StudyShelf({ connectionType, onStudyClick, opened, open, close }) {
+function getColumnVisibility(columns) {
+  const excludedColumns = {};
+  columns.forEach((col) => {
+    if (!CONDENSED_COLUMN_KEYS.includes(col["accessorKey"])) {
+      excludedColumns[col["accessorKey"]] = false;
+    }
+  });
+  return excludedColumns;
+}
+
+function StudyShelf({
+  connectionType,
+  onStudyClick,
+  reRunStudy,
+  opened,
+  open,
+  close,
+}) {
   const [studiesData, setStudiesData] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isRenameModalOpen, setIsRenameModalOpen] = useState(false);
+  const [showArchived, setShowArchived] = useState(true);
   const [deleteParams, setDeleteParams] = useState({});
   const [renameParams, setRenameParams] = useState({});
   const [newName, setNewName] = useState("");
@@ -56,15 +76,15 @@ function StudyShelf({ connectionType, onStudyClick, opened, open, close }) {
     });
   };
 
-  const allColumns = useColumns(handleSwitchChange, connectionType);
+  const columns = useColumns(handleSwitchChange, connectionType);
 
-  const columns = useMemo(
-    () =>
-      CONDENSED_COLUMN_KEYS.map((key) =>
-        allColumns.find((c) => c.accessorKey === key),
-      ).filter(Boolean),
-    [allColumns],
-  );
+  // const columns = useMemo(
+  //   () =>
+  //     CONDENSED_COLUMN_KEYS.map((key) =>
+  //       allColumns.find((c) => c.accessorKey === key),
+  //     ).filter(Boolean),
+  //   [allColumns],
+  // );
 
   useEffect(() => {
     const refreshCards = async () => {
@@ -160,53 +180,24 @@ function StudyShelf({ connectionType, onStudyClick, opened, open, close }) {
       .sort((a, b) => a.archived - b.archived);
   };
 
-  const processedData = useMemo(
-    () => preprocessData(studiesData),
-    [studiesData],
-  );
+  const processedData = useMemo(() => {
+    const data = preprocessData(studiesData);
+
+    return showArchived ? data : data.filter((study) => !study.archived);
+  }, [studiesData, showArchived]);
 
   const table = useMantineReactTable({
     columns,
     data: processedData,
 
     enableRowActions: true,
-    positionActionsColumn: "last",
-
+    positionActionsColumn: "first",
     enableStickyHeader: true,
     enableFullScreenToggle: false,
     enableColumnActions: false,
-
-    displayColumnDefOptions: {
-      "mrt-row-actions": {
-        header: "Actions",
-        size: 60,
-        minSize: 60,
-        maxSize: 60,
-        grow: false,
-      },
-    },
-    mantineTableContainerProps: {
-      sx: {
-        maxHeight: "300px",
-        overflowX: "hidden",
-      },
-    },
-    mantineTableProps: {
-      sx: {
-        tableLayout: "fixed",
-      },
-    },
-    mantineTableHeadCellProps: {
-      sx: {
-        "& .mantine-TableHeadCell-Content-Wrapper": {
-          whiteSpace: "wrap",
-        },
-
-        height: "auto",
-        paddingTop: 8,
-        paddingBottom: 8,
-        alignItems: "flex-end",
-      },
+    initialState: {
+      columnVisibility: getColumnVisibility(columns),
+      density: "xs",
     },
 
     defaultColumn: {
@@ -225,11 +216,6 @@ function StudyShelf({ connectionType, onStudyClick, opened, open, close }) {
     }),
     renderRowActionMenuItems: ({ row }) => (
       <>
-        {row.original.archived && (
-          <Menu.Item onClick={() => {}} color="green" icon={<IconPencil />}>
-            Re-Run Study on new LTS Network
-          </Menu.Item>
-        )}
         <Menu.Item
           onClick={() =>
             openRenameConfirmModal(
@@ -309,13 +295,22 @@ function StudyShelf({ connectionType, onStudyClick, opened, open, close }) {
             minWidth: "300px",
           }}
         >
-          <Group position="right" mb="xs">
-            <Tooltip label="Close">
-              <ActionIcon onClick={close} aria-label="Close studies panel">
-                <IconX size={18} />
-              </ActionIcon>
-            </Tooltip>
-          </Group>
+          {!selectedStudy && (
+            <Flex justify="space-between" mt="xs" mb={4} align="center">
+              <Switch
+                checked={showArchived}
+                onChange={() => setShowArchived(!showArchived)}
+                label="Show Archived Studies"
+                color="orange"
+              />
+
+              <Tooltip label="Close">
+                <ActionIcon onClick={close} aria-label="Close studies panel">
+                  <IconX size={18} />
+                </ActionIcon>
+              </Tooltip>
+            </Flex>
+          )}
 
           {selectedStudy ? (
             <StudyDetailView

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { LoadingOverlay, Group, Tooltip, Button, Stack } from "@mantine/core";
+import { LoadingOverlay, Switch, Tooltip, Button, Stack } from "@mantine/core";
 import mapboxgl from "mapbox-gl";
 import "@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css";
 import MapboxMap from "../Map/MapboxMap";
@@ -89,7 +89,7 @@ export default function MainComponent({ onToggleTheme, themeType }) {
         overlayOpacity={0.5}
         overlayColor="#c5c5c5"
         overlayBlur={2}
-        loaderProps={{ size: "xl", color: "rgb(47, 79, 79)", variant: "bars" }}
+        loaderProps={{ size: "xl", color: "rgb(44, 76, 76)", variant: "bars" }}
       />
       <div className="parent">
         <HeaderSimple

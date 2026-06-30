@@ -209,14 +209,14 @@ const SharedStudy = ({
         display: "flex",
         flexDirection: "row",
         height: "100vh",
-        background: "rgb(47, 79, 79)",
+        background: "rgb(44, 76, 76)",
       }}
     >
       <Box
         sx={{ flex: 1, overflowY: "auto" }}
         style={{
           padding: "10px",
-          background: "rgb(47, 79, 79)",
+          background: "rgb(44, 76, 76)",
           color: "white",
           maxWidth: "40%",
         }}
