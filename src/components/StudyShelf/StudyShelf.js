@@ -199,7 +199,9 @@ function StudyShelf({
       columnVisibility: getColumnVisibility(columns),
       density: "xs",
     },
-
+    paginationDropdownProps: {
+      "aria-label": "Rows per page",
+    },
     defaultColumn: {
       minSize: 20,
       maxSize: 9999,
@@ -302,6 +304,8 @@ function StudyShelf({
                 onChange={() => setShowArchived(!showArchived)}
                 label="Show Archived Studies"
                 color="orange"
+                onLabel=""
+                offLabel=""
               />
 
               <Tooltip label="Close">
