@@ -1,35 +1,39 @@
-import { Tooltip, Container, NativeSelect, Flex, Button } from '@mantine/core';
-import Logo from '../Logo/Logo'
-import Draft from '../Logo/Draft'
-import ModalRegional from './ModalRegional'
+import { Tooltip, Container, NativeSelect, Flex, Button } from "@mantine/core";
+import Logo from "../Logo/Logo";
+import Draft from "../Logo/Draft";
+import ModalRegional from "./ModalRegional";
 
 const attributeDisplayNames = {
-  total_pop: 'Total Population',
-  disabled: 'Disabled',
-  ethnic_minority: 'Ethnic Minority',
-  female: 'Female',
-  foreign_born: 'Foreign Born',
-  lep: 'Limited English Proficiency',
-  low_income: 'Low Income',
-  older_adult: 'Older Adult',
-  racial_minority: 'Racial Minority',
-  youth: 'Youth',
-  total_jobs: 'Total Jobs',
-  miles: 'Miles of low-stress island connected'
+  total_pop: "Total Population",
+  disabled: "Disabled",
+  ethnic_minority: "Ethnic Minority",
+  female: "Female",
+  foreign_born: "Foreign Born",
+  lep: "Limited English Proficiency",
+  low_income: "Low Income",
+  older_adult: "Older Adult",
+  racial_minority: "Racial Minority",
+  youth: "Youth",
+  total_jobs: "Total Jobs",
+  miles: "Miles of low-stress island connected",
 };
 
-
-export default function RegionalHeader({ counties, attributes, setCurrentCounty, setCurrentAttribute }) {
-  const attributeOptions = attributes.map(attr => ({
+export default function RegionalHeader({
+  counties,
+  attributes,
+  setCurrentCounty,
+  setCurrentAttribute,
+}) {
+  const attributeOptions = attributes.map((attr) => ({
     value: attr,
-    label: attributeDisplayNames[attr] || attr
+    label: attributeDisplayNames[attr] || attr,
   }));
 
   return (
     <>
-      <Container fluid h={80} bg="rgb(47, 79, 79)">
+      <Container fluid h={80} bg="rgb(44, 76, 76)">
         <Flex
-          bg="rgb(47, 79, 79)"
+          bg="rgb(44, 76, 76)"
           mih={80}
           gap="md"
           justify="left"
@@ -38,11 +42,12 @@ export default function RegionalHeader({ counties, attributes, setCurrentCounty,
           wrap="wrap"
           pl="20px"
         >
-          <Draft logoWidth={'140px'} />
-          <Logo logoWidth={'150px'} />
+          <Draft logoWidth={"140px"} />
+          <Logo logoWidth={"150px"} />
           <Tooltip label="Use the interactive LTS analysis">
-            <Button component="a"
-              href="./">LTS Analysis </Button>
+            <Button component="a" href="./">
+              LTS Analysis{" "}
+            </Button>
           </Tooltip>
           <ModalRegional />
 

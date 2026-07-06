@@ -14,8 +14,6 @@ function AnalyzeButton({ connectionType, onAnalyze, disabled }) {
   const [errorModalOpened, setErrorModalOpened] = useState(false);
   const [processingModalOpened, setProcessingModalOpened] = useState(false);
 
-
-
   const handleAnalyzeClick = () => {
     if (drawInstance) {
       const allFeatures = drawInstance.getAll();
@@ -30,7 +28,6 @@ function AnalyzeButton({ connectionType, onAnalyze, disabled }) {
       }
     }
   };
-
 
   const checkAndSetProjectName = (features) => {
     for (const feature of features) {
@@ -49,7 +46,7 @@ function AnalyzeButton({ connectionType, onAnalyze, disabled }) {
 
   const handleCancel = () => {
     setErrorModalOpened(false);
-  }
+  };
 
   const handleOverwrite = async () => {
     setProcessingModalOpened(true);
@@ -91,7 +88,7 @@ function AnalyzeButton({ connectionType, onAnalyze, disabled }) {
         await sendDataToServer(
           { ...allFeatures, features: featuresWithNames },
           false,
-          true
+          true,
         );
         onAnalyze(project);
       } catch (error) {
@@ -100,7 +97,11 @@ function AnalyzeButton({ connectionType, onAnalyze, disabled }) {
     }
   };
 
-  const sendDataToServer = async (geoJsonData, overwrite = false, resubmit = false) => {
+  const sendDataToServer = async (
+    geoJsonData,
+    overwrite = false,
+    resubmit = false,
+  ) => {
     setIsLoading(true);
     const bodyData = {
       connection_type: connectionType,
@@ -108,8 +109,11 @@ function AnalyzeButton({ connectionType, onAnalyze, disabled }) {
       username: user.nickname,
     };
 
-    const queryString = overwrite ? "?overwrite=true" : resubmit ? "?resubmit=true" : "";
-
+    const queryString = overwrite
+      ? "?overwrite=true"
+      : resubmit
+        ? "?resubmit=true"
+        : "";
 
     try {
       const response = await makeAuthenticatedRequest(
@@ -128,7 +132,7 @@ function AnalyzeButton({ connectionType, onAnalyze, disabled }) {
         const errorData = await response.json();
         throw new Error(errorData.detail || "An error occurred");
       } else {
-        setProcessingModalOpened(true)
+        setProcessingModalOpened(true);
       }
 
       const data = await response.json();
@@ -148,11 +152,12 @@ function AnalyzeButton({ connectionType, onAnalyze, disabled }) {
       if (errorMessage.includes("Project name already used")) {
         setError("Project name already used.");
         setErrorModalOpened(true);
-      } else if(errorMessage.includes("Mileage of connected islands exceeds 300")) {
-        setError("")
-        setErrorModalOpened(true)
-      }
-      else {
+      } else if (
+        errorMessage.includes("Mileage of connected islands exceeds 300")
+      ) {
+        setError("");
+        setErrorModalOpened(true);
+      } else {
         setError(errorMessage);
         setErrorModalOpened(true);
         setProcessingModalOpened(false);
@@ -162,19 +167,17 @@ function AnalyzeButton({ connectionType, onAnalyze, disabled }) {
     }
   };
 
-
   const applyProjectName = async () => {
     setProcessingModalOpened(false);
     if (drawInstance) {
       const allFeatures = drawInstance.getAll();
-      console.log(allFeatures)
+      console.log(allFeatures);
 
       let automaticProjectName = checkAndSetProjectName(allFeatures.features);
       if (automaticProjectName) {
         setProject(automaticProjectName);
         console.log("Project name in geojson:", automaticProjectName);
       } else {
-
         allFeatures.features.forEach((feature, index) => {
           feature.properties.name =
             index === 0 ? project : `${project}${index + 1}`;
@@ -211,7 +214,7 @@ function AnalyzeButton({ connectionType, onAnalyze, disabled }) {
           } else {
             throw new Error(
               responseData.detail ||
-              "An error occurred while applying the project name.",
+                "An error occurred while applying the project name.",
             );
           }
         } else {
@@ -235,38 +238,62 @@ function AnalyzeButton({ connectionType, onAnalyze, disabled }) {
         setIsLoading(false);
         setProcessingModalOpened(false);
       }
-
     }
   };
 
   return (
     <>
       {/* Error Modal */}
-      <Modal opened={errorModalOpened} onClose={function() { setErrorModalOpened(false); }} title={error === "Mileage of connected islands exceeds 300" ? "Warning" : "Error"}>
+      <Modal
+        opened={errorModalOpened}
+        onClose={function () {
+          setErrorModalOpened(false);
+        }}
+        title={
+          error === "Mileage of connected islands exceeds 300"
+            ? "Warning"
+            : "Error"
+        }
+      >
         <Text>{error}</Text>
         {error === "Project name already used." && (
           <>
-            <Button onClick={handleChooseDifferentName}>Choose Different Name</Button>
-            <Button loading={isLoading} color="red" onClick={handleOverwrite}>Overwrite</Button>
+            <Button onClick={handleChooseDifferentName}>
+              Choose Different Name
+            </Button>
+            <Button loading={isLoading} color="red" onClick={handleOverwrite}>
+              Overwrite
+            </Button>
           </>
         )}
         {error === "Mileage of connected islands exceeds 300" && (
           <>
-            <br/>
-            <Text>Due to high mileage of connected islands, this study may take extra time to process or possibly fail.</Text>
+            <br />
+            <Text>
+              Due to high mileage of connected islands, this study may take
+              extra time to process or possibly fail.
+            </Text>
             <Text>Select 'Run Anyway' to proceed with the study</Text>
-            <Flex gap="16px" style={{ marginTop: "16px"}}>
+            <Flex gap="16px" style={{ marginTop: "16px" }}>
               <Button onClick={handleCancel}>Cancel</Button>
-              <Button loading={isLoading} color="orange" onClick={handleResubmit}>Run Anyway</Button>
+              <Button
+                loading={isLoading}
+                color="orange"
+                onClick={handleResubmit}
+              >
+                Run Anyway
+              </Button>
             </Flex>
-
           </>
         )}
       </Modal>
 
-
       {/* Study Name Modal */}
-      <Modal opened={opened} onClose={close} title={isLoading ? "Processing..." : "Name your study"}>
+      <Modal
+        opened={opened}
+        onClose={close}
+        title={isLoading ? "Processing..." : "Name your study"}
+      >
         {!isLoading && (
           <>
             <input
@@ -284,29 +311,29 @@ function AnalyzeButton({ connectionType, onAnalyze, disabled }) {
       </Modal>
 
       {/* Processing modal */}
-      <Modal opened={processingModalOpened} withCloseButton={false} title="Processing">
+      <Modal
+        opened={processingModalOpened}
+        withCloseButton={false}
+        title="Processing"
+      >
         <Text>Processing segments...</Text>
         <Progress value={100} striped animate />
       </Modal>
-
 
       {/* Analyze Button */}
       <Tooltip label="Run the analysis on your study. Your study should then populate on screen, and you can view the results with the 'My Studies' button.">
         <Button
           variant="filled"
           color="blue"
-          style={{
-            position: "absolute",
-            top: "90px",
-            left: "10px",
-            zIndex: 10,
-          }}
           onClick={handleAnalyzeClick}
           disabled={disabled}
+          style={{
+            width: 120,
+          }}
         >
           Analyze
         </Button>
-      </Tooltip >
+      </Tooltip>
     </>
   );
 }

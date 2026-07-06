@@ -138,7 +138,7 @@ const SharedStudy = ({
               id: "lts",
               type: "line",
               source: "lts_tile",
-              "source-layer": "lts",
+              "source-layer": "lts_network",
               paint: {
                 "line-width": 1,
                 "line-opacity": {
@@ -209,14 +209,14 @@ const SharedStudy = ({
         display: "flex",
         flexDirection: "row",
         height: "100vh",
-        background: "rgb(47, 79, 79)",
+        background: "rgb(44, 76, 76)",
       }}
     >
       <Box
         sx={{ flex: 1, overflowY: "auto" }}
         style={{
           padding: "10px",
-          background: "rgb(47, 79, 79)",
+          background: "rgb(44, 76, 76)",
           color: "white",
           maxWidth: "40%",
         }}
@@ -328,7 +328,7 @@ const SharedStudy = ({
                       <strong>Essential Service {index + 1}:</strong>
                     </td>
                     <td colSpan={3}>
-                      {service.type}: {service.count}
+                      {service.category}: {service.count}
                     </td>
                   </tr>
                 ))}

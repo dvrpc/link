@@ -1,6 +1,6 @@
 import React from "react";
 import { Switch } from "@mantine/core";
-import { IconWalk, IconBike } from '@tabler/icons-react';
+import { IconWalk, IconBike } from "@tabler/icons-react";
 
 function ConnectionToggle({
   connectionType,
@@ -9,23 +9,12 @@ function ConnectionToggle({
   isLoading,
   setIsLoading,
 }) {
+  const walkIcon = <IconWalk stroke={2.5} />;
 
-
-  const walkIcon = (
-    <IconWalk
-      stroke={2.5}
-    />
-  );
-
-  const bikeIcon = (
-    <IconBike
-      stroke={2.5}
-    />
-  );
-
+  const bikeIcon = <IconBike stroke={2.5} />;
 
   const handleToggle = () => {
-    setIsLoading()
+    setIsLoading();
     const newType = connectionType === "bike" ? "pedestrian" : "bike";
     setConnectionType(newType);
     resetDrawingState();
@@ -35,9 +24,11 @@ function ConnectionToggle({
     <Switch
       checked={connectionType === "pedestrian"}
       onChange={handleToggle}
-      onLabel={walkIcon} offLabel={bikeIcon}
+      onLabel={walkIcon}
+      offLabel={bikeIcon}
       size="xl"
       color="gray"
+      aria-label="Toggle connection type"
     />
   );
 }

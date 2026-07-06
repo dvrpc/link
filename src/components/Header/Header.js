@@ -29,18 +29,17 @@ function Regional({ connectionType }) {
 export function HeaderSimple({
   connectionType,
   setConnectionType,
-  onStudyClick,
   resetDrawingState,
   onToggleTheme,
   isLoading,
   setIsLoading,
 }) {
   return (
-    <Container fluid h={80} bg="rgb(47, 79, 79)">
+    <Container fluid h={80} bg="rgb(44, 76, 76)">
       <Header height={80}>
         <Flex
-          bg="rgb(47, 79, 79)"
-          mih={85}
+          bg="rgb(44, 76, 76)"
+          mih={80}
           gap="md"
           justify="left"
           align="center"
@@ -50,11 +49,6 @@ export function HeaderSimple({
         >
           <Draft logoWidth="110px" />
           <Logo logoWidth="150px" />
-          <StudyShelf
-            connectionType={connectionType}
-            setConnectionType={setConnectionType}
-            onStudyClick={onStudyClick}
-          />
           <Explainer />
           <Video></Video>
           <Regional connectionType={connectionType} />

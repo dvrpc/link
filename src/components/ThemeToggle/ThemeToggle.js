@@ -1,38 +1,25 @@
 import React from "react";
 import { Switch } from "@mantine/core";
-import { IconSun, IconMoonStars } from '@tabler/icons-react';
+import { IconSun, IconMoonStars } from "@tabler/icons-react";
 
-function ThemeToggle({
-  onToggleTheme, isLoading, setIsLoading
-}) {
-
-
+function ThemeToggle({ onToggleTheme, isLoading, setIsLoading }) {
   const handleToggle = () => {
-    onToggleTheme()
+    onToggleTheme();
     setIsLoading(true);
-  }
+  };
 
-  const sunIcon = (
-    <IconSun
-      stroke={2.5}
-      color="yellow"
-    />
-  );
+  const sunIcon = <IconSun stroke={2.5} color="yellow" />;
 
-  const moonIcon = (
-    <IconMoonStars
-      stroke={2.5}
-      color="gray"
-    />
-  );
-
+  const moonIcon = <IconMoonStars stroke={2.5} color="gray" />;
 
   return (
     <Switch
       onChange={handleToggle}
-      onLabel={sunIcon} offLabel={moonIcon}
+      onLabel={sunIcon}
+      offLabel={moonIcon}
       size="xl"
       color="gray"
+      aria-label="Toggle theme"
     />
   );
 }

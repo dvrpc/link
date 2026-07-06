@@ -12,7 +12,7 @@ export default function LoginPage() {
         alignItems: "center",
         height: "100vh",
       }}
-      bg="rgb(47, 79, 79)"
+      bg="rgb(44, 76, 76)"
     >
       <div>
         <Text size="xl">Welcome to DVRPC LINK.</Text>

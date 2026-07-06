@@ -100,7 +100,7 @@ export default function Admin() {
               </td>
               <td>
                 {studies.essential_services
-                  .map((service) => `${service.type}: ${service.count}`)
+                  .map((service) => `${service.category}: ${service.count}`)
                   .join(", ")}
               </td>
               <td>{studies.rail_stations}</td>
@@ -120,7 +120,7 @@ export default function Admin() {
         justifyContent: "center",
         alignItems: "center",
         height: "100vh",
-        backgroundColor: "rgb(47, 79, 79)",
+        backgroundColor: "rgb(44, 76, 76)",
       }}
     >
       <div style={{ width: "90%", maxWidth: "1200px", margin: "20px" }}>

@@ -4,19 +4,48 @@ import drawInstance from "./MapboxDrawConfig";
 import { MapContext } from "./MapContext";
 import { GeoJSONUploadControl } from "./GeojsonButton";
 import { SelectAllButton } from "./SelectAllButton";
-mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_ACCESS_TOKEN
+mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_ACCESS_TOKEN;
 
-function MapboxMap({ setHasDrawings, setMap, connectionType, themeType, isLoading, setIsLoading }) {
+function MapboxMap({
+  setHasDrawings,
+  setMap,
+  connectionType,
+  themeType,
+  isLoading,
+  setIsLoading,
+}) {
   const mapContainer = useRef(null);
+  const mapRef = useRef(null);
   const { updateDrawingState } = useContext(MapContext);
+
+  // Keep mapbox-gl's internal canvas size in sync with the container's
+  // actual rendered size, whenever it changes (including mid-transition).
+  useEffect(() => {
+    const container = mapContainer.current;
+    if (!container) return;
+
+    const resizeObserver = new ResizeObserver(() => {
+      if (mapRef.current) {
+        mapRef.current.resize();
+      }
+    });
+    resizeObserver.observe(container);
+
+    return () => resizeObserver.disconnect();
+  }, []);
 
   useEffect(() => {
     const mapInstance = new mapboxgl.Map({
       container: mapContainer.current,
-      style: themeType === 'dark' ? 'mapbox://styles/mapbox/dark-v11' : 'mapbox://styles/mapbox/light-v11',
+      style:
+        themeType === "dark"
+          ? "mapbox://styles/mapbox/dark-v11"
+          : "mapbox://styles/mapbox/light-v11",
       center: [-75.16, 40.05],
       zoom: 8.5,
     });
+
+    mapRef.current = mapInstance;
 
     mapInstance.on("load", () => {
       setIsLoading(true);
@@ -26,14 +55,14 @@ function MapboxMap({ setHasDrawings, setMap, connectionType, themeType, isLoadin
       mapInstance.addControl(selectAll, "top-right");
       mapInstance.addSource("lts_tile", {
         type: "vector",
-        url: "https://tiles.dvrpc.org/data/lts_v2.json",
+        url: "https://tiles.dvrpc.org/data/transportation/lts_network",
         minzoom: 8,
         promoteId: "id",
       });
 
       mapInstance.addSource("sw_tile", {
         type: "vector",
-        url: "https://tiles.dvrpc.org/data/pedestrian-network.json",
+        url: "https://tiles.dvrpc.org/data/pedestrian-network",
         minzoom: 8,
       });
 
@@ -43,7 +72,7 @@ function MapboxMap({ setHasDrawings, setMap, connectionType, themeType, isLoadin
             id: "lts",
             type: "line",
             source: "lts_tile",
-            "source-layer": "lts",
+            "source-layer": "lts_network",
             paint: {
               "line-width": 1,
               "line-opacity": {
@@ -51,8 +80,8 @@ function MapboxMap({ setHasDrawings, setMap, connectionType, themeType, isLoadin
                 stops: [
                   [1, 1],
                   [2, 1],
-                  [3, .75],
-                  [4, .75],
+                  [3, 0.75],
+                  [4, 0.75],
                 ],
               },
               "line-color": {
@@ -61,7 +90,7 @@ function MapboxMap({ setHasDrawings, setMap, connectionType, themeType, isLoadin
                   [1, "green"],
                   [2, "light green"],
                   [3, "yellow"],
-                  [4, "red"],
+                  [4, "#8E5FB0"],
                 ],
               },
             },
@@ -101,31 +130,31 @@ function MapboxMap({ setHasDrawings, setMap, connectionType, themeType, isLoadin
     });
 
     function isDrawingLine() {
-      return drawInstance.getMode() === 'draw_line_string';
+      return drawInstance.getMode() === "draw_line_string";
     }
 
-    mapInstance.on('click', 'lts', (e) => {
+    mapInstance.on("click", "lts", (e) => {
       if (!isDrawingLine()) {
         const coordinates = e.lngLat;
         const properties = e.features[0].properties;
 
         const propertyLabels = {
-          "id": "ID",
-          "no": "Number",
-          "fromnodeno": "From Node Number",
-          "tonodeno": "To Node Number",
-          "typeno": "Type Number",
-          "length": "Length (km)",
+          id: "ID",
+          no: "Number",
+          fromnodeno: "From Node Number",
+          tonodeno: "To Node Number",
+          typeno: "Type Number",
+          length: "Length (km)",
           "totnumla~1": "Total Number Lanes",
           "bike_fac~2": "Bike Facility",
           "vcur_prt~3": "vcur",
           "wktpolyw~4": "Geometry",
-          "rise_run": "Rise/Run",
+          rise_run: "Rise/Run",
           "isoneway~5": "Is One Way",
           "reversel~6": "Reverse Length",
-          "penndot_speed": "PennDOT Speed",
-          "njdot_speed": "NJDOT Speed",
-          "lts": "LTS level"
+          penndot_speed: "PennDOT Speed",
+          njdot_speed: "NJDOT Speed",
+          lts: "LTS level",
         };
 
         const bikeFacilities = [
@@ -135,19 +164,28 @@ function MapboxMap({ setHasDrawings, setMap, connectionType, themeType, isLoadin
           "Buffered bicycle lane",
           "Off-road trail/path",
           "Bicycle route",
-          "Protected bicycle lane"
-        ]
-        Object.assign(properties, { "bike_fac~2": bikeFacilities[properties['bike_fac~2']]});
+          "Protected bicycle lane",
+        ];
+        Object.assign(properties, {
+          "bike_fac~2": bikeFacilities[properties["bike_fac~2"]],
+        });
 
-        const propertiesToOmit = ["id", "no", "vcur_prt~3", "wktpolyw~4", "reversel~6", "typeno"];
+        const propertiesToOmit = [
+          "id",
+          "no",
+          "vcur_prt~3",
+          "wktpolyw~4",
+          "reversel~6",
+          "typeno",
+        ];
 
         const popupContent = Object.keys(properties)
-          .filter(key => !propertiesToOmit.includes(key))
-          .map(key => {
+          .filter((key) => !propertiesToOmit.includes(key))
+          .map((key) => {
             const label = propertyLabels[key] || key;
             return `<strong>${label}:</strong> ${properties[key]}`;
           })
-          .join('<br>');
+          .join("<br>");
 
         new mapboxgl.Popup()
           .setLngLat(coordinates)
@@ -156,34 +194,34 @@ function MapboxMap({ setHasDrawings, setMap, connectionType, themeType, isLoadin
       }
     });
 
-    mapInstance.on('mouseenter', 'lts', () => {
-      mapInstance.getCanvas().style.cursor = 'pointer';
+    mapInstance.on("mouseenter", "lts", () => {
+      mapInstance.getCanvas().style.cursor = "pointer";
     });
 
-    mapInstance.on('mouseleave', 'lts', () => {
-      mapInstance.getCanvas().style.cursor = '';
+    mapInstance.on("mouseleave", "lts", () => {
+      mapInstance.getCanvas().style.cursor = "";
     });
-    mapInstance.on('click', 'sw', (e) => {
+    mapInstance.on("click", "sw", (e) => {
       if (!isDrawingLine()) {
         const coordinates = e.lngLat;
         const properties = e.features[0].properties;
         const propertyLabels = {
-          "line_type": "Line Type",
-          "material": "Material",
-          "feat_type": "Feature Type",
-          "raised": "Raised",
-          "county": "County",
+          line_type: "Line Type",
+          material: "Material",
+          feat_type: "Feature Type",
+          raised: "Raised",
+          county: "County",
         };
 
         const propertiesToOmit = [];
 
         const popupContent = Object.keys(properties)
-          .filter(key => !propertiesToOmit.includes(key))
-          .map(key => {
+          .filter((key) => !propertiesToOmit.includes(key))
+          .map((key) => {
             const label = propertyLabels[key] || key;
             return `<strong>${label}:</strong> ${properties[key]}`;
           })
-          .join('<br>');
+          .join("<br>");
 
         new mapboxgl.Popup()
           .setLngLat(coordinates)
@@ -192,12 +230,12 @@ function MapboxMap({ setHasDrawings, setMap, connectionType, themeType, isLoadin
       }
     });
 
-    mapInstance.on('mouseenter', 'sw', () => {
-      mapInstance.getCanvas().style.cursor = 'pointer';
+    mapInstance.on("mouseenter", "sw", () => {
+      mapInstance.getCanvas().style.cursor = "pointer";
     });
 
-    mapInstance.on('mouseleave', 'sw', () => {
-      mapInstance.getCanvas().style.cursor = '';
+    mapInstance.on("mouseleave", "sw", () => {
+      mapInstance.getCanvas().style.cursor = "";
     });
 
     setMap(mapInstance);
@@ -205,11 +243,10 @@ function MapboxMap({ setHasDrawings, setMap, connectionType, themeType, isLoadin
     const onIdle = () => {
       setIsLoading(false);
     };
-    mapInstance.on('idle', onIdle);
-
+    mapInstance.on("idle", onIdle);
 
     return () => {
-      mapInstance.off('idle', onIdle);
+      mapInstance.off("idle", onIdle);
       if (drawInstance) {
         mapInstance.off("draw.create", updateDrawingState);
         mapInstance.off("draw.update", updateDrawingState);
@@ -217,11 +254,15 @@ function MapboxMap({ setHasDrawings, setMap, connectionType, themeType, isLoadin
       }
     };
   }, [setHasDrawings, setMap, connectionType, themeType]);
+
   return (
     <div
       ref={mapContainer}
       className="map-container"
-      style={{ width: "100%", height: "100%" }}
+      style={{
+        width: "100%",
+        height: "100%",
+      }}
     />
   );
 }

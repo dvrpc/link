@@ -23,7 +23,7 @@ export default function LoginPage() {
           alignItems: "center",
           height: "100vh",
         }}
-        bg="rgb(47, 79, 79)"
+        bg="rgb(44, 76, 76)"
       >
         <img style={{ width: "200px", height: "auto" }} src={logofull} />
         <img style={{ width: "350px", height: "auto" }} src={logo} />
