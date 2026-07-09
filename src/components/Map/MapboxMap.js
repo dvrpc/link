@@ -87,10 +87,10 @@ function MapboxMap({
               "line-color": {
                 property: "lts",
                 stops: [
-                  [1, "green"],
-                  [2, "light green"],
-                  [3, "yellow"],
-                  [4, "#8E5FB0"],
+                  [1, "#1b7837"],
+                  [2, "#7fbf7b"],
+                  [3, "#af8dc3"],
+                  [4, "#762a83 "],
                 ],
               },
             },

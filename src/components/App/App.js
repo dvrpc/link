@@ -16,7 +16,7 @@ import SharedStudy from "../SharedStudy/SharedStudy";
 import RegionalCx from "../Map/RegionalCx";
 
 export default function App() {
-  const [themeType, setThemeType] = useState("dark");
+  const [themeType, setThemeType] = useState("light");
 
   const toggleTheme = () => {
     setThemeType(themeType === "dark" ? "light" : "dark");
@@ -42,7 +42,10 @@ export default function App() {
             path="/"
             element={
               <AuthenticatedLayout requireAdmin={false}>
-                <MainComponent onToggleTheme={toggleTheme} themeType={themeType} />
+                <MainComponent
+                  onToggleTheme={toggleTheme}
+                  themeType={themeType}
+                />
               </AuthenticatedLayout>
             }
           />
@@ -62,9 +65,8 @@ export default function App() {
           />
           <Route
             path="/regional-connectivity-analysis"
-            element={
-              <RegionalCx themeType={themeType}></RegionalCx>
-            } />
+            element={<RegionalCx themeType={themeType}></RegionalCx>}
+          />
         </Routes>
       </Router>
     </MantineProvider>
