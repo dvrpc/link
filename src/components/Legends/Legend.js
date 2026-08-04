@@ -70,10 +70,10 @@ function Legend({ connectionType }) {
           </Text>
           {connectionType === "bike" ? (
             <>
-              <LegendRow label="LTS 1" color="#4b7f00" />
-              <LegendRow label="LTS 2" color="#2ea043" />
-              <LegendRow label="LTS 3" color="#ffd43b" />
-              <LegendRow label="LTS 4" color="#8E5FB0" />
+              <LegendRow label="LTS 1" color="#1b7837" />
+              <LegendRow label="LTS 2" color="#7fbf7b" />
+              <LegendRow label="LTS 3" color="#af8dc3" />
+              <LegendRow label="LTS 4" color="#762a83 " />
             </>
           ) : (
             <>

@@ -22,11 +22,21 @@ export default function LoginPage() {
           justifyContent: "center",
           alignItems: "center",
           height: "100vh",
+          color: "white",
         }}
+        color="white"
         bg="rgb(44, 76, 76)"
       >
-        <img style={{ width: "200px", height: "auto" }} src={logofull} />
-        <img style={{ width: "350px", height: "auto" }} src={logo} />
+        <img
+          style={{ width: "200px", height: "auto" }}
+          src={logofull}
+          alt="DVRPC Logo"
+        />
+        <img
+          style={{ width: "350px", height: "auto" }}
+          src={logo}
+          alt="Link Logo"
+        />
         <Text size="lg">
           Link is a tool that helps you understand the potential impact of
           building bicycle or pedestrian facilities.
@@ -63,6 +73,7 @@ export default function LoginPage() {
           href="https://www.dvrpc.org/policies/"
           target="_blank"
           underline="hover"
+          style={{ color: "white" }}
         >
           Policies
         </Anchor>
@@ -70,6 +81,7 @@ export default function LoginPage() {
           href="https://www.dvrpc.org/products/24156?key=2uMKwNhTN1k4h7gPhw9RyJcani7dWpdu"
           target="_blank"
           underline="hover"
+          style={{ color: "white" }}
         >
           Abstract
         </Anchor>

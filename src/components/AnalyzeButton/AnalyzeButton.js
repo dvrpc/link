@@ -300,9 +300,10 @@ function AnalyzeButton({ connectionType, onAnalyze, disabled }) {
               type="text"
               value={project}
               onChange={(e) => setProject(e.target.value)}
+              style={{}}
               placeholder="Enter study name"
             />
-            <Button loading={isLoading} onClick={applyProjectName}>
+            <Button color="blue" loading={isLoading} onClick={applyProjectName}>
               Submit
             </Button>
           </>
@@ -324,7 +325,7 @@ function AnalyzeButton({ connectionType, onAnalyze, disabled }) {
       <Tooltip label="Run the analysis on your study. Your study should then populate on screen, and you can view the results with the 'My Studies' button.">
         <Button
           variant="filled"
-          color="blue"
+          color="linkGreen"
           onClick={handleAnalyzeClick}
           disabled={disabled}
           style={{

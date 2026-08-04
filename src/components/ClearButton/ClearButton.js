@@ -27,7 +27,7 @@ function ClearButton({ disabled, resetDrawingState }) {
       <Tooltip label="Clear any studies off of the screen.">
         <Button
           variant="filled"
-          color="blue"
+          color="linkGreen"
           onClick={clearFeatures}
           disabled={disabled}
           style={{

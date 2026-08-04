@@ -138,7 +138,7 @@ export default function MainComponent({ onToggleTheme, themeType }) {
             >
               {!shelfOpened && (
                 <Tooltip label="Open my studies">
-                  <Button variant="filled" color="blue" onClick={open}>
+                  <Button variant="filled" color="linkGreen" onClick={open}>
                     My Studies
                   </Button>
                 </Tooltip>
