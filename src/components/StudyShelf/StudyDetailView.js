@@ -32,7 +32,7 @@ function DetailField({ label, value }) {
         borderBottom: `1px solid ${
           theme.colorScheme === "dark"
             ? theme.colors.dark[4]
-            : theme.colors.gray[2]
+            : theme.colors.gray[1]
         }`,
       })}
     >
@@ -58,7 +58,7 @@ const DETAIL_FIELD_GROUPS = [
     ],
   },
   {
-    title: "Corridor Metrics",
+    title: "Study Metrics",
     fields: [
       { label: "Miles", key: "miles" },
       { label: "Total Population", key: "total_pop" },
