@@ -72,7 +72,7 @@ export default function LoginPage() {
         <Anchor
           href="https://www.dvrpc.org/policies/"
           target="_blank"
-          underline="hover"
+          underline="yes"
           style={{ color: "white" }}
         >
           Policies
