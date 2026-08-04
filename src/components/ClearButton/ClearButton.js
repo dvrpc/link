@@ -28,14 +28,11 @@ function ClearButton({ disabled, resetDrawingState }) {
         <Button
           variant="filled"
           color="blue"
-          style={{
-            position: "absolute",
-            top: "130px",
-            left: "10px",
-            zIndex: 11,
-          }}
           onClick={clearFeatures}
           disabled={disabled}
+          style={{
+            width: 120,
+          }}
         >
           Clear
         </Button>
