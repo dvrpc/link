@@ -21,7 +21,7 @@ function AnalyzeButton({ connectionType, onAnalyze, disabled }) {
 
       if (automaticProjectName) {
         setProject(automaticProjectName);
-        sendDataToServer(allFeatures);
+        sendDataToServer(allFeatures, false, false, automaticProjectName);
         setProcessingModalOpened(true);
       } else {
         open();
@@ -64,8 +64,9 @@ function AnalyzeButton({ connectionType, onAnalyze, disabled }) {
         await sendDataToServer(
           { ...allFeatures, features: featuresWithNames },
           true,
+          false,
+          project,
         );
-        onAnalyze(project);
       } catch (error) {
         console.error("Failed to overwrite data:", error);
       }
@@ -89,8 +90,8 @@ function AnalyzeButton({ connectionType, onAnalyze, disabled }) {
           { ...allFeatures, features: featuresWithNames },
           false,
           true,
+          project,
         );
-        onAnalyze(project);
       } catch (error) {
         console.error("Failed to overwrite data:", error);
       }
@@ -101,6 +102,7 @@ function AnalyzeButton({ connectionType, onAnalyze, disabled }) {
     geoJsonData,
     overwrite = false,
     resubmit = false,
+    completedStudyName,
   ) => {
     setIsLoading(true);
     const bodyData = {
@@ -137,6 +139,9 @@ function AnalyzeButton({ connectionType, onAnalyze, disabled }) {
 
       const data = await response.json();
       console.log("Server response:", data);
+      if (completedStudyName) {
+        onAnalyze(completedStudyName);
+      }
       setProject("");
       close();
       setProcessingModalOpened(false);
