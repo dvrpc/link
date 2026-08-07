@@ -6,6 +6,18 @@ import { GeoJSONUploadControl } from "./GeojsonButton";
 import { SelectAllButton } from "./SelectAllButton";
 mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_ACCESS_TOKEN;
 
+const COUNTY_CODES = {
+  42101: "Philadelphia County",
+  42017: "Bucks County",
+  42019: "Montgomery County",
+  42029: "Chester County",
+  42045: "Delaware County",
+  34005: "Burlington County",
+  34021: "Mercer County",
+  34007: "Camden County",
+  34015: "Gloucester County",
+};
+
 function MapboxMap({
   setHasDrawings,
   setMap,
@@ -154,9 +166,15 @@ function MapboxMap({
           "reversel~6": "Reverse Length",
           penndot_speed: "PennDOT Speed",
           njdot_speed: "NJDOT Speed",
-          lts: "LTS level",
+          lts: "LTS Level",
+          slope: "Slope",
+          bike_facility: "Bike Facility",
+          county_code: "County Code",
+          county: "County",
+          totnumlanes: "Total Lanes",
+          vehiclespeed: "Vehicle Speed",
+          numlanes: "Number of Lanes",
         };
-
         const bikeFacilities = [
           "None",
           "Sharrow",
@@ -177,7 +195,19 @@ function MapboxMap({
           "wktpolyw~4",
           "reversel~6",
           "typeno",
+          "objectid",
+          "gid",
+          "num_lanes",
+          "final_speed_source",
+          "bike_fac~2",
+          "county_code",
         ];
+
+        if (Object.hasOwn(properties, "county_code")) {
+          if (properties.county_code in COUNTY_CODES) {
+            properties.county = COUNTY_CODES[properties.county_code];
+          }
+        }
 
         const popupContent = Object.keys(properties)
           .filter((key) => !propertiesToOmit.includes(key))

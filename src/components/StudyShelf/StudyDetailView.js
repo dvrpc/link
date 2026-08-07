@@ -73,6 +73,13 @@ const DETAIL_FIELD_GROUPS = [
     ],
   },
   {
+    title: "Safety",
+    fields: [
+      { label: "Bike Crashes", key: "bikeCrashesMessage" },
+      { label: "Pedestrian Crashes", key: "pedCrashesMessage" },
+    ],
+  },
+  {
     title: "Title VI Indicators",
     fields: [
       { label: "Disabled Individuals", key: "disabled" },
@@ -84,13 +91,6 @@ const DETAIL_FIELD_GROUPS = [
       { label: "Older Adults", key: "older_adult" },
       { label: "Racial Minorities", key: "racial_minority" },
       { label: "Youth", key: "youth" },
-    ],
-  },
-  {
-    title: "Safety",
-    fields: [
-      { label: "Bike Crashes", key: "bikeCrashesMessage" },
-      { label: "Pedestrian Crashes", key: "pedCrashesMessage" },
     ],
   },
 ];

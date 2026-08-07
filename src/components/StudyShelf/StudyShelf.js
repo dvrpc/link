@@ -33,6 +33,15 @@ import { StudyDetailView } from "./StudyDetailView";
 
 const CONDENSED_COLUMN_KEYS = ["seg_name", "miles", "total_jobs", "total_pop"];
 
+const es_category_map = {
+  schools_public: "Public Schools",
+  schools_private: "Private Schools",
+  schools_post_secondary: "Post-Secondary Schools",
+  health_care: "Healthcare Facilities",
+  senior_srv: "Senior Services",
+  grocery_store: "Grocery Stores",
+};
+
 function getColumnVisibility(columns) {
   const excludedColumns = {};
   columns.forEach((col) => {
@@ -50,6 +59,7 @@ function StudyShelf({
   opened,
   open,
   close,
+  studyToOpen,
 }) {
   const [studiesData, setStudiesData] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -171,7 +181,10 @@ function StudyShelf({
             .join(", ") || "N/A",
         essential_services:
           item.essential_services
-            .map((s) => `${s.category} (${s.count})`)
+            .map(
+              (s) =>
+                `${Object.hasOwn(s, "category") ? es_category_map[s.category] : s.type} (${s.count})`,
+            )
             .join(", ") || "No Services",
         rail_stations:
           item.rail_stations.map((s) => `${s.type}  (${s.count})`).join(", ") ||
@@ -185,6 +198,19 @@ function StudyShelf({
 
     return showArchived ? data : data.filter((study) => !study.archived);
   }, [studiesData, showArchived]);
+
+  useEffect(() => {
+    if (!studyToOpen) {
+      return;
+    }
+
+    const completedStudy = processedData.find(
+      (study) => study.seg_name === studyToOpen.name,
+    );
+    if (completedStudy) {
+      setSelectedStudy(completedStudy);
+    }
+  }, [processedData, studyToOpen]);
 
   const table = useMantineReactTable({
     columns,

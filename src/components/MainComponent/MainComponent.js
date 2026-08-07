@@ -34,6 +34,7 @@ export default function MainComponent({ onToggleTheme, themeType }) {
   const [hasDrawings, setHasDrawings] = useState(false); // indicates presence of drawings on map
   const [isCleared, setIsCleared] = useState(false);
   const [shelfOpened, { open, close }] = useDisclosure(false);
+  const [studyToOpen, setStudyToOpen] = useState(null);
 
   useEffect(() => {
     if (map) {
@@ -69,6 +70,12 @@ export default function MainComponent({ onToggleTheme, themeType }) {
     }
 
     setIsCleared(false);
+  };
+
+  const handleAnalysisComplete = async (studyName) => {
+    await handleStudyClick(studyName);
+    setStudyToOpen({ name: studyName });
+    open();
   };
 
   const updateDrawingState = () => {
@@ -117,6 +124,7 @@ export default function MainComponent({ onToggleTheme, themeType }) {
             opened={shelfOpened}
             open={open}
             close={close}
+            studyToOpen={studyToOpen}
           />
 
           <div
@@ -146,7 +154,7 @@ export default function MainComponent({ onToggleTheme, themeType }) {
               <AnalyzeButton
                 disabled={!hasDrawings}
                 connectionType={connectionType}
-                onAnalyze={handleStudyClick}
+                onAnalyze={handleAnalysisComplete}
               />
               <ClearButton
                 disabled={!hasDrawings}
