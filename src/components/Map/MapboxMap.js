@@ -9,7 +9,7 @@ mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_ACCESS_TOKEN;
 const COUNTY_CODES = {
   42101: "Philadelphia County",
   42017: "Bucks County",
-  42019: "Montgomery County",
+  42091: "Montgomery County",
   42029: "Chester County",
   42045: "Delaware County",
   34005: "Burlington County",
