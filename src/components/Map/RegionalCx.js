@@ -1,12 +1,25 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import RegionalHeader from "./RegionalHeader";
 import mapboxgl from "mapbox-gl";
 mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_ACCESS_TOKEN;
 
+const COLORS = [
+  "#474ED7", // Low (blue)
+  "#6B4FCB",
+  "#8E50C0",
+  "#B051B4",
+  "#D351A9",
+  "#EC458D", // Middle (pink)
+  "#EF6E97",
+  "#F296A2",
+  "#F5BFAE",
+  "#FFF4CA", // High (light yellow)
+];
+
 const RegionalCx = ({ themeType, isLoading, setIsLoading }) => {
   const mapContainer = useRef(null);
   const mapInstance = useRef(null);
-  const [geojsonData, setGeojsonData] = useState(null);
+  const featuresByIdRef = useRef(new Map());
   const counties = [
     "DVRPC Region (All Counties)",
     "Bucks",
@@ -37,47 +50,70 @@ const RegionalCx = ({ themeType, isLoading, setIsLoading }) => {
     "DVRPC Region (All Counties)",
   );
   const [currentAttribute, setCurrentAttribute] = useState("total_pop");
-  const [maxOfAttribute, setMaxOfAttribute] = useState(-Infinity);
-  const colors = [
-    "#474ED7", // Low (blue)
-    "#6B4FCB",
-    "#8E50C0",
-    "#B051B4",
-    "#D351A9",
-    "#EC458D", // Middle (pink)
-    "#EF6E97",
-    "#F296A2",
-    "#F5BFAE",
-    "#FFF4CA", // High (light yellow)
-  ];
-  useEffect(() => {
-    const fetchGeoJSON = async () => {
-      try {
-        const response = await fetch("./for_mapbox.geojson");
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        const data = await response.json();
-        setGeojsonData(data);
-        const max = data.features.reduce((max, feature) => {
-          if (
-            !currentCounty ||
-            currentCounty === "DVRPC Region (All Counties)" ||
-            feature.properties.co_name === currentCounty
-          ) {
-            return Math.max(max, feature.properties[currentAttribute]);
-          }
-          return max;
-        }, -Infinity);
-        setMaxOfAttribute(max);
-        console.log("Max attribute value:", max);
-      } catch (error) {
-        console.error("Error loading GeoJSON:", error);
-      }
-    };
+  const currentAttributeRef = useRef(currentAttribute);
+  const currentCountyRef = useRef(currentCounty);
 
-    fetchGeoJSON();
-  }, [currentCounty, currentAttribute]);
+  const buildColorStops = useCallback((attribute, county) => {
+    const features = Array.from(featuresByIdRef.current.values());
+    const values = features
+      .filter(
+        (feature) =>
+          !county ||
+          county === "DVRPC Region (All Counties)" ||
+          feature.properties.co_name === county,
+      )
+      .map((feature) => feature.properties[attribute])
+      .filter((value) => value !== null && value !== undefined)
+      .sort((a, b) => a - b);
+
+    if (values.length === 0) {
+      return [];
+    }
+
+    const quantiles = Array.from({ length: 10 }, (_, i) => {
+      const index = Math.floor(((i + 1) * values.length) / 10) - 1;
+      return values[index];
+    });
+
+    const colorStops = [];
+    quantiles.forEach((quantile, index) => {
+      if (
+        colorStops.length === 0 ||
+        quantile > colorStops[colorStops.length - 1][0]
+      ) {
+        colorStops.push([quantile, COLORS[index]]);
+      }
+    });
+
+    return colorStops;
+  }, []);
+
+  const applyStyle = useCallback(
+    (map, attribute, county) => {
+      const colorStops = buildColorStops(attribute, county);
+
+      if (colorStops.length === 1) {
+        map.setPaintProperty("region", "line-color", colorStops[0][1]);
+      } else if (colorStops.length > 1) {
+        map.setPaintProperty("region", "line-color", {
+          property: attribute,
+          stops: colorStops,
+        });
+      }
+
+      if (county && county !== "DVRPC Region (All Counties)") {
+        map.setFilter("region", ["==", ["get", "co_name"], county]);
+      } else {
+        map.setFilter("region", null);
+      }
+    },
+    [buildColorStops],
+  );
+
+  useEffect(() => {
+    currentAttributeRef.current = currentAttribute;
+    currentCountyRef.current = currentCounty;
+  }, [currentAttribute, currentCounty]);
 
   useEffect(() => {
     const map = new mapboxgl.Map({
@@ -86,191 +122,142 @@ const RegionalCx = ({ themeType, isLoading, setIsLoading }) => {
         themeType === "dark"
           ? "mapbox://styles/mapbox/dark-v11"
           : "mapbox://styles/mapbox/light-v11",
-      center: [-75.16, 40.05],
-      zoom: 8.5,
+      center: [-75.233, 40.07],
+      zoom: 8.43,
     });
 
     mapInstance.current = map;
 
-    map.on("load", async () => {
-      console.log("Map loaded");
-      try {
-        const response = await fetch("./for_mapbox.geojson");
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        const data = await response.json();
-        setGeojsonData(data);
+    map.on("load", () => {
+      map.addSource("regional", {
+        type: "vector",
+        url: "https://tiles.dvrpc.org/data/transportation/lts_v3_regional_analysis",
+        minzoom: 0,
+        maxzoom: 16,
+      });
 
-        const max = data.features.reduce((max, feature) => {
-          if (
-            !currentCounty ||
-            currentCounty === "DVRPC Region (All Counties)" ||
-            feature.properties.co_name === currentCounty
-          ) {
-            return Math.max(max, feature.properties[currentAttribute]);
-          }
-          return max;
-        }, -Infinity);
-        setMaxOfAttribute(max);
-        console.log("Max attribute value:", max);
-
-        console.log("Adding source");
-        map.addSource("regional", {
-          type: "geojson",
-          data: data,
-        });
-
-        const values = data.features
-          .filter(
-            (feature) =>
-              !currentCounty ||
-              currentCounty === "DVRPC Region (All Counties)" ||
-              feature.properties.co_name === currentCounty,
-          )
-          .map((feature) => feature.properties[currentAttribute])
-          .filter((value) => value !== null && value !== undefined)
-          .sort((a, b) => a - b);
-
-        const quantiles = Array.from({ length: 10 }, (_, i) => {
-          const index = Math.floor(((i + 1) * values.length) / 10) - 1;
-          return values[index];
-        });
-
-        const colorStops = quantiles.map((quantile, index) => [
-          quantile,
-          colors[index],
-        ]);
-
-        console.log("Adding layer with color stops:", colorStops);
-
-        map.addLayer(
-          {
-            id: "region",
-            type: "line",
-            source: "regional",
-            paint: {
-              "line-width": 2,
-              "line-color": {
-                property: currentAttribute,
-                stops: colorStops,
-              },
-            },
+      map.addLayer(
+        {
+          id: "region",
+          type: "line",
+          source: "regional",
+          "source-layer": "lts_v3_regional_analysis",
+          paint: {
+            "line-width": 2,
+            "line-color": COLORS[0],
           },
-          "road-label-simple",
-        );
+        },
+        "road-label-simple",
+      );
 
-        map.on("click", "region", (e) => {
-          const coordinates = e.lngLat;
-          const properties = e.features[0].properties;
-          const propertyLabels = {
-            objectid: "Object ID",
-            co_name: "County Name",
-            name: "Name",
-            id: "ID",
-            username: "Username",
-            network_type: "Network Type",
-            miles: "Miles of low stress islands connected",
-            total_pop: "Total Population",
-            disabled: "Disabled Population",
-            ethnic_minority: "Ethnic Minority Population",
-            female: "Female Population",
-            foreign_born: "Foreign-Born Population",
-            lep: "Limited English Proficiency (LEP)",
-            low_income: "Low-Income Population",
-            older_adult: "Older Adult Population",
-            racial_minority: "Racial Minority Population",
-            youth: "Youth Population",
-            total_jobs: "Total Jobs",
-          };
+      let initialViewSet = false;
+      let styleApplied = false;
 
-          const propertiesToOmit = [
-            "objectid",
-            "id",
-            "username",
-            "name",
-            "network_type",
-          ];
-
-          const popupContent = Object.keys(properties)
-            .filter((key) => !propertiesToOmit.includes(key))
-            .map((key) => {
-              const label = propertyLabels[key] || key;
-
-              const value =
-                typeof properties[key] === "number"
-                  ? properties[key].toLocaleString()
-                  : properties[key];
-
-              return `<strong>${label}:</strong> ${value}`;
-            })
-            .join("<br>");
-
-          new mapboxgl.Popup()
-            .setLngLat(coordinates)
-            .setHTML(`<div style="color: black;">${popupContent}</div>`)
-            .addTo(map);
+      map.on("idle", () => {
+        const previousCount = featuresByIdRef.current.size;
+        const features = map.querySourceFeatures("regional", {
+          sourceLayer: "lts_v3_regional_analysis",
         });
 
-        map.on("mouseenter", "region", () => {
-          map.getCanvas().style.cursor = "pointer";
+        features.forEach((feature) => {
+          const id = feature.properties?.id ?? feature.id;
+          if (id !== undefined && id !== null) {
+            featuresByIdRef.current.set(id, feature);
+          }
         });
 
-        map.on("mouseleave", "region", () => {
-          map.getCanvas().style.cursor = "";
-        });
-      } catch (error) {
-        console.error("Error loading GeoJSON:", error);
-      }
+        if (!styleApplied || featuresByIdRef.current.size !== previousCount) {
+          styleApplied = true;
+          applyStyle(
+            map,
+            currentAttributeRef.current,
+            currentCountyRef.current,
+          );
+        }
+
+        if (!initialViewSet) {
+          initialViewSet = true;
+          map.jumpTo({ center: [-75.233, 40.07], zoom: 8.43 });
+        }
+      });
+
+      map.fitBounds(
+        [
+          [-76.096387, 39.517394],
+          [-74.370284, 40.618139],
+        ],
+        { padding: 20, animate: false },
+      );
+
+      map.on("click", "region", (e) => {
+        const coordinates = e.lngLat;
+        const properties = e.features[0].properties;
+        const propertyLabels = {
+          objectid: "Object ID",
+          co_name: "County Name",
+          name: "Name",
+          id: "ID",
+          username: "Username",
+          network_type: "Network Type",
+          miles: "Miles of low stress islands connected",
+          total_pop: "Total Population",
+          disabled: "Disabled Population",
+          ethnic_minority: "Ethnic Minority Population",
+          female: "Female Population",
+          foreign_born: "Foreign-Born Population",
+          lep: "Limited English Proficiency (LEP)",
+          low_income: "Low-Income Population",
+          older_adult: "Older Adult Population",
+          racial_minority: "Racial Minority Population",
+          youth: "Youth Population",
+          total_jobs: "Total Jobs",
+        };
+
+        const propertiesToOmit = [
+          "objectid",
+          "id",
+          "username",
+          "name",
+          "network_type",
+        ];
+
+        const popupContent = Object.keys(properties)
+          .filter((key) => !propertiesToOmit.includes(key))
+          .map((key) => {
+            const label = propertyLabels[key] || key;
+
+            const value =
+              typeof properties[key] === "number"
+                ? properties[key].toLocaleString()
+                : properties[key];
+
+            return `<strong>${label}:</strong> ${value}`;
+          })
+          .join("<br>");
+
+        new mapboxgl.Popup()
+          .setLngLat(coordinates)
+          .setHTML(`<div style="color: black;">${popupContent}</div>`)
+          .addTo(map);
+      });
+
+      map.on("mouseenter", "region", () => {
+        map.getCanvas().style.cursor = "pointer";
+      });
+
+      map.on("mouseleave", "region", () => {
+        map.getCanvas().style.cursor = "";
+      });
     });
 
     return () => map.remove();
-  }, [themeType]);
+  }, [themeType, applyStyle]);
   useEffect(() => {
-    if (!mapInstance.current || !geojsonData) return;
+    const map = mapInstance.current;
+    if (!map || !map.getLayer("region")) return;
 
-    const values = geojsonData.features
-      .filter(
-        (feature) =>
-          !currentCounty ||
-          currentCounty === "DVRPC Region (All Counties)" ||
-          feature.properties.co_name === currentCounty,
-      )
-      .map((feature) => feature.properties[currentAttribute])
-      .filter((value) => value !== null && value !== undefined)
-      .sort((a, b) => a - b);
-
-    const quantiles = Array.from({ length: 10 }, (_, i) => {
-      const index = Math.floor(((i + 1) * values.length) / 10) - 1;
-      return values[index];
-    });
-
-    const colorStops = quantiles.map((quantile, index) => [
-      quantile,
-      colors[index],
-    ]);
-
-    console.log("Updating layer with color stops:", colorStops);
-
-    if (mapInstance.current.getLayer("region")) {
-      mapInstance.current.setPaintProperty("region", "line-color", {
-        property: currentAttribute,
-        stops: colorStops,
-      });
-
-      if (currentCounty !== "DVRPC Region (All Counties)") {
-        mapInstance.current.setFilter("region", [
-          "==",
-          ["get", "co_name"],
-          currentCounty,
-        ]);
-      } else {
-        mapInstance.current.setFilter("region", null);
-      }
-    } else {
-      console.error('Layer "region" not found');
-    }
-  }, [currentAttribute, currentCounty]);
+    applyStyle(map, currentAttribute, currentCounty);
+  }, [currentAttribute, currentCounty, applyStyle]);
 
   return (
     <>
@@ -306,7 +293,7 @@ const RegionalCx = ({ themeType, isLoading, setIsLoading }) => {
               }}
             >
               <div style={{ display: "flex" }}>
-                {colors.map((color) => (
+                {COLORS.map((color) => (
                   <div
                     key={color}
                     style={{
